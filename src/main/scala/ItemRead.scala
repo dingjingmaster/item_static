@@ -20,8 +20,8 @@ object ItemRead {
       .set("spark.driver.memory", "6g")
       .set("spark.cores.max", "30")
       .set("spark.dynamicAllocation.enabled", "false")
-      .setMaster("local[50]")
-    //      .setMaster("spark://qd01-tech2-spark001:7077,qd01-tech2-spark002:7077")
+      .setMaster("spark://qd01-tech2-spark001:7077,qd01-tech2-spark002:7077")
+    //      .setMaster("local[50]")
     val sc = new SparkContext(conf)
 
     // 获取物品信息并解析
