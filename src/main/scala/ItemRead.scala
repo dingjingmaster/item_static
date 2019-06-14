@@ -20,7 +20,7 @@ object ItemRead {
       .set("spark.driver.memory", "6g")
       .set("spark.cores.max", "30")
       .set("spark.dynamicAllocation.enabled", "false")
-      .setMaster("local[3]")
+      .setMaster("local[50]")
     //      .setMaster("spark://qd01-tech2-spark001:7077,qd01-tech2-spark002:7077")
     val sc = new SparkContext(conf)
 
@@ -198,13 +198,13 @@ object ItemRead {
 
     if (arr.length >= 2) {
       val estr = arr(0)
-      val wstr = arr(0)
-      for (i <- estr.toSet) {
+      val wstr = arr(1)
+      for (i <- estr.toList) {
         if (i.toInt >= 1) {
           easou = "1"
         }
       }
-      for (j <- wstr.toSet) {
+      for (j <- wstr.toList) {
         if (j.toInt >= 1) {
           weijuan = "1"
         }
