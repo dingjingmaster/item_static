@@ -45,7 +45,7 @@ if __name__ == '__main__':
     parse_info(logPath, logListG)
 
     mask_level_list(logListG, ifmaskListG, "easou")
-    #mask_fee_flag(logListG, maskFeeListG, "easou")
+    mask_fee_flag(logListG, maskFeeListG, "easou")
     #unmask_fee_flag(logListG, unmaskFeeListG, "easou")
     #month_num(logListG, bysbyuListG, bysfbyuListG, monthListG, "easou")
     #charge_num(logListG, chargeListG, "easou")                                      # 付费情况

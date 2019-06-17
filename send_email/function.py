@@ -107,27 +107,31 @@ def mask_level_list(logList, ifmaskList, app):
 
 # 天阅读-屏蔽书情况
 def mask_fee_flag(logList, maskFeeList):
-    maskBookFree = 0            # 屏蔽免费书的量
-    maskBookUserFree = 0        # 屏蔽免费用户量
-    maskBookChapterFree = 0     # 屏蔽免费章节量
-
-    maskBookCharge = 0
+    maskBookCharge = 0                      # 按章付费 - -
     maskBookUserCharge = 0
     maskBookChapterCharge = 0
 
-    maskBookMonthus = 0         # 包月用户包月书
+    maskBookFreeCharge = 0                  # 免费 CP - -
+    maskBookFreeUserCharge = 0
+    maskBookFreeChapterCharge = 0
+
+    maskBookTFreeCharge = 0                 # 互联网 - -
+    maskBookTFreeUserCharge = 0
+    maskBookTreeChapterCharge = 0
+
+    maskBookMonthus = 0                     # 包月用户包月书 - -
     maskBookUserMonthus = 0
     maskBookChapterMonthus = 0
 
-    maskBookMonth = 0           # 包月书非包月用户
+    maskBookMonth = 0                       # 包月书非包月用户 - -
     maskBookUserMonth = 0
     maskBookChapterMonth = 0
 
-    maskBookPublic = 0
+    maskBookPublic = 0                      # 版权 - -
     maskBookUserPublic = 0
     maskBookChapterPublic = 0
 
-    maskBooktf = 0
+    maskBooktf = 0                          # 限免 - -
     maskBookUsertf = 0
     maskBookChaptertf = 0
 
@@ -138,10 +142,13 @@ def mask_fee_flag(logList, maskFeeList):
     for i in logList:
         usernumTemp = 0
         userChargeTemp = 0
-        gid, name, author, maskLevel, feeFlag, by, tf, ncp, fc\
-                , userNum, chapterNum\
-                , bysByuUserNum, bysByuChapterNum\
-                , bysFbyuUserNum, bysFbyuChapterNum = i
+        gid, name, author, ncp, maskLevel, feeFlag, by, tf, fc, ii, ci \
+            , userNum, chapterNum \
+            , bysByuUserNum, bysByuChapterNum \
+            , bysFbyuUserNum, bysFbyuChapterNum = i
+        apparr = gid.split("_")
+        if apparr[2] != app:
+            continue
         usernumTemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
         userChargeTemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
         if maskLevel == u'1':
@@ -150,11 +157,11 @@ def mask_fee_flag(logList, maskFeeList):
             allBookChapter += int(userChargeTemp)
             if int(bysByuUserNum) > 0 and int(bysFbyuUserNum) > 0:
                 allBook += 1
-            if tf != "000":
+            if tf == u'1':                                              # 限免
                 maskBooktf += 1
                 maskBookUsertf += int(usernumTemp)
                 maskBookChaptertf += int(userChargeTemp)
-            elif by != "000" and tf == "000":
+            elif by == u'1':                                            # 包月
                 if int(bysByuUserNum) > 0:
                     maskBookMonthus += 1
                     maskBookUserMonthus += int(bysByuUserNum)
@@ -163,15 +170,19 @@ def mask_fee_flag(logList, maskFeeList):
                     maskBookMonth += 1
                     maskBookUserMonth += int(bysFbyuUserNum)
                     maskBookChapterMonth += int(bysFbyuChapterNum)
-            elif feeFlag == "0":      # 免费
-                maskBookFree += 1
-                maskBookUserFree += int(usernumTemp)
-                maskBookChapterFree += int(userChargeTemp)
-            elif feeFlag == "1":    # 付费
+            elif fc == u'0':                                            # 免费CP
+                maskBookFreeCharge += 1
+                maskBookFreeUserFree += int(usernumTemp)
+                maskBookFreeChapterFree += int(userChargeTemp)
+            elif ci == u'1':                                            # 按章付费
                 maskBookCharge += 1
                 maskBookUserCharge += int(usernumTemp)
                 maskBookChapterCharge += int(userChargeTemp)
-            elif feeFlag == "10":
+            elif ii == u'1':                                            # 互联网
+                maskBookTFreeCharge += 1
+                maskBookTFreeUserCharge += int(usernumTemp)
+                maskBookTFreeChapterCharge += int(userChargeTemp)
+            elif feeFlag == "10":                                       # 版权书
                 maskBookPublic += 1
                 maskBookUserPublic += int(usernumTemp)
                 maskBookChapterPublic += int(userChargeTemp)
@@ -184,21 +195,25 @@ def mask_fee_flag(logList, maskFeeList):
     maskFeeList.append(("限免书", maskBooktf, float(maskBooktf)/allBook * 100\
             , maskBookUsertf, float(maskBookUsertf)/allBookUser * 100\
             , maskBookChaptertf, float(maskBookChaptertf)/allBookChapter * 100))
-    maskFeeList.append(("免费书", maskBookFree, float(maskBookFree)/allBook * 100\
-            , maskBookUserFree, float(maskBookUserFree)/allBookUser * 100\
-            , maskBookChapterFree, float(maskBookChapterFree)/allBookChapter * 100))
-    maskFeeList.append(("付费书", maskBookCharge, float(maskBookCharge)/allBook * 100\
+    maskFeeList.append(("版权书", maskBookPublic, float(maskBookPublic) / allBook * 100 \
+            , maskBookUserPublic, float(maskBookUserPublic) / allBookUser * 100 \
+            , maskBookChapterPublic, float(maskBookChapterPublic) / allBookChapter * 100))
+    maskFeeList.append(("包月书（非包月用户读）", maskBookMonth, float(maskBookMonth) / allBook * 100 \
+            , maskBookUserMonth, float(maskBookUserMonth) / allBookUser * 100 \
+            , maskBookChapterMonth, float(maskBookChapterMonth) / allBookChapter * 100))
+    maskFeeList.append(("包月书（包月用户读）", maskBookMonthus, float(maskBookMonthus) / allBook * 100 \
+            , maskBookUserMonthus, float(maskBookUserMonthus) / allBookUser * 100 \
+            , maskBookChapterMonthus, float(maskBookChapterMonthus) / allBookChapter * 100))
+    maskFeeList.append(("免费CP", maskBookFreeCharge, float(maskBookFreeCharge)/allBook * 100\
+            , maskBookFreeUserCharge, float(maskBookFreeUserCharge)/allBookUser * 100\
+            , maskBookFreeChapterCharge, float(maskBookFreeChapterCharge)/allBookChapter * 100))
+    maskFeeList.append(("按章付费", maskBookCharge, float(maskBookCharge)/allBook * 100\
             , maskBookUserCharge, float(maskBookUserCharge)/allBookUser * 100\
             , maskBookChapterCharge, float(maskBookChapterCharge)/allBookChapter * 100))
-    maskFeeList.append(("包月书（包月用户读）", maskBookMonthus, float(maskBookMonthus)/allBook * 100\
-            , maskBookUserMonthus, float(maskBookUserMonthus)/allBookUser * 100\
-            , maskBookChapterMonthus, float(maskBookChapterMonthus)/allBookChapter * 100))
-    maskFeeList.append(("包月书（非包月用户读）", maskBookMonth, float(maskBookMonth)/allBook * 100\
-            , maskBookUserMonth, float(maskBookUserMonth)/allBookUser * 100\
-            , maskBookChapterMonth, float(maskBookChapterMonth)/allBookChapter * 100))
-    maskFeeList.append(("公版", maskBookPublic, float(maskBookPublic)/allBook * 100\
-            , maskBookUserPublic, float(maskBookUserPublic)/allBookUser * 100\
-            , maskBookChapterPublic, float(maskBookChapterPublic)/allBookChapter * 100))
+    maskFeeList.append(("互联网书", maskBookTFreeCharge, float(maskBookTFreeCharge) / allBook * 100 \
+            , maskBookTFreeUserCharge, float(maskBookTFreeUserCharge) / allBookUser * 100 \
+            , maskBookTreeChapterCharge, float(maskBookTreeChapterCharge) / allBookChapter * 100))
+
     return maskFeeList
 
                 
