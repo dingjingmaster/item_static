@@ -68,6 +68,11 @@ object ItemRead {
         yield i
     })
 
+//    for(i <- iteminfoRDD.take(300)) {
+//      println(i)
+//    }
+//    sys.exit(0)
+
     // 解析阅读日志，获取阅读日志信息
     val readeventRDD = sc.textFile(readeventPath).map(x => {
       var gidFlag = ""
@@ -91,10 +96,6 @@ object ItemRead {
       }
       (gidFlag, List((appudid, strToInt(sort).toString, userType, bookType)))
     }).filter(x => x._1 != "").reduceByKey(_:::_)
-
-//    println(readeventRDD.take(1000)(888))
-//    sc.stop()
-//    sys.exit(1)
 
     /**
      * 合并物品信息 + 日志
@@ -208,12 +209,12 @@ object ItemRead {
       val estr = arr(0)
       val wstr = arr(1)
       for (i <- estr.toList) {
-        if (i.toInt == 0) {
+        if (i.toString == "0") {
           easou = "0"
         }
       }
       for (j <- wstr.toList) {
-        if (j.toInt == 0) {
+        if (j.toString == "0") {
           weijuan = "0"
         }
       }
@@ -230,12 +231,12 @@ object ItemRead {
       val estr = arr(0)
       val wstr = arr(1)
       for (i <- estr.toList) {
-        if (i.toInt >= 1) {
+        if (i.toString.toInt >= 1) {
           easou = "1"
         }
       }
       for (j <- wstr.toList) {
-        if (j.toInt >= 1) {
+        if (j.toString.toInt >= 1) {
           weijuan = "1"
         }
       }
