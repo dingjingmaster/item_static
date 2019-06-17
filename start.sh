@@ -68,11 +68,16 @@ done
 #if true
 #then
 
-#file_empty "${readResultPath}"
-#if [ $? -eq 0 ]
-#then
-#    summary='<br><li>不是从书架进入的阅读用户不做统计</li><li>书籍量: 天阅读的书籍总数</li><li>阅读量: 每本书籍的天阅读人数之和</li><li>阅读章节数: 每本书的天阅读章节数之和</li>'
-#    sh send_email/auto_email.sh "天阅读量统计" "${today}" "${readResultPath}" "${summary}"
-#fi
+file_empty "${readResultPath}"
+if [ $? -eq 0 ]
+then
+    summary='<br>
+    <li>关于屏蔽与否：app中所有数据流都屏蔽的书籍作为“屏蔽书籍”，否则算作“非屏蔽书籍”</li>
+    <li>不是从书架进入的阅读用户不做统计</li>
+    <li>书籍量: 天阅读的书籍总数</li>
+    <li>阅读量: 每本书籍的天阅读人数之和</li>
+    <li>阅读章节数: 每本书的天阅读章节数之和</li>'
+    sh send_email/auto_email.sh "天阅读量统计" "${today}" "${readResultPath}" "${summary}"
+fi
 #fi
 exit 0

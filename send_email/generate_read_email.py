@@ -21,7 +21,7 @@ if __name__ == '__main__':
     logListG = []                # 日志
     ifmaskListG = []             # 是否屏蔽
     maskFeeListG = []            # 屏蔽-状态
-    unmaskFeeListG = []          # 非苹果比-状态
+    unmaskFeeListG = []          # 屏蔽书籍
     bysbyuListG = []
     bysfbyuListG = []
     monthListG = []
