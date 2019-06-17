@@ -14,14 +14,18 @@ object ItemRead {
     val readeventPath = args(1)
     val savePath = args(2)
 
+//    val iteminfoPath = "hdfs://10.26.26.145:8020/rs/iteminfo/current/"
+//    val readeventPath = "hdfs://10.26.29.210:8020/user/hive/warehouse/event_info.db/b_read_chapter/ds=2019-06-16/00031*_0"
+//    val savePath = ""
+
     val conf = new SparkConf()
       .setAppName("item_read")
       .set("spark.executor.memory", "20g")
       .set("spark.driver.memory", "6g")
       .set("spark.cores.max", "30")
       .set("spark.dynamicAllocation.enabled", "false")
-      .setMaster("spark://qd01-tech2-spark001:7077,qd01-tech2-spark002:7077")
-    //      .setMaster("local[50]")
+      .setMaster("local[50]")
+//      .setMaster("spark://qd01-tech2-spark001:7077,qd01-tech2-spark002:7077")
     val sc = new SparkContext(conf)
 
     // 获取物品信息并解析
@@ -80,13 +84,17 @@ object ItemRead {
 
       val appFlag = this.getAppflagByAppid(appid)
       if (gid != "") {
-        gidFlag = gid + "_" + appFlag
+        gidFlag = "i_" + gid + "_" + appFlag
       }
       if ("书架" != entrance) {
         gidFlag = ""
       }
       (gidFlag, List((appudid, strToInt(sort).toString, userType, bookType)))
     }).filter(x => x._1 != "").reduceByKey(_:::_)
+
+//    println(readeventRDD.take(1000)(888))
+//    sc.stop()
+//    sys.exit(1)
 
     /**
      * 合并物品信息 + 日志
