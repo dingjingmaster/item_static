@@ -199,6 +199,28 @@ object ItemRead {
   }
 
   // 判断 宜搜是否屏蔽？ 判断微卷是否屏蔽？
+  def maskCheck(str: String): Tuple2[String, String] = {
+    val arr = str.split(",")
+    var easou = "1"
+    var weijuan = "1"
+
+    if (arr.length >= 2) {
+      val estr = arr(0)
+      val wstr = arr(1)
+      for (i <- estr.toList) {
+        if (i.toInt == 0) {
+          easou = "0"
+        }
+      }
+      for (j <- wstr.toList) {
+        if (j.toInt == 0) {
+          weijuan = "0"
+        }
+      }
+    }
+
+    (easou, weijuan)
+  }
   def datastreamCheck(str: String): Tuple2[String, String] = {
     val arr = str.split(",")
     var easou = "0"
