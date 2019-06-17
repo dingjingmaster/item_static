@@ -46,7 +46,7 @@ object ItemRead {
       val ii = it(9)                                   // 互联网
       val ci = it(10)                                  // 按章计费
       // 一条变两条，分别是 宜搜、微卷
-      val maskFlag = this.datastreamCheck(masklevel)
+      val maskFlag = this.maskCheck(masklevel)
       val byFlag = this.datastreamCheck(by)
       val tfFlag = this.datastreamCheck(tf)
       val fcFlag = this.datastreamCheck(fc)
