@@ -7,13 +7,14 @@ source ~/.bashrc
 
 workDir=$(cd $(dirname $0); pwd)
 today=`date -d "-1 day" +%Y-%m-%d`
+year=`date -d "-1 day" +%Y`
 #today="2018-04-10"
 
-itemInfoPath="${item_info_path}"
+itemInfoPath=`hadoop fs -ls "hdfs://10.26.26.145:8020/rs/iteminfo/${year}-*/item_*" | tail -n 1 | awk -F' ' '{print $8}'`
 sparkRun="spark-submit --total-executor-cores=30 --executor-memory=20g "
-biReadLog="${bi_read_chapter_base_path}${today}/*"
-itemChapterPurchase="${item_purchase_base_path}/${today}/"
-itemChapterRead="${item_read_base_path}/${today}/"
+biReadLog="hdfs://10.26.29.210:8020/user/hive/warehouse/event_info.db/b_read_chapter/ds=${today}/*"
+itemChapterPurchase="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/item_purchase_test/${today}/"
+itemChapterRead="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/item_read_test/${today}/"
 localBuyPath="data/item_buy.txt"
 localReadPath="data/item_read.txt"
 buyResultPath="data/buy_result.txt"
@@ -75,7 +76,3 @@ done
 #fi
 #fi
 exit 0
-
-
-
-
