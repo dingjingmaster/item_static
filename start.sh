@@ -28,12 +28,22 @@ do
     if [ $? -ne 0 ]
     then
         cd ${workDir}
+        hadoop fs -rmr "${itemChapterPurchase}"
+        hadoop fs -rmr "${itemChapterRead}"
         ${sparkRun} --class ItemRead ./jar/*.jar "${itemInfoPath}" "${biReadLog}" "${itemChapterRead}" "${itemChapterPurchase}"
         sleep 3
         continue
-    else
+    fi
+    # 解析日志 阅读
+    hdfs_exist "${itemChapterPurchase}"
+    if [ $? -ne 0 ]
+    then
+        cd ${workDir}
         hadoop fs -rmr "${itemChapterPurchase}"
         hadoop fs -rmr "${itemChapterRead}"
+        ${sparkRun} --class ItemRead ./jar/*.jar "${itemInfoPath}" "${biReadLog}" "${itemChapterRead}" "${itemChapterPurchase}"
+        sleep 3
+        continue
     fi
     break
 done
