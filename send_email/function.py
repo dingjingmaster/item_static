@@ -532,7 +532,7 @@ def month_num(logList, app):
         monthusernumtemp = int(bysByuUserNum) + int(bysFbyuUserNum)
         monthchapternumtemp = int(bysByuChapterNum) + int(bysFbyuChapterNum)
         if int(by) == 1:
-            if int(bysByuUserNum) >= 0 and int(bysByuUserNum) < 10:
+            if int(bysByuUserNum) > 0 and int(bysByuUserNum) < 10:
                 bysbyuBt0t10b += 1
                 bysbyuBt0t10u += int(bysByuUserNum)
                 bysbyuBt0t10c += int(bysByuChapterNum)
@@ -560,7 +560,7 @@ def month_num(logList, app):
                 allbyusbook += 1
                 allbyusbookuser += int(bysByuUserNum)
                 allbyusbookchapter += int(bysByuChapterNum)
-            else:
+            elif int(bysByuUserNum) > 10000:
                 bysbyugt10000b += 1
                 bysbyugt10000u += int(bysByuUserNum)
                 bysbyugt10000c += int(bysByuChapterNum)
@@ -568,7 +568,7 @@ def month_num(logList, app):
                 allbyusbookuser += int(bysByuUserNum)
                 allbyusbookchapter += int(bysByuChapterNum)
 
-            if int(bysFbyuUserNum) >= 0 and int(bysFbyuUserNum) < 10:
+            if int(bysFbyuUserNum) > 0 and int(bysFbyuUserNum) < 10:
                 bysfbyuBt0t10b += 1
                 bysfbyuBt0t10u += int(bysFbyuUserNum)
                 bysfbyuBt0t10c += int(bysFbyuChapterNum)
@@ -596,7 +596,7 @@ def month_num(logList, app):
                 allbyufsbook += 1
                 allbyufsbookuser += int(bysFbyuUserNum)
                 allbyufsbookchapter += int(bysFbyuChapterNum)
-            else:
+            elif int(bysFbyuUserNum) > 10000:
                 bysfbyugt10000b += 1
                 bysfbyugt10000u += int(bysFbyuUserNum)
                 bysfbyugt10000c += int(bysFbyuChapterNum)
@@ -633,7 +633,7 @@ def month_num(logList, app):
             , bysbyugt10000u, float(bysbyugt10000u)/allbyusbookuser * 100\
             , bysbyugt10000c, float(bysbyugt10000c)/allbyusbookchapter * 100))
 
-    bysfbyuList.append(("[0,10)", bysfbyuBt0t10b, float(bysfbyuBt0t10b)/allbyufsbook * 100\
+    bysfbyuList.append(("(0,10)", bysfbyuBt0t10b, float(bysfbyuBt0t10b)/allbyufsbook * 100\
             , bysfbyuBt0t10u, float(bysfbyuBt0t10u)/allbyufsbookuser * 100\
             , bysfbyuBt0t10c, float(bysfbyuBt0t10c)/allbyufsbookchapter * 100))
     bysfbyuList.append(("[10,100)", bysfbyuBt10t100b, float(bysfbyuBt10t100b)/allbyufsbook * 100\
