@@ -105,7 +105,8 @@ def mask_level_list(logList, ifmaskList, app):
     return ifmaskList
 
 # 天阅读-屏蔽书情况
-def mask_fee_flag(logList, maskFeeList, app):
+def mask_fee_flag(logList, app):
+    maskFeeList = []
     maskBookCharge = 0                      # 按章付费 - -
     maskBookUserCharge = 0
     maskBookChapterCharge = 0
@@ -239,7 +240,9 @@ def mask_fee_flag(logList, maskFeeList, app):
                 
  
 # 天阅读-非屏蔽书情况
-def unmask_fee_flag(logList, unmaskFeeList, app):
+def unmask_fee_flag(logList, app):
+    unmaskFeeList = []
+
     unmaskBookCharge = 0                                        # 按章付费 - -
     unmaskBookUserCharge = 0
     unmaskBookChapterCharge = 0
@@ -370,7 +373,8 @@ def unmask_fee_flag(logList, unmaskFeeList, app):
             , unmaskBookTFreeChapterCharge, float(unmaskBookTFreeChapterCharge) / allBookChapter * 100))
     return unmaskFeeList
 
-def tf_num(logList, tfList, app):
+def tf_num(logList, app):
+    tfList = []
     tfBt0t10b = 0                   # 书籍数
     tfBt10t100b = 0
     tfBt100t1000b = 0
@@ -448,7 +452,10 @@ def tf_num(logList, tfList, app):
             , tfgt10000c, float(tfgt10000c)/allBookChapter * 100))
     return tfList
 
-def month_num(logList, bysbyuList, bysfbyuList, monthList, app):
+def month_num(logList, app):
+    bysbyuList = []
+    bysfbyuList = []
+
     bysbyuBt0t10b = 0                   # 书籍数
     bysbyuBt10t100b = 0
     bysbyuBt100t1000b = 0
@@ -638,10 +645,11 @@ def month_num(logList, bysbyuList, bysfbyuList, monthList, app):
     bysfbyuList.append(("[10000, ...)", bysfbyugt10000b, float(bysfbyugt10000b)/allbyufsbook * 100\
             , bysfbyugt10000u, float(bysfbyugt10000u)/allbyufsbookuser * 100\
             , bysfbyugt10000c, float(bysfbyugt10000c)/allbyufsbookchapter * 100))
-    return (bysbyuList, bysfbyuList, monthList)
+    return (bysbyuList, bysfbyuList)
 
 
-def charge_ci_num(loglist, chargelist, app):
+def charge_ci_num(loglist, app):
+    chargeListCIG = []
     chargebt0t10b = 0                   # 书籍数
     chargebt10t100b = 0
     chargebt100t1000b = 0
@@ -720,7 +728,8 @@ def charge_ci_num(loglist, chargelist, app):
     return chargelist
 
 
-def charge_fc_num(loglist, chargelist, app):
+def charge_fc_num(loglist, app):
+    chargeListFCG = []
     chargebt0t10b = 0                   # 书籍数
     chargebt10t100b = 0
     chargebt100t1000b = 0
@@ -798,7 +807,8 @@ def charge_fc_num(loglist, chargelist, app):
             , chargegt10000c, float(chargegt10000c)/allbookchapter * 100))
     return chargelist
 
-def charge_ii_num(loglist, chargelist, app):
+def charge_ii_num(loglist, app):
+    chargeListIIG = []
     chargebt0t10b = 0                   # 书籍数
     chargebt10t100b = 0
     chargebt100t1000b = 0
@@ -877,7 +887,8 @@ def charge_ii_num(loglist, chargelist, app):
     return chargelist
 
 
-def cp_top(loglist, cplist, app):
+def cp_top(loglist, app):
+    cplist = []
     alluser = 0
     allchap = 0
     othuser = 0

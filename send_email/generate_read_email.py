@@ -21,9 +21,11 @@ if __name__ == '__main__':
     # 输出结果链表
     outBufG = ""
     logListG = []                   # 日志
+
     ifmaskListG = []                # 是否屏蔽
-    maskFeeListG = []               # 屏蔽-状态
-    unmaskFeeListG = []             # 屏蔽书籍
+    maskFeeListG = []               # 屏蔽书籍
+    unmaskFeeListG = []             # 非屏蔽书籍
+
     bysbyuListG = []
     bysfbyuListG = []
     monthListG = []
@@ -50,19 +52,19 @@ if __name__ == '__main__':
     ## easou
     parse_info(logPath, logListG)
 
-    mask_level_list(logListG, ifmaskListG, app)
-    mask_fee_flag(logListG, maskFeeListG, app)
-    unmask_fee_flag(logListG, unmaskFeeListG, app)
+    ifmaskListG = mask_level_list(logListG, app)
+    maskFeeListG = mask_fee_flag(logListG, app)
+    unmaskFeeListG = unmask_fee_flag(logListG, app)
 
-    tf_num(logListG, chargeListTFG, app)                                        # 限免
-    charge_ci_num(logListG, chargeListCIG, app)                                 # 按章计费情况
-    charge_ii_num(logListG, chargeListIIG, app)                                 # 互联网书情况
-    charge_fc_num(logListG, chargeListFCG, app)                                 # 免费CP情况
-    month_num(logListG, bysbyuListG, bysfbyuListG, monthListG, app)             # 包月
+    chargeListTFG = tf_num(logListG, app)                                       # 限免
+    chargeListCIG = charge_ci_num(logListG, app)                                # 按章计费情况
+    chargeListIIG = charge_ii_num(logListG, app)                                # 互联网书情况
+    chargeListFCG = charge_fc_num(logListG, app)                                # 免费CP情况
+    bysbyuListG, bysfbyuListG = month_num(logListG, app)                        # 包月
 
 
     tfListG, byListG, fcListG, iiListG, ciListG, pubTopG = top_list(logListG, app)
-    cpListG = cp_top(logListG, cpListG, app)
+    cpListG = cp_top(logListG, app)
 
     ### 宜搜
     outBufG += print_list(ifmaskListG,                    "屏蔽情况",     ("屏蔽/非屏蔽", "书籍量", "阅读量", "阅读章节数"))
