@@ -10,7 +10,7 @@ content="$3"
 summary="$4"
 email_send_to1="dingjing_ding@staff.easou.com"  #丁敬
 #email_send_to2="ruan_zheng@staff.easou.com" # 儒安
-#email_send_to3="pm-r@staff.easou.com"
+email_send_to3="pm-r@staff.easou.com"
 #email_send_to4="xiadeqing_xia@staff.easou.com" # 夏德庆
 
 to="${email_send_to1}, ${email_send_to2}, ${email_send_to4}"
