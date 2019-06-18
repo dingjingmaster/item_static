@@ -67,7 +67,7 @@ python send_email/generate_read_email.py "${localReadPath}" "${easouReadResultPa
 
 if true
 then
-file_empty "${readResultPath}"
+file_empty "${easouReadResultPath}"
 if [ $? -eq 0 ]
 then
     summary='<br>
