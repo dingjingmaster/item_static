@@ -652,7 +652,7 @@ def month_num(logList, app):
 
 
 def charge_ci_num(loglist, app):
-    chargeListCIG = []
+    chargelist = []
     chargebt0t10b = 0                   # 书籍数
     chargebt10t100b = 0
     chargebt100t1000b = 0
@@ -732,7 +732,7 @@ def charge_ci_num(loglist, app):
 
 
 def charge_fc_num(loglist, app):
-    chargeListFCG = []
+    chargelist = []
     chargebt0t10b = 0                   # 书籍数
     chargebt10t100b = 0
     chargebt100t1000b = 0
@@ -811,7 +811,7 @@ def charge_fc_num(loglist, app):
     return chargelist
 
 def charge_ii_num(loglist, app):
-    chargeListIIG = []
+    chargelist = []
     chargebt0t10b = 0                   # 书籍数
     chargebt10t100b = 0
     chargebt100t1000b = 0
