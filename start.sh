@@ -41,7 +41,6 @@ do
         cd ${workDir}
         hadoop fs -rmr "${itemChapterPurchase}"
         hadoop fs -rmr "${itemChapterRead}"
-        ${sparkRun} --class ItemRead ./jar/*.jar "${itemInfoPath}" "${biReadLog}" "${itemChapterRead}" "${itemChapterPurchase}"
         sleep 3
         continue
     fi
