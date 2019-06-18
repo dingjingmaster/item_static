@@ -134,7 +134,7 @@ object ItemRead {
     val buyReadinfoRDD = readeventChargeRDD.join(iteminfoRDD)
     val buyResultRDD = buyReadinfoRDD.map(outToHDFS)
 
-    readResultRDD.filter(_ != "").repartition(1).saveAsTextFile(readeventPath)
+    readResultRDD.filter(_ != "").repartition(1).saveAsTextFile(readSavePath)
     buyResultRDD.filter(_ != "").repartition(1).saveAsTextFile(buySavePath)
   }
 
