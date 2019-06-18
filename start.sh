@@ -18,7 +18,7 @@ itemChapterRead="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/item_read_test/
 localBuyPath="data/item_buy.txt"
 localReadPath="data/item_read.txt"
 buyResultPath="data/buy_result.txt"
-readResultPath="data/read_result.txt"
+easouReadResultPath="data/read_easou_result.txt"
 
 ###################     开始执行      ###########################
 for((i=0;i<20;++i))
@@ -46,14 +46,14 @@ do
     break
 done
 
-# 统计邮件
-#cd ${workDir}
-#rm -fr data && mkdir data
+ 统计邮件
+cd ${workDir}
+rm -fr data && mkdir data
 #hadoop fs -cat "${itemChapterPurchase}/*" > ${localBuyPath}
-#hadoop fs -cat "${itemChapterRead}/*" > ${localReadPath}
+hadoop fs -cat "${itemChapterRead}/*" > ${localReadPath}
 
 #python send_email/generate_buy_email.py "${localBuyPath}" "${buyResultPath}"
-#python send_email/generate_read_email.py "${localReadPath}" "${readResultPath}"
+python send_email/generate_read_email.py "${localReadPath}" "${easouReadResultPath}" "easou"
 
 #if true
 #then
@@ -65,9 +65,8 @@ done
 #fi
 #fi
 
-#if true
-#then
-
+if true
+then
 file_empty "${readResultPath}"
 if [ $? -eq 0 ]
 then
@@ -77,7 +76,7 @@ then
     <li>书籍量: 天阅读的书籍总数</li>
     <li>阅读量: 每本书籍的天阅读人数之和</li>
     <li>阅读章节数: 每本书的天阅读章节数之和</li>'
-    sh send_email/auto_email.sh "天阅读量统计" "${today}" "${readResultPath}" "${summary}"
+    sh send_email/auto_email.sh "宜搜小说天阅读量统计" "${today}" "${easouReadResultPath}" "${summary}"
 fi
-#fi
+fi
 exit 0
