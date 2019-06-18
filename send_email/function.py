@@ -178,7 +178,7 @@ def mask_fee_flag(logList, app):
                 maskBookMonth += 1
                 maskBookUserMonth += int(bysFbyuUserNum)
                 maskBookChapterMonth += int(bysFbyuChapterNum)
-        if int(fc) == 0:                                            # 免费CP
+        if int(fc) == 1:                                            # 免费CP
             allBook += 1
             allBookUser += int(usernumTemp)
             allBookChapter += int(userChargeTemp)
@@ -290,7 +290,7 @@ def unmask_fee_flag(logList, app):
             continue
         usernumTemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
         userChargeTemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
-        if tf == u'1':  # 限免
+        if tf == u'1':                                                                  # 限免
             allBook += 1
             allBookUser += int(usernumTemp)
             allBookChapter += int(userChargeTemp)
@@ -298,7 +298,7 @@ def unmask_fee_flag(logList, app):
             unmaskBooktf += 1
             unmaskBookUsertf += int(usernumTemp)
             unmaskBookChaptertf += int(userChargeTemp)
-        if int(by) == 1:  # 包月
+        if int(by) == 1:                                                                # 包月
             if int(bysByuUserNum) > 0:
                 allBook += 1
                 allBookUser += int(bysByuUserNum)
@@ -315,7 +315,7 @@ def unmask_fee_flag(logList, app):
                 unmaskBookMonth += 1
                 unmaskBookUserMonth += int(bysFbyuUserNum)
                 unmaskBookChapterMonth += int(bysFbyuChapterNum)
-        if int(fc) == 0:  # 免费CP
+        if int(fc) == 1:                                                                # 免费CP
             allBook += 1
             allBookUser += int(usernumTemp)
             allBookChapter += int(userChargeTemp)
@@ -323,7 +323,7 @@ def unmask_fee_flag(logList, app):
             unmaskBookFreeCharge += 1
             unmaskBookFreeUserCharge += int(usernumTemp)
             unmaskBookFreeChapterCharge += int(userChargeTemp)
-        if int(ci) == 1:  # 按章付费
+        if int(ci) == 1:                                                                # 按章付费
             allBook += 1
             allBookUser += int(usernumTemp)
             allBookChapter += int(userChargeTemp)
@@ -331,7 +331,7 @@ def unmask_fee_flag(logList, app):
             unmaskBookCharge += 1
             unmaskBookUserCharge += int(usernumTemp)
             unmaskBookChapterCharge += int(userChargeTemp)
-        if int(ii) == 1:  # 互联网
+        if int(ii) == 1:                                                                # 互联网
             allBook += 1
             allBookUser += int(usernumTemp)
             allBookChapter += int(userChargeTemp)
@@ -339,7 +339,7 @@ def unmask_fee_flag(logList, app):
             unmaskBookTFreeCharge += 1
             unmaskBookTFreeUserCharge += int(usernumTemp)
             unmaskBookTFreeChapterCharge += int(userChargeTemp)
-        if int(feeFlag) == 10:  # 公版书
+        if int(feeFlag) == 10:                                                          # 公版书
             allBook += 1
             allBookUser += int(usernumTemp)
             allBookChapter += int(userChargeTemp)
