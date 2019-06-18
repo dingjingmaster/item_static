@@ -402,7 +402,7 @@ def tf_num(logList, tfList, app):
             continue
         usernumTemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
         userChargeTemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
-        if tf == u'1':
+        if int(tf) == 1:
             allBook += 1
             allBookUser += int(usernumTemp)
             allBookChapter += int(userChargeTemp)
@@ -522,8 +522,7 @@ def month_num(logList, bysbyuList, bysfbyuList, monthList, app):
             continue
         monthusernumtemp = int(bysByuUserNum) + int(bysFbyuUserNum)
         monthchapternumtemp = int(bysByuChapterNum) + int(bysFbyuChapterNum)
-        #
-        if by == u'1':
+        if int(by) == 1:
             if int(bysByuUserNum) >= 0 and int(bysByuUserNum) < 10:
                 bysbyuBt0t10b += 1
                 bysbyuBt0t10u += int(bysByuUserNum)
@@ -879,19 +878,22 @@ def charge_ii_num(loglist, chargelist, app):
     return chargelist
 
 
-def cp_top(loglist, cplist):
+def cp_top(loglist, cplist, app):
     alluser = 0
     allchap = 0
     othuser = 0
     othchap = 0
     cpdict = {}
     for i in loglist:
-        gid, name, author, masklevel, feeflag, by, tf, ncp, fc\
-                , usernum, chapternum\
-                , bysbyuusernum, bysbyuchapternum\
-                , bysfbyuusernum, bysfbyuchapternum = i
-        usernumtemp = int(usernum) + int(bysbyuusernum) + int(bysfbyuusernum)
-        userchargetemp = int(chapternum) + int(bysbyuchapternum) + int(bysfbyuchapternum)
+        gid, name, author, ncp, maskLevel, feeFlag, by, tf, fc, ii, ci \
+            , userNum, chapterNum \
+            , bysByuUserNum, bysByuChapterNum \
+            , bysFbyuUserNum, bysFbyuChapterNum = i
+        apparr = gid.split("_")
+        if apparr[2] != app or maskLevel == u'1':
+            continue
+        usernumtemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
+        userchargetemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
         if ncp == u'免费书':
             continue
         if cpdict.has_key(ncp):
@@ -907,15 +909,14 @@ def cp_top(loglist, cplist):
         allchap += int(chapternum)
         cplist.append((cp, int(usernum), int(chapternum)))
     cplist.sort(key = lambda x: int(x[1]), reverse = True)
-    cplisttop = cplist
-    '''
+
     cplisttop = cplist[:10]
     for i in range(10, len(cplist)):
         cp, usernum, chapnum = cplist[i]
         othuser += usernum
         othchap += chapnum
     cplisttop.append((u'其它', int(othuser), int(othchap)))
-    '''
+    #'''
     cplist = []
     for i in cplisttop:
         cp, user, chap = i
@@ -923,47 +924,44 @@ def cp_top(loglist, cplist):
     return cplist
 
 
-def top_list(logList, chargetop, monthTop, tfTop, freeTop, pubTop):
-    chargeTop = []
-    fcTop = []
-    monthTop = []
-    tfTop = []
-    freeTop = []
-    pubTop = []
-
-    for i in logList:
-        gid, name, author, maskLevel, feeFlag, by, tf, ncp, fc\
-                , userNum, chapterNum\
-                , bysByuUserNum, bysByuChapterNum\
-                , bysFbyuUserNum, bysFbyuChapterNum = i
+def top_list(logListG, tfListG, byListG, fcListG, iiListG, ciListG, pubListG, app):
+    for i in logListG:
+        gid, name, author, ncp, maskLevel, feeFlag, by, tf, fc, ii, ci \
+            , userNum, chapterNum \
+            , bysByuUserNum, bysByuChapterNum \
+            , bysFbyuUserNum, bysFbyuChapterNum = i
+        apparr = gid.split("_")
+        if apparr[2] != app or maskLevel == u'1':
+            continue
         usernumTemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
         userChargeTemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
-        if by != u'000' and tf == u'000' and (int(bysByuUserNum) > 0 or int(bysFbyuUserNum)):                                       # 包月
-            monthTop.append((gid, name, author, usernumTemp, userChargeTemp))
-        elif tf != u'000' and by == u'000':
-            tfTop.append((gid, name, author, usernumTemp, userChargeTemp))
-        elif feeFlag == u'1' and fc == '000':                                                # 付费书
-            chargeTop.append((gid, name, author, usernumTemp, userChargeTemp))
-        elif feeFlag == u'1' and fc != '000':                                                # 付费书
-            fcTop.append((gid, name, author, usernumTemp, userChargeTemp))
-        elif feeFlag == u'10':
-            pubTop.append((gid, name, author, usernumTemp, userChargeTemp))
-        elif feeFlag == u'0':
-            freeTop.append((gid, name, author, usernumTemp, userChargeTemp))
 
-    chargeTop.sort(key = lambda x: x[3], reverse = True)
-    fcTop.sort(key = lambda x: x[3], reverse = True)
-    monthTop.sort(key = lambda x: x[3], reverse = True)
-    tfTop.sort(key = lambda x: x[3], reverse = True)
-    freeTop.sort(key = lambda x: x[3], reverse = True)
-    pubTop.sort(key = lambda x: x[3], reverse = True)
-    chargeTop = chargeTop[:10]
-    fcTop = fcTop[:10]
-    monthTop = monthTop[:10]
-    tfTop = tfTop[:10]
-    freeTop = freeTop[:10]
-    pubTop = pubTop[:10]
-    return(chargeTop, monthTop, tfTop, freeTop, pubTop, fcTop)
+        if tf != u'1':                                                                      # 限免
+            tfListG.append((gid, name, author, usernumTemp, userChargeTemp))
+        if by != u'1':                                                                      # 包月
+            byListG.append((gid, name, author, usernumTemp, userChargeTemp))
+        if fc == u'1':                                                                      # 免费
+            fcListG.append((gid, name, author, usernumTemp, userChargeTemp))
+        elif ii == u'1':                                                                    # 互联网
+            iiListG.append((gid, name, author, usernumTemp, userChargeTemp))
+        elif ci == u'1':                                                                    # 按章计费
+            ciListG.append((gid, name, author, usernumTemp, userChargeTemp))
+        elif pubListG == u'1':                                                              # 公版书
+            pubListG.append((gid, name, author, usernumTemp, userChargeTemp))
+
+    tfListG.sort(key = lambda x: x[3], reverse = True)
+    byListG.sort(key = lambda x: x[3], reverse = True)
+    fcListG.sort(key = lambda x: x[3], reverse = True)
+    iiListG.sort(key = lambda x: x[3], reverse = True)
+    ciListG.sort(key = lambda x: x[3], reverse = True)
+    pubListG.sort(key = lambda x: x[3], reverse = True)
+    tfListG = tfListG[:10]
+    byListG = byListG[:10]
+    fcListG = fcListG[:10]
+    iiListG = iiListG[:10]
+    ciListG = ciListG[:10]
+    pubListG = pubListG[:10]
+    pass
 
 def print_cp_top(mlist, title, titleTup):
     outBuf = ""
@@ -1021,7 +1019,7 @@ def print_list(mlist, title, titleTup):
     for i in titleTup:
         outBuf += '<th align="center">' + i + '</th>\n'
     outBuf += '</tr>\n'
-    mlist.sort(key = lambda x: x[3], reverse = True)
+    mlist.sort(key = lambda x: int(x[3]), reverse = True)
     for i in mlist:
         outBuf += '<tr align="left">\n'
         for j in range(0, len(i), 2):

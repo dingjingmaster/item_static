@@ -17,6 +17,7 @@ localBuyPath="data/item_buy.txt"
 localReadPath="data/item_read.txt"
 buyResultPath="data/buy_result.txt"
 easouReadResultPath="data/read_easou_result.txt"
+weijuanReadResultPath="data/read_weijuan_result.txt"
 
 ###################     开始执行      ###########################
 for((i=0;i<20;++i))
@@ -52,6 +53,7 @@ hadoop fs -cat "${itemChapterRead}/*" > ${localReadPath}
 
 #python send_email/generate_buy_email.py "${localBuyPath}" "${buyResultPath}"
 python send_email/generate_read_email.py "${localReadPath}" "${easouReadResultPath}" "easou"
+python send_email/generate_read_email.py "${localReadPath}" "${weijuanReadResultPath}" "weijuan"
 
 #if true
 #then
@@ -75,7 +77,8 @@ then
     <li>书籍量: 天阅读的书籍总数</li>
     <li>阅读量: 每本书籍的天阅读人数之和</li>
     <li>阅读章节数: 每本书的天阅读章节数之和</li>'
-    sh send_email/auto_email.sh "宜搜小说天阅读量统计" "${today}" "${easouReadResultPath}" "${summary}"
+    sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouReadResultPath}" "${summary}"
+    sh send_email/auto_email.sh "微卷(20001)天阅读量统计" "${today}" "${weijuanReadResultPath}" "${summary}"
 fi
 fi
 exit 0
