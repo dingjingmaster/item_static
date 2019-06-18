@@ -15,7 +15,7 @@ if __name__ == '__main__':
     app = sys.argv[3]
 
     # logPath = "../aa.txt"
-    # resultPath = "../"
+    # resultPath = "./easou.txt"
     # app = "easou"
 
     # 输出结果链表
