@@ -944,6 +944,7 @@ def top_list(logListG, app):
     iiList = []
     ciList = []
     pubList = []
+    # tfListG, byListG, fcListG, iiListG, ciListG, pubTopG
     for i in logListG:
         gid, name, author, ncp, maskLevel, feeFlag, by, tf, fc, ii, ci \
             , userNum, chapterNum \
@@ -956,9 +957,9 @@ def top_list(logListG, app):
         usernumTemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
         userChargeTemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
 
-        if tf != u'1':                                                                      # 限免
+        if tf == u'1':                                                                      # 限免
             tfList.append((gid, name, author, usernumTemp, userChargeTemp))
-        if by != u'1':                                                                      # 包月
+        if by == u'1':                                                                      # 包月
             byList.append((gid, name, author, usernumTemp, userChargeTemp))
         if fc == u'1':                                                                      # 免费
             fcList.append((gid, name, author, usernumTemp, userChargeTemp))
