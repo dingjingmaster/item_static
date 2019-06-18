@@ -1,8 +1,6 @@
 #!/bin/bash
 source ~/.bash_profile
 source ~/.bashrc
-
-. shell_global_variable
 . shell_function
 
 workDir=$(cd $(dirname $0); pwd)
@@ -46,7 +44,7 @@ do
     break
 done
 
- 统计邮件
+# 统计邮件
 cd ${workDir}
 rm -fr data && mkdir data
 #hadoop fs -cat "${itemChapterPurchase}/*" > ${localBuyPath}
