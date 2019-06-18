@@ -25,7 +25,9 @@ if __name__ == '__main__':
     bysbyuListG = []
     bysfbyuListG = []
     monthListG = []
-    chargeListG = []
+    chargeListCIG = []           # 按章付费
+    chargeListFCG = []           # 免费书付费
+    chargeListIIG = []           # 互联网书
     tfListG = []
     chargeTopG = []
     fcTopG = []
@@ -46,24 +48,29 @@ if __name__ == '__main__':
 
     mask_level_list(logListG, ifmaskListG, "easou")
     mask_fee_flag(logListG, maskFeeListG, "easou")
-    #unmask_fee_flag(logListG, unmaskFeeListG, "easou")
-    #month_num(logListG, bysbyuListG, bysfbyuListG, monthListG, "easou")
-    #charge_num(logListG, chargeListG, "easou")                                      # 付费情况
-    #tf_num(logListG, tfListG, "easou")                                              # 付费情况
+    unmask_fee_flag(logListG, unmaskFeeListG, "easou")
+    tf_num(logListG, tfListG, "easou")                                              # 限免
+    charge_ci_num(logListG, chargeListCIG, "easou")                                 # 按章计费情况
+    charge_ii_num(logListG, chargeListIIG, "easou")                                 # 互联网书情况
+    charge_fc_num(logListG, chargeListFCG, "easou")                                 # 免费CP情况
+    month_num(logListG, bysbyuListG, bysfbyuListG, monthListG, "easou")             # 包月
 
-    #chargeTopG, monthTopG, tfTopG, freeTopG, pubTopG, fcTopG\
+
+    # chargeTopG, monthTopG, tfTopG, freeTopG, pubTopG, fcTopG\
     #        = top_list(logListG, chargeTopG, monthTopG, tfTopG, freeTopG, pubTopG)
-    #cpListG = cp_top(logListG, cpListG)
+    # cpListG = cp_top(logListG, cpListG)
 
     outBufG += print_list(ifmaskListG,            "屏蔽情况", ("屏蔽/非屏蔽", "书籍量", "阅读量", "阅读章节数"))
-    #outBufG += print_list(unmaskFeeListG, "非屏蔽书付费情况", ("付费情况", "书籍量", "阅读量", "阅读章节数"))
-    #outBufG += print_list(maskFeeListG,     "屏蔽书付费情况", ("付费情况", "书籍量", "阅读量", "阅读章节数"))
+    outBufG += print_list(maskFeeListG,     "屏蔽书阅读情况", ("付费情况", "书籍量", "阅读量", "阅读章节数"))
+    outBufG += print_list(unmaskFeeListG, "非屏蔽书阅读情况", ("付费情况", "书籍量", "阅读量", "阅读章节数"))
 
-    #outBufG += print_list(chargeListG,          "付费书情况", ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
-    #outBufG += print_list(tfListG,      "限免书阅读情况",     ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
-    #outBufG += print_list(bysbyuListG,    "包月用户看包月书", ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
-    #outBufG += print_list(bysfbyuListG, "非包月用户看包月书", ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
-    #outBufG += print_list(monthListG,           "包月书情况", ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    outBufG += print_list(tfListG,      "非屏蔽&限免书阅读情况",("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    outBufG += print_list(chargeListCIG,"非屏蔽&按章付费书情况",("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    outBufG += print_list(chargeListIIG,"非屏蔽&互联网书情况",  ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    outBufG += print_list(chargeListFCG,"非屏蔽&免费CP阅读情况",("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    outBufG += print_list(bysbyuListG,"非屏蔽&包月用户看包月书", ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    outBufG += print_list(bysfbyuListG,"非屏蔽&非包月用户看包月书",("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    # outBufG += print_list(monthListG, "非屏蔽&包月书情况",       ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
 
     #outBufG += print_book_top(chargeTopG, "付费书排行榜", ("排名", "书籍ID", "书籍名", "作者名", "阅读量", "阅读章节数"))
     #outBufG += print_book_top(fcTopG, "全免书排行榜", ("排名", "书籍ID", "书籍名", "作者名", "阅读量", "阅读章节数"))

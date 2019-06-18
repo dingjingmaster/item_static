@@ -106,7 +106,7 @@ def mask_level_list(logList, ifmaskList, app):
     return ifmaskList
 
 # 天阅读-屏蔽书情况
-def mask_fee_flag(logList, maskFeeList):
+def mask_fee_flag(logList, maskFeeList, app):
     maskBookCharge = 0                      # 按章付费 - -
     maskBookUserCharge = 0
     maskBookChapterCharge = 0
@@ -127,9 +127,9 @@ def mask_fee_flag(logList, maskFeeList):
     maskBookUserMonth = 0
     maskBookChapterMonth = 0
 
-    maskBookPublic = 0                      # 版权 - -
-    maskBookUserPublic = 0
-    maskBookChapterPublic = 0
+    # maskBookPublic = 0                      # 公版 - -
+    # maskBookUserPublic = 0
+    # maskBookChapterPublic = 0
 
     maskBooktf = 0                          # 限免 - -
     maskBookUsertf = 0
@@ -172,8 +172,8 @@ def mask_fee_flag(logList, maskFeeList):
                     maskBookChapterMonth += int(bysFbyuChapterNum)
             elif fc == u'0':                                            # 免费CP
                 maskBookFreeCharge += 1
-                maskBookFreeUserFree += int(usernumTemp)
-                maskBookFreeChapterFree += int(userChargeTemp)
+                maskBookFreeUserCharge += int(usernumTemp)
+                maskBookFreeChapterCharge += int(userChargeTemp)
             elif ci == u'1':                                            # 按章付费
                 maskBookCharge += 1
                 maskBookUserCharge += int(usernumTemp)
@@ -182,10 +182,10 @@ def mask_fee_flag(logList, maskFeeList):
                 maskBookTFreeCharge += 1
                 maskBookTFreeUserCharge += int(usernumTemp)
                 maskBookTFreeChapterCharge += int(userChargeTemp)
-            elif feeFlag == "10":                                       # 版权书
-                maskBookPublic += 1
-                maskBookUserPublic += int(usernumTemp)
-                maskBookChapterPublic += int(userChargeTemp)
+            # elif feeFlag == "10":                                       # 公版书
+            #     maskBookPublic += 1
+            #     maskBookUserPublic += int(usernumTemp)
+            #     maskBookChapterPublic += int(userChargeTemp)
     if allBook == 0:
         allBook = 1
     if allBookUser == 0:
@@ -195,9 +195,9 @@ def mask_fee_flag(logList, maskFeeList):
     maskFeeList.append(("限免书", maskBooktf, float(maskBooktf)/allBook * 100\
             , maskBookUsertf, float(maskBookUsertf)/allBookUser * 100\
             , maskBookChaptertf, float(maskBookChaptertf)/allBookChapter * 100))
-    maskFeeList.append(("版权书", maskBookPublic, float(maskBookPublic) / allBook * 100 \
-            , maskBookUserPublic, float(maskBookUserPublic) / allBookUser * 100 \
-            , maskBookChapterPublic, float(maskBookChapterPublic) / allBookChapter * 100))
+    # maskFeeList.append(("公版书", maskBookPublic, float(maskBookPublic) / allBook * 100 \
+    #         , maskBookUserPublic, float(maskBookUserPublic) / allBookUser * 100 \
+    #         , maskBookChapterPublic, float(maskBookChapterPublic) / allBookChapter * 100))
     maskFeeList.append(("包月书（非包月用户读）", maskBookMonth, float(maskBookMonth) / allBook * 100 \
             , maskBookUserMonth, float(maskBookUserMonth) / allBookUser * 100 \
             , maskBookChapterMonth, float(maskBookChapterMonth) / allBookChapter * 100))
@@ -219,32 +219,32 @@ def mask_fee_flag(logList, maskFeeList):
                 
  
 # 天阅读-非屏蔽书情况
-def unmask_fee_flag(logList, unmaskFeeList):
-    unmaskBookCharge = 0  # 按章付费 - -
+def unmask_fee_flag(logList, unmaskFeeList, app):
+    unmaskBookCharge = 0                                        # 按章付费 - -
     unmaskBookUserCharge = 0
     unmaskBookChapterCharge = 0
 
-    unmaskBookFreeCharge = 0  # 免费 CP - -
+    unmaskBookFreeCharge = 0                                    # 免费 CP - -
     unmaskBookFreeUserCharge = 0
     unmaskBookFreeChapterCharge = 0
 
-    unmaskBookTFreeCharge = 0  # 互联网 - -
+    unmaskBookTFreeCharge = 0                                   # 互联网 - -
     unmaskBookTFreeUserCharge = 0
     unmaskBookTreeChapterCharge = 0
 
-    unmaskBookMonthus = 0  # 包月用户包月书 - -
+    unmaskBookMonthus = 0                                       # 包月用户包月书 - -
     unmaskBookUserMonthus = 0
     unmaskBookChapterMonthus = 0
 
-    unmaskBookMonth = 0  # 包月书非包月用户 - -
+    unmaskBookMonth = 0                                         # 包月书非包月用户 - -
     unmaskBookUserMonth = 0
     unmaskBookChapterMonth = 0
 
-    unmaskBookPublic = 0  # 版权 - -
-    unmaskBookUserPublic = 0
-    unmaskBookChapterPublic = 0
+    # unmaskBookPublic = 0                                        # 公版书 - -
+    # unmaskBookUserPublic = 0
+    # unmaskBookChapterPublic = 0
 
-    unmaskBooktf = 0  # 限免 - -
+    unmaskBooktf = 0                                            # 限免 - -
     unmaskBookUsertf = 0
     unmaskBookChaptertf = 0
 
@@ -285,8 +285,8 @@ def unmask_fee_flag(logList, unmaskFeeList):
                     unmaskBookChapterMonth += int(bysFbyuChapterNum)
             elif fc == u'0':                                                        # 免费CP
                 unmaskBookFreeCharge += 1
-                unmaskBookFreeUserFree += int(usernumTemp)
-                unmaskBookFreeChapterFree += int(userChargeTemp)
+                unmaskBookFreeUserCharge += int(usernumTemp)
+                unmaskBookFreeChapterCharge += int(userChargeTemp)
             elif ci == u'1':                                                        # 按章付费
                 unmaskBookCharge += 1
                 unmaskBookUserCharge += int(usernumTemp)
@@ -295,40 +295,40 @@ def unmask_fee_flag(logList, unmaskFeeList):
                 unmaskBookTFreeCharge += 1
                 unmaskBookTFreeUserCharge += int(usernumTemp)
                 unmaskBookTFreeChapterCharge += int(userChargeTemp)
-            elif feeFlag == "10":                                                   # 版权书
-                unmaskBookPublic += 1
-                unmaskBookUserPublic += int(usernumTemp)
-                unmaskBookChapterPublic += int(userChargeTemp)
+            # elif feeFlag == "10":                                                   # 公版书
+            #     unmaskBookPublic += 1
+            #     unmaskBookUserPublic += int(usernumTemp)
+            #     unmaskBookChapterPublic += int(userChargeTemp)
     if allBook == 0:
         allBook = 1
     if allBookUser == 0:
         allBookUser = 1
     if allBookChapter == 0:
         allBookChapter = 1
-    maskFeeList.append(("限免书", unmaskBooktf, float(unmaskBooktf) / allBook * 100 \
+    unmaskFeeList.append(("限免书", unmaskBooktf, float(unmaskBooktf) / allBook * 100 \
             , unmaskBookUsertf, float(unmaskBookUsertf) / allBookUser * 100 \
             , unmaskBookChaptertf, float(unmaskBookChaptertf) / allBookChapter * 100))
-    maskFeeList.append(("版权书", unmaskBookPublic, float(unmaskBookPublic) / allBook * 100 \
-            , unmaskBookUserPublic, float(unmaskBookUserPublic) / allBookUser * 100 \
-            , unmaskBookChapterPublic, float(unmaskBookChapterPublic) / allBookChapter * 100))
-    maskFeeList.append(("包月书（非包月用户读）", unmaskBookMonth, float(unmaskBookMonth) / allBook * 100 \
+    # unmaskFeeList.append(("公版书", unmaskBookPublic, float(unmaskBookPublic) / allBook * 100 \
+    #         , unmaskBookUserPublic, float(unmaskBookUserPublic) / allBookUser * 100 \
+    #         , unmaskBookChapterPublic, float(unmaskBookChapterPublic) / allBookChapter * 100))
+    unmaskFeeList.append(("包月书（非包月用户读）", unmaskBookMonth, float(unmaskBookMonth) / allBook * 100 \
             , unmaskBookUserMonth, float(unmaskBookUserMonth) / allBookUser * 100 \
             , unmaskBookChapterMonth, float(unmaskBookChapterMonth) / allBookChapter * 100))
-    maskFeeList.append(("包月书（包月用户读）", unmaskBookMonthus, float(unmaskBookMonthus) / allBook * 100 \
+    unmaskFeeList.append(("包月书（包月用户读）", unmaskBookMonthus, float(unmaskBookMonthus) / allBook * 100 \
             , unmaskBookUserMonthus, float(unmaskBookUserMonthus) / allBookUser * 100 \
             , unmaskBookChapterMonthus, float(unmaskBookChapterMonthus) / allBookChapter * 100))
-    maskFeeList.append(("免费CP", unmaskBookFreeCharge, float(unmaskBookFreeCharge) / allBook * 100 \
+    unmaskFeeList.append(("免费CP", unmaskBookFreeCharge, float(unmaskBookFreeCharge) / allBook * 100 \
             , unmaskBookFreeUserCharge, float(unmaskBookFreeUserCharge) / allBookUser * 100 \
             , unmaskBookFreeChapterCharge, float(unmaskBookFreeChapterCharge) / allBookChapter * 100))
-    maskFeeList.append(("按章付费", unmaskBookCharge, float(unmaskBookCharge) / allBook * 100 \
+    unmaskFeeList.append(("按章付费", unmaskBookCharge, float(unmaskBookCharge) / allBook * 100 \
             , unmaskBookUserCharge, float(unmaskBookUserCharge) / allBookUser * 100 \
             , unmaskBookChapterCharge, float(unmaskBookChapterCharge) / allBookChapter * 100))
-    maskFeeList.append(("互联网书", unmaskBookTFreeCharge, float(unmaskBookTFreeCharge) / allBook * 100 \
+    unmaskFeeList.append(("互联网书", unmaskBookTFreeCharge, float(unmaskBookTFreeCharge) / allBook * 100 \
             , unmaskBookTFreeUserCharge, float(unmaskBookTFreeUserCharge) / allBookUser * 100 \
             , unmaskBookTreeChapterCharge, float(unmaskBookTreeChapterCharge) / allBookChapter * 100))
     return unmaskFeeList
 
-def tf_num(logList, tfList):
+def tf_num(logList, tfList, app):
     tfBt0t10b = 0                   # 书籍数
     tfBt10t100b = 0
     tfBt100t1000b = 0
@@ -350,13 +350,16 @@ def tf_num(logList, tfList):
     allBookChapter = 0
 
     for i in logList:
-        gid, name, author, maskLevel, feeFlag, by, tf, ncp, fc\
-                , userNum, chapterNum\
-                , bysByuUserNum, bysByuChapterNum\
-                , bysFbyuUserNum, bysFbyuChapterNum = i
+        gid, name, author, ncp, maskLevel, feeFlag, by, tf, fc, ii, ci \
+            , userNum, chapterNum \
+            , bysByuUserNum, bysByuChapterNum \
+            , bysFbyuUserNum, bysFbyuChapterNum = i
+        apparr = gid.split("_")
+        if apparr[2] != app or maskLevel == u'1':
+            continue
         usernumTemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
         userChargeTemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
-        if tf != u'000' and tf != u'' and tf != u'0':
+        if tf == u'1':
             allBook += 1
             allBookUser += int(usernumTemp)
             allBookChapter += int(userChargeTemp)
@@ -403,7 +406,7 @@ def tf_num(logList, tfList):
             , tfgt10000c, float(tfgt10000c)/allBookChapter * 100))
     return tfList
 
-def month_num(logList, bysbyuList, bysfbyuList, monthList):
+def month_num(logList, bysbyuList, bysfbyuList, monthList, app):
     bysbyuBt0t10b = 0                   # 书籍数
     bysbyuBt10t100b = 0
     bysbyuBt100t1000b = 0
@@ -467,86 +470,88 @@ def month_num(logList, bysbyuList, bysfbyuList, monthList):
     allbyufsbookchapter = 0
     
     for i in logList:
-        gid, name, author, masklevel, feeflag, by, tf, ncp, fc\
-                , usernum, chapternum\
-                , bysbyuusernum, bysbyuchapternum\
-                , bysfbyuusernum, bysfbyuchapternum = i
-        monthusernumtemp = int(bysbyuusernum) + int(bysfbyuusernum)
-        monthchapternumtemp = int(bysbyuchapternum) + int(bysfbyuchapternum)
+        gid, name, author, ncp, maskLevel, feeFlag, by, tf, fc, ii, ci \
+            , userNum, chapterNum \
+            , bysByuUserNum, bysByuChapterNum \
+            , bysFbyuUserNum, bysFbyuChapterNum = i
+        apparr = gid.split("_")
+        if apparr[2] != app or maskLevel == u'1':
+            continue
+        monthusernumtemp = int(bysByuUserNum) + int(bysFbyuUserNum)
+        monthchapternumtemp = int(bysByuChapterNum) + int(bysFbyuChapterNum)
         #
-        if by != u'000' and tf == u'000':
-
-            if int(bysbyuusernum) >= 0 and int(bysbyuusernum) < 10:
+        if by == u'1':
+            if int(bysByuUserNum) >= 0 and int(bysByuUserNum) < 10:
                 bysbyuBt0t10b += 1
-                bysbyuBt0t10u += int(bysbyuusernum)
-                bysbyuBt0t10c += int(bysbyuchapternum)
+                bysbyuBt0t10u += int(bysByuUserNum)
+                bysbyuBt0t10c += int(bysByuChapterNum)
                 allbyusbook += 1
-                allbyusbookuser += int(bysbyuusernum)
-                allbyusbookchapter += int(bysbyuchapternum)
-            elif int(bysbyuusernum) >= 10 and int(bysbyuusernum) < 100:
+                allbyusbookuser += int(bysByuUserNum)
+                allbyusbookchapter += int(bysByuChapterNum)
+            elif int(bysByuUserNum) >= 10 and int(bysByuUserNum) < 100:
                 bysbyuBt10t100b += 1
-                bysbyuBt10t100u += int(bysbyuusernum)
-                bysbyuBt10t100c += int(bysbyuchapternum)
+                bysbyuBt10t100u += int(bysByuUserNum)
+                bysbyuBt10t100c += int(bysByuChapterNum)
                 allbyusbook += 1
-                allbyusbookuser += int(bysbyuusernum)
-                allbyusbookchapter += int(bysbyuchapternum)
-            elif int(bysbyuusernum) >= 100 and int(bysbyuusernum) < 1000:
+                allbyusbookuser += int(bysByuUserNum)
+                allbyusbookchapter += int(bysByuChapterNum)
+            elif int(bysByuUserNum) >= 100 and int(bysByuUserNum) < 1000:
                 bysbyuBt100t1000b += 1
-                bysbyuBt100t1000u += int(bysbyuusernum)
-                bysbyuBt100t1000c += int(bysbyuchapternum)
+                bysbyuBt100t1000u += int(bysByuUserNum)
+                bysbyuBt100t1000c += int(bysByuChapterNum)
                 allbyusbook += 1
-                allbyusbookuser += int(bysbyuusernum)
-                allbyusbookchapter += int(bysbyuchapternum)
-            elif int(bysbyuusernum) >= 1000 and int(bysbyuusernum) < 10000:
+                allbyusbookuser += int(bysByuUserNum)
+                allbyusbookchapter += int(bysByuChapterNum)
+            elif int(bysByuUserNum) >= 1000 and int(bysByuUserNum) < 10000:
                 bysbyuBt1000t10000b += 1
-                bysbyuBt1000t10000u += int(bysbyuusernum)
-                bysbyuBt1000t10000c += int(bysbyuchapternum)
+                bysbyuBt1000t10000u += int(bysByuUserNum)
+                bysbyuBt1000t10000c += int(bysByuChapterNum)
                 allbyusbook += 1
-                allbyusbookuser += int(bysbyuusernum)
-                allbyusbookchapter += int(bysbyuchapternum)
+                allbyusbookuser += int(bysByuUserNum)
+                allbyusbookchapter += int(bysByuChapterNum)
             else:
                 bysbyugt10000b += 1
-                bysbyugt10000u += int(bysbyuusernum)
-                bysbyugt10000c += int(bysbyuchapternum)
+                bysbyugt10000u += int(bysByuUserNum)
+                bysbyugt10000c += int(bysByuChapterNum)
                 allbyusbook += 1
-                allbyusbookuser += int(bysbyuusernum)
-                allbyusbookchapter += int(bysbyuchapternum)
+                allbyusbookuser += int(bysByuUserNum)
+                allbyusbookchapter += int(bysByuChapterNum)
 
-            if int(bysfbyuusernum) >= 0 and int(bysfbyuusernum) < 10:
+            if int(bysFbyuUserNum) >= 0 and int(bysFbyuUserNum) < 10:
                 bysfbyuBt0t10b += 1
-                bysfbyuBt0t10u += int(bysfbyuusernum)
-                bysfbyuBt0t10c += int(bysfbyuchapternum)
+                bysfbyuBt0t10u += int(bysFbyuUserNum)
+                bysfbyuBt0t10c += int(bysFbyuChapterNum)
                 allbyufsbook += 1
-                allbyufsbookuser += int(bysfbyuusernum)
-                allbyufsbookchapter += int(bysfbyuchapternum)
-            elif int(bysfbyuusernum) >= 10 and int(bysfbyuusernum) < 100:
+                allbyufsbookuser += int(bysFbyuUserNum)
+                allbyufsbookchapter += int(bysFbyuChapterNum)
+            elif int(bysFbyuUserNum) >= 10 and int(bysFbyuUserNum) < 100:
                 bysfbyuBt10t100b += 1
-                bysfbyuBt10t100u += int(bysfbyuusernum)
-                bysfbyuBt10t100c += int(bysfbyuchapternum)
+                bysfbyuBt10t100u += int(bysFbyuUserNum)
+                bysfbyuBt10t100c += int(bysFbyuChapterNum)
                 allbyufsbook += 1
-                allbyufsbookuser += int(bysfbyuusernum)
-                allbyufsbookchapter += int(bysfbyuchapternum)
-            elif int(bysfbyuusernum) >= 100 and int(bysfbyuusernum) < 1000:
+                allbyufsbookuser += int(bysFbyuUserNum)
+                allbyufsbookchapter += int(bysFbyuChapterNum)
+            elif int(bysFbyuUserNum) >= 100 and int(bysFbyuUserNum) < 1000:
                 bysfbyuBt100t1000b += 1
-                bysfbyuBt100t1000u += int(bysfbyuusernum)
-                bysfbyuBt100t1000c += int(bysfbyuchapternum)
+                bysfbyuBt100t1000u += int(bysFbyuUserNum)
+                bysfbyuBt100t1000c += int(bysFbyuChapterNum)
                 allbyufsbook += 1
-                allbyufsbookuser += int(bysfbyuusernum)
-                allbyufsbookchapter += int(bysfbyuchapternum)
-            elif int(bysfbyuusernum) >= 1000 and int(bysfbyuusernum) < 10000:
+                allbyufsbookuser += int(bysFbyuUserNum)
+                allbyufsbookchapter += int(bysFbyuChapterNum)
+            elif int(bysFbyuUserNum) >= 1000 and int(bysFbyuUserNum) < 10000:
                 bysfbyuBt1000t10000b += 1
-                bysfbyuBt1000t10000u += int(bysfbyuusernum)
-                bysfbyuBt1000t10000c += int(bysfbyuchapternum)
+                bysfbyuBt1000t10000u += int(bysFbyuUserNum)
+                bysfbyuBt1000t10000c += int(bysFbyuChapterNum)
                 allbyufsbook += 1
-                allbyufsbookuser += int(bysfbyuusernum)
-                allbyufsbookchapter += int(bysfbyuchapternum)
+                allbyufsbookuser += int(bysFbyuUserNum)
+                allbyufsbookchapter += int(bysFbyuChapterNum)
             else:
                 bysfbyugt10000b += 1
-                bysfbyugt10000u += int(bysfbyuusernum)
-                bysfbyugt10000c += int(bysfbyuchapternum)
+                bysfbyugt10000u += int(bysFbyuUserNum)
+                bysfbyugt10000c += int(bysFbyuChapterNum)
                 allbyufsbook += 1
-                allbyufsbookuser += int(bysfbyuusernum)
-                allbyufsbookchapter += int(bysfbyuchapternum)
+                allbyufsbookuser += int(bysFbyuUserNum)
+                allbyufsbookchapter += int(bysFbyuChapterNum)
 
     if allbyusbook == 0:
         allbyusbook = 1
@@ -595,7 +600,7 @@ def month_num(logList, bysbyuList, bysfbyuList, monthList):
     return (bysbyuList, bysfbyuList, monthList)
 
 
-def charge_num(loglist, chargelist):
+def charge_ci_num(loglist, chargelist, app):
     chargebt0t10b = 0                   # 书籍数
     chargebt10t100b = 0
     chargebt100t1000b = 0
@@ -617,13 +622,173 @@ def charge_num(loglist, chargelist):
     allbookchapter = 0
 
     for i in loglist:
-        gid, name, author, masklevel, feeflag, by, tf, ncp, fc\
-                , usernum, chapternum\
-                , bysbyuusernum, bysbyuchapternum\
-                , bysfbyuusernum, bysfbyuchapternum = i
-        usernumtemp = int(usernum) + int(bysbyuusernum) + int(bysfbyuusernum)
-        userchargetemp = int(chapternum) + int(bysbyuchapternum) + int(bysfbyuchapternum)
-        if feeflag == u'1' and by == u'000' and tf == u'000':
+        gid, name, author, ncp, maskLevel, feeFlag, by, tf, fc, ii, ci \
+            , userNum, chapterNum \
+            , bysByuUserNum, bysByuChapterNum \
+            , bysFbyuUserNum, bysFbyuChapterNum = i
+        apparr = gid.split("_")
+        if apparr[2] != app or maskLevel == u'1':
+            continue
+        usernumtemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
+        userchargetemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
+        if ci == u'1':
+            allbook += 1
+            allbookuser += int(usernumtemp)
+            allbookchapter += int(userchargetemp)
+            if int(usernumtemp) > 0 and int(usernumtemp) < 10:
+                chargebt0t10b += 1
+                chargebt0t10u += int(usernumtemp)
+                chargebt0t10c += int(userchargetemp)
+            elif int(usernumtemp) >= 10 and int(usernumtemp) < 100:
+                chargebt10t100b += 1
+                chargebt10t100u += int(usernumtemp)
+                chargebt10t100c += int(userchargetemp)
+            elif int(usernumtemp) >= 100 and int(usernumtemp) < 1000:
+                chargebt100t1000b += 1
+                chargebt100t1000u += int(usernumtemp)
+                chargebt100t1000c += int(userchargetemp)
+            elif int(usernumtemp) >= 1000 and int(usernumtemp) < 10000:
+                chargebt1000t10000b += 1
+                chargebt1000t10000u += int(usernumtemp)
+                chargebt1000t10000c += int(userchargetemp)
+            else:
+                chargegt10000b += 1
+                chargegt10000u += int(usernumtemp)
+                chargegt10000c += int(userchargetemp)
+    if allbook == 0:
+        allbook = 1
+    if allbookuser == 0:
+        allbookuser = 1
+    if allbookchapter == 0:
+        allbookchapter = 1
+    chargelist.append(("(0,10)", chargebt0t10b, float(chargebt0t10b)/allbook * 100\
+            , chargebt0t10u, float(chargebt0t10u)/allbookuser * 100\
+            , chargebt0t10c, float(chargebt0t10c)/allbookchapter * 100))
+    chargelist.append(("[10,100)", chargebt10t100b, float(chargebt10t100b)/allbook * 100\
+            , chargebt10t100u, float(chargebt10t100u)/allbookuser * 100\
+            , chargebt10t100c, float(chargebt10t100c)/allbookchapter * 100))
+    chargelist.append(("[100,1000)", chargebt100t1000b, float(chargebt100t1000b)/allbook * 100\
+            , chargebt100t1000u, float(chargebt100t1000u)/allbookuser * 100\
+            , chargebt100t1000c, float(chargebt100t1000c)/allbookchapter * 100))
+    chargelist.append(("[1000,10000)", chargebt1000t10000b, float(chargebt1000t10000b)/allbook * 100\
+            , chargebt1000t10000u, float(chargebt1000t10000u)/allbookuser * 100\
+            , chargebt1000t10000c, float(chargebt1000t10000c)/allbookchapter * 100))
+    chargelist.append(("[10000, ...)", chargegt10000b, float(chargegt10000b)/allbook * 100\
+            , chargegt10000u, float(chargegt10000u)/allbookuser * 100\
+            , chargegt10000c, float(chargegt10000c)/allbookchapter * 100))
+    return chargelist
+
+
+def charge_fc_num(loglist, chargelist, app):
+    chargebt0t10b = 0                   # 书籍数
+    chargebt10t100b = 0
+    chargebt100t1000b = 0
+    chargebt1000t10000b = 0
+    chargegt10000b = 0
+    chargebt0t10u = 0                   # 用户数
+    chargebt10t100u = 0
+    chargebt100t1000u = 0
+    chargebt1000t10000u = 0
+    chargegt10000u = 0
+    chargebt0t10c = 0                   # 付费章节
+    chargebt10t100c = 0
+    chargebt100t1000c = 0
+    chargebt1000t10000c = 0
+    chargegt10000c = 0
+
+    allbook = 0
+    allbookuser = 0
+    allbookchapter = 0
+
+    for i in loglist:
+        gid, name, author, ncp, maskLevel, feeFlag, by, tf, fc, ii, ci \
+            , userNum, chapterNum \
+            , bysByuUserNum, bysByuChapterNum \
+            , bysFbyuUserNum, bysFbyuChapterNum = i
+        apparr = gid.split("_")
+        if apparr[2] != app or maskLevel == u'1':
+            continue
+        usernumtemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
+        userchargetemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
+        if fc == u'1':
+            allbook += 1
+            allbookuser += int(usernumtemp)
+            allbookchapter += int(userchargetemp)
+            if int(usernumtemp) > 0 and int(usernumtemp) < 10:
+                chargebt0t10b += 1
+                chargebt0t10u += int(usernumtemp)
+                chargebt0t10c += int(userchargetemp)
+            elif int(usernumtemp) >= 10 and int(usernumtemp) < 100:
+                chargebt10t100b += 1
+                chargebt10t100u += int(usernumtemp)
+                chargebt10t100c += int(userchargetemp)
+            elif int(usernumtemp) >= 100 and int(usernumtemp) < 1000:
+                chargebt100t1000b += 1
+                chargebt100t1000u += int(usernumtemp)
+                chargebt100t1000c += int(userchargetemp)
+            elif int(usernumtemp) >= 1000 and int(usernumtemp) < 10000:
+                chargebt1000t10000b += 1
+                chargebt1000t10000u += int(usernumtemp)
+                chargebt1000t10000c += int(userchargetemp)
+            else:
+                chargegt10000b += 1
+                chargegt10000u += int(usernumtemp)
+                chargegt10000c += int(userchargetemp)
+    if allbook == 0:
+        allbook = 1
+    if allbookuser == 0:
+        allbookuser = 1
+    if allbookchapter == 0:
+        allbookchapter = 1
+    chargelist.append(("(0,10)", chargebt0t10b, float(chargebt0t10b)/allbook * 100\
+            , chargebt0t10u, float(chargebt0t10u)/allbookuser * 100\
+            , chargebt0t10c, float(chargebt0t10c)/allbookchapter * 100))
+    chargelist.append(("[10,100)", chargebt10t100b, float(chargebt10t100b)/allbook * 100\
+            , chargebt10t100u, float(chargebt10t100u)/allbookuser * 100\
+            , chargebt10t100c, float(chargebt10t100c)/allbookchapter * 100))
+    chargelist.append(("[100,1000)", chargebt100t1000b, float(chargebt100t1000b)/allbook * 100\
+            , chargebt100t1000u, float(chargebt100t1000u)/allbookuser * 100\
+            , chargebt100t1000c, float(chargebt100t1000c)/allbookchapter * 100))
+    chargelist.append(("[1000,10000)", chargebt1000t10000b, float(chargebt1000t10000b)/allbook * 100\
+            , chargebt1000t10000u, float(chargebt1000t10000u)/allbookuser * 100\
+            , chargebt1000t10000c, float(chargebt1000t10000c)/allbookchapter * 100))
+    chargelist.append(("[10000, ...)", chargegt10000b, float(chargegt10000b)/allbook * 100\
+            , chargegt10000u, float(chargegt10000u)/allbookuser * 100\
+            , chargegt10000c, float(chargegt10000c)/allbookchapter * 100))
+    return chargelist
+
+def charge_ii_num(loglist, chargelist, app):
+    chargebt0t10b = 0                   # 书籍数
+    chargebt10t100b = 0
+    chargebt100t1000b = 0
+    chargebt1000t10000b = 0
+    chargegt10000b = 0
+    chargebt0t10u = 0                   # 用户数
+    chargebt10t100u = 0
+    chargebt100t1000u = 0
+    chargebt1000t10000u = 0
+    chargegt10000u = 0
+    chargebt0t10c = 0                   # 付费章节
+    chargebt10t100c = 0
+    chargebt100t1000c = 0
+    chargebt1000t10000c = 0
+    chargegt10000c = 0
+
+    allbook = 0
+    allbookuser = 0
+    allbookchapter = 0
+
+    for i in loglist:
+        gid, name, author, ncp, maskLevel, feeFlag, by, tf, fc, ii, ci \
+            , userNum, chapterNum \
+            , bysByuUserNum, bysByuChapterNum \
+            , bysFbyuUserNum, bysFbyuChapterNum = i
+        apparr = gid.split("_")
+        if apparr[2] != app or maskLevel == u'1':
+            continue
+        usernumtemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
+        userchargetemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
+        if ii == u'1':
             allbook += 1
             allbookuser += int(usernumtemp)
             allbookchapter += int(userchargetemp)
