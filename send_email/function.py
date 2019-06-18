@@ -225,6 +225,7 @@ def mask_fee_flag(logList, app):
                               , maskBookChapterMonth, float(maskBookChapterMonth) / allBookChapter * 100))
     maskFeeList.append(("包月书（包月用户读）", maskBookMonthus, float(maskBookMonthus) / allBook * 100 \
                               , maskBookUserMonthus, float(maskBookUserMonthus) / allBookUser * 100 \
+                              , maskBookChapterMonthus, float(maskBookChapterMonthus) / allBookChapter * 100))
     maskFeeList.append(("免费CP", maskBookFreeCharge, float(maskBookFreeCharge) / allBook * 100 \
                               , maskBookFreeUserCharge, float(maskBookFreeUserCharge) / allBookUser * 100 \
                               , maskBookFreeChapterCharge, float(maskBookFreeChapterCharge) / allBookChapter * 100))
