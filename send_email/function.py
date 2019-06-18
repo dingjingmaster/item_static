@@ -7,7 +7,7 @@ sys.setdefaultencoding("utf8")
 #################################    共有    ####################################
 # 解析获取的hadoop信息
 def parse_info(logPath):
-    logListG = []
+    logList = []
     gid = ""
     name = ""
     author = ""
@@ -54,7 +54,7 @@ def parse_info(logPath):
                 , userNum, chapterNum\
                 , bysByuUserNum, bysByuChapterNum\
                 , bysFbyuUserNum, bysFbyuChapterNum))
-    return logList
+    return logListG
 
 # 开始
 def mask_level_list(logList, app):
