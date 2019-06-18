@@ -10,6 +10,9 @@ import scala.collection.mutable.{ListBuffer, Map}
 class ReadEvent() {
   def parseLine(line : String) : ReadEvent = {
     val arr = line.split("\\x01", -1)
+    if (arr.length < 23) {
+      return this
+    }
     for (i <- 0 to 20) {
       val key = this.field(i.toString)
       this.field(key) = arr(i)

@@ -69,13 +69,8 @@ object ItemRead {
         yield i
     })
 
-//    for(i <- iteminfoRDD.take(300)) {
-//      println(i)
-//    }
-//    sys.exit(0)
-
     // 解析阅读日志，获取阅读日志信息
-    val readeventRDD = sc.textFile(readeventPath).map(x => {
+    val readeventRDD = sc.textFile(readeventPath).filter(_ != "").map(x => {
       var gidFlag = ""
       val rd = new ReadEvent().parseLine(x)
         .getValues(List("uid", "appudid", "sort", "usertype", "booktype", "gid", "entrance", "appid"))
@@ -99,7 +94,7 @@ object ItemRead {
     }).filter(x => x._1 != "").reduceByKey(_:::_)
 
     // 付费书籍阅读事件
-    val readeventChargeRDD = sc.textFile(readeventPath).map(x => {
+    val readeventChargeRDD = sc.textFile(readeventPath).filter(_!="").map(x => {
       var gidFlag = ""
       val rd = new ReadEvent().parseLine(x)
         .getValues(List("uid", "appudid", "sort", "usertype", "booktype", "gid", "entrance", "appid", "ischapterincharged"))
