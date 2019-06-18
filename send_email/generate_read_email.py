@@ -73,10 +73,10 @@ if __name__ == '__main__':
     outBufG += print_list(bysbyuListG,     "非屏蔽&包月用户看包月书",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
     outBufG += print_list(bysfbyuListG,  "非屏蔽&非包月用户看包月书",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
     outBufG += print_list(chargeListIIG,       "非屏蔽&互联网书情况",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
-    outBuf += '<br/>'
+    outBufG += '<br/>'
 
     outBufG += print_cp_top(cpListG,              "各cp阅读量top-10",  ("排名", "cp名", "阅读量及占比", "阅读章节数及占比"))
-    outBuf += '<br/>'
+    outBufG += '<br/>'
 
     outBufG += print_book_top(ciListG,            "按章付费书排行榜",     ("排名", "书籍ID", "书籍名", "作者名", "阅读量", "阅读章节数"))
     outBufG += print_book_top(fcListG,        "全免书(免费CP)排行榜",     ("排名", "书籍ID", "书籍名", "作者名", "阅读量", "阅读章节数"))
