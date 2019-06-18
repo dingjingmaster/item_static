@@ -59,7 +59,8 @@ if __name__ == '__main__':
     month_num(logListG, bysbyuListG, bysfbyuListG, monthListG, app)             # 包月
 
 
-    top_list(logListG, tfListG, byListG, fcListG, iiListG, ciListG, pubTopG, app)
+    logListG, tfListG, byListG, fcListG, iiListG, ciListG, pubTopG = \
+        top_list(logListG, tfListG, byListG, fcListG, iiListG, ciListG, pubTopG, app)
     cpListG = cp_top(logListG, cpListG, app)
 
     ### 宜搜

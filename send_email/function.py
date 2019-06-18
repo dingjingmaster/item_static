@@ -931,6 +931,7 @@ def top_list(logListG, tfListG, byListG, fcListG, iiListG, ciListG, pubListG, ap
             , bysByuUserNum, bysByuChapterNum \
             , bysFbyuUserNum, bysFbyuChapterNum = i
         apparr = gid.split("_")
+        gid = "i_" + apparr[1]
         if apparr[2] != app or maskLevel == u'1':
             continue
         usernumTemp = int(userNum) + int(bysByuUserNum) + int(bysFbyuUserNum)
@@ -961,7 +962,7 @@ def top_list(logListG, tfListG, byListG, fcListG, iiListG, ciListG, pubListG, ap
     iiListG = iiListG[:10]
     ciListG = ciListG[:10]
     pubListG = pubListG[:10]
-    pass
+    return tfListG, byListG, fcListG, iiListG, ciListG, pubListG
 
 def print_cp_top(mlist, title, titleTup):
     outBuf = ""
