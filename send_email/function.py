@@ -6,7 +6,7 @@ sys.setdefaultencoding("utf8")
 
 #################################    共有    ####################################
 # 解析获取的hadoop信息
-def parse_info(logPath, logList):
+def parse_info(logPath):
     logListG = []
     gid = ""
     name = ""
