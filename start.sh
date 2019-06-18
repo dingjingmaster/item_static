@@ -74,6 +74,7 @@ then
     '
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouReadResultPath}" "${summary}"
     sh send_email/auto_email.sh "微卷(20001)天阅读量统计" "${today}" "${weijuanReadResultPath}" "${summary}"
+
     sh send_email/auto_email.sh "宜搜小说(10001)天付费章节阅读量统计" "${today}" "${easouBuyResultPath}" "${summary}"
     sh send_email/auto_email.sh "微卷(20001)天付费章节阅读量统计" "${today}" "${weijuanBuyResultPath}" "${summary}"
 fi
