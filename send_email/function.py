@@ -943,11 +943,11 @@ def top_list(logListG, tfListG, byListG, fcListG, iiListG, ciListG, pubListG, ap
             byListG.append((gid, name, author, usernumTemp, userChargeTemp))
         if fc == u'1':                                                                      # 免费
             fcListG.append((gid, name, author, usernumTemp, userChargeTemp))
-        elif ii == u'1':                                                                    # 互联网
+        if ii == u'1':                                                                      # 互联网
             iiListG.append((gid, name, author, usernumTemp, userChargeTemp))
-        elif ci == u'1':                                                                    # 按章计费
+        if ci == u'1':                                                                      # 按章计费
             ciListG.append((gid, name, author, usernumTemp, userChargeTemp))
-        elif pubListG == u'1':                                                              # 公版书
+        if pubListG == u'1':                                                                # 公版书
             pubListG.append((gid, name, author, usernumTemp, userChargeTemp))
 
     tfListG.sort(key = lambda x: x[3], reverse = True)
