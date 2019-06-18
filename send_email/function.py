@@ -7,6 +7,7 @@ sys.setdefaultencoding("utf8")
 #################################    共有    ####################################
 # 解析获取的hadoop信息
 def parse_info(logPath, logList):
+    logListG = []
     gid = ""
     name = ""
     author = ""
@@ -56,7 +57,8 @@ def parse_info(logPath, logList):
     return logList
 
 # 开始
-def mask_level_list(logList, ifmaskList, app):
+def mask_level_list(logList, app):
+    ifmaskList = []
     maskBookNum = 0
     maskBookUserNum = 0             # 购买用户数
     maskChargeChapterNum = 0        # 章节购买量

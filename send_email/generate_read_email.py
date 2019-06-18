@@ -50,7 +50,7 @@ if __name__ == '__main__':
     bysFByuUserNum, bysFBYuChapterNum
     """
     ## easou
-    parse_info(logPath, logListG)
+    logListG = parse_info(logPath)
 
     ifmaskListG = mask_level_list(logListG, app)
     maskFeeListG = mask_fee_flag(logListG, app)
