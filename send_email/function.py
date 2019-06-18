@@ -54,7 +54,7 @@ def parse_info(logPath):
                 , userNum, chapterNum\
                 , bysByuUserNum, bysByuChapterNum\
                 , bysFbyuUserNum, bysFbyuChapterNum))
-    return logListG
+    return logList
 
 # 开始
 def mask_level_list(logList, app):
