@@ -5,14 +5,15 @@ import com.easou.dingjing.library.{ItemInfo, ReadEvent}
 
 object ItemRead {
   def main(args: Array[String]): Unit = {
-    if (args.length < 3) {
-      println("请输入：物品信息、阅读事件日志、保存路径")
+    if (args.length < 4) {
+      println("请输入：物品信息、阅读事件日志、天阅读路径、天付费阅读路径")
       sys.exit(-1)
     }
 
     val iteminfoPath = args(0)
     val readeventPath = args(1)
-    val savePath = args(2)
+    val readSavePath = args(2)
+    val buySavePath = args(3)
 
 //    val iteminfoPath = "hdfs://10.26.26.145:8020/rs/iteminfo/current/"
 //    val readeventPath = "hdfs://10.26.29.210:8020/user/hive/warehouse/event_info.db/b_read_chapter/ds=2019-06-16/00031*_0"
@@ -97,87 +98,119 @@ object ItemRead {
       (gidFlag, List((appudid, strToInt(sort).toString, userType, bookType)))
     }).filter(x => x._1 != "").reduceByKey(_:::_)
 
+    // 付费书籍阅读事件
+    val readeventChargeRDD = sc.textFile(readeventPath).map(x => {
+      var gidFlag = ""
+      val rd = new ReadEvent().parseLine(x)
+        .getValues(List("uid", "appudid", "sort", "usertype", "booktype", "gid", "entrance", "appid", "ischapterincharged"))
+      val uid = rd(0)
+      val appudid = rd(1)
+      val sort = rd(2)
+      val userType = rd(3)
+      val bookType = rd(4)
+      val gid = rd(5)
+      val entrance = rd(6)
+      val appid = rd(7)
+      val isChapterCharge = rd(8)
+
+      val appFlag = this.getAppflagByAppid(appid)
+      if (gid != "") {
+        gidFlag = "i_" + gid + "_" + appFlag
+      }
+      if (("书架" != entrance) || ("付费" != isChapterCharge)) {
+        gidFlag = ""
+      }
+      (gidFlag, List((appudid, strToInt(sort).toString, userType, bookType)))
+    }).filter(x => x._1 != "").reduceByKey(_:::_)
+
     /**
      * 合并物品信息 + 日志
      * 物品：(gid + "_easou", (name, author, cp, maskFlag, fee_flag, by, tf, fc, ii, ci)
      * 阅读：(gid + "_easou", (appudid, sort, userType, bookType))
      */
-    val readinfoRDD = readeventRDD.join(iteminfoRDD)
-    val resultRDD = readinfoRDD.map(x => {
-      val gidFlag = x._1
-      val readEvent = x._2._1
-      val itemInfo = x._2._2
+    val readReadinfoRDD = readeventRDD.join(iteminfoRDD)
+    val readResultRDD = readReadinfoRDD.map(outToHDFS)
 
-      val name = itemInfo._1
-      val author = itemInfo._2
-      val cp = itemInfo._3
-      val mask = itemInfo._4
-      val fee = itemInfo._5
-      val by = itemInfo._6
-      val tf = itemInfo._7
-      val fc = itemInfo._8
-      val ii = itemInfo._9
-      val ci = itemInfo._10
+    val buyReadinfoRDD = readeventChargeRDD.join(iteminfoRDD)
+    val buyResultRDD = buyReadinfoRDD.map(outToHDFS)
 
-      val iteminfoStr = name + "\t" + author + "\t" + cp + "\t" + mask + "\t" + fee + "\t" +
-                        by + "\t" + tf + "\t" + fc + "\t" + ii + "\t" + ci
+    readResultRDD.filter(_ != "").repartition(1).saveAsTextFile(readeventPath)
+    buyResultRDD.filter(_ != "").repartition(1).saveAsTextFile(buySavePath)
+  }
 
-      // 非包月书
-      var userNum = 0
-      var chapterNum = 0
-      val appudidSet = scala.collection.mutable.Set[String]()
-      val chapterSet = scala.collection.mutable.Set[String]()
+  def outToHDFS(x: Tuple2[String, Tuple2[List[Tuple4[String,String,String,String]],
+    Tuple10[String, String, String, String, String, String, String, String, String, String]]]): String = {
+    val gidFlag = x._1
+    val readEvent = x._2._1
+    val itemInfo = x._2._2
 
-      // 包月书 - 包月用户
-      var bysByuUserNum = 0
-      var bysByuChapterNum = 0
-      val bysByuAppudidSet = scala.collection.mutable.Set[String]()
-      val bysByuChapterDict = scala.collection.mutable.Set[String]()
+    val name = itemInfo._1
+    val author = itemInfo._2
+    val cp = itemInfo._3
+    val mask = itemInfo._4
+    val fee = itemInfo._5
+    val by = itemInfo._6
+    val tf = itemInfo._7
+    val fc = itemInfo._8
+    val ii = itemInfo._9
+    val ci = itemInfo._10
 
-      // 包月书 - 非包月用户
-      var bysFByuUserNum = 0
-      var bysFByuChapterNum = 0
-      val bysFByuAppudidSet = scala.collection.mutable.Set[String]()
-      val bysFByuChapterDict = scala.collection.mutable.Set[String]()
+    val iteminfoStr = name + "\t" + author + "\t" + cp + "\t" + mask + "\t" + fee + "\t" +
+      by + "\t" + tf + "\t" + fc + "\t" + ii + "\t" + ci
 
-      for (i <- readEvent) {
-        //appudid strToInt(sort).toString userType bookType
-        val appudid = i._1
-        val sort = i._2
-        val userType = i._3
-        val bookType = i._4
-        if (by.toInt == 1) {
-          if ("包月" == userType) {
-            // 包月用户 + 包月书
-            bysByuAppudidSet.add(appudid)
-            bysByuChapterDict.add(sort + "|" + appudid)
-          } else {
-            // 非包月用户 + 包月书
-            bysFByuAppudidSet.add(appudid)
-            bysFByuChapterDict.add(sort + "|" + appudid)
-          }
+    // 非包月书
+    var userNum = 0
+    var chapterNum = 0
+    val appudidSet = scala.collection.mutable.Set[String]()
+    val chapterSet = scala.collection.mutable.Set[String]()
+
+    // 包月书 - 包月用户
+    var bysByuUserNum = 0
+    var bysByuChapterNum = 0
+    val bysByuAppudidSet = scala.collection.mutable.Set[String]()
+    val bysByuChapterDict = scala.collection.mutable.Set[String]()
+
+    // 包月书 - 非包月用户
+    var bysFByuUserNum = 0
+    var bysFByuChapterNum = 0
+    val bysFByuAppudidSet = scala.collection.mutable.Set[String]()
+    val bysFByuChapterDict = scala.collection.mutable.Set[String]()
+
+    for (i <- readEvent) {
+      //appudid strToInt(sort).toString userType bookType
+      val appudid = i._1
+      val sort = i._2
+      val userType = i._3
+      val bookType = i._4
+      if (by.toInt == 1) {
+        if ("包月" == userType) {
+          // 包月用户 + 包月书
+          bysByuAppudidSet.add(appudid)
+          bysByuChapterDict.add(sort + "|" + appudid)
         } else {
-          appudidSet.add(appudid)
-          chapterSet.add(sort + "|" + appudid)
+          // 非包月用户 + 包月书
+          bysFByuAppudidSet.add(appudid)
+          bysFByuChapterDict.add(sort + "|" + appudid)
         }
+      } else {
+        appudidSet.add(appudid)
+        chapterSet.add(sort + "|" + appudid)
       }
-      // 统计结果
-      bysByuUserNum = bysByuAppudidSet.toList.length
-      bysFByuUserNum = bysFByuAppudidSet.toList.length
+    }
+    // 统计结果
+    bysByuUserNum = bysByuAppudidSet.toList.length
+    bysFByuUserNum = bysFByuAppudidSet.toList.length
 
-      bysByuChapterNum = bysByuChapterDict.toList.length
-      bysFByuChapterNum = bysFByuChapterDict.toList.length
+    bysByuChapterNum = bysByuChapterDict.toList.length
+    bysFByuChapterNum = bysFByuChapterDict.toList.length
 
-      // 非包月书统计
-      userNum = appudidSet.toList.length
-      chapterNum = chapterSet.toList.length
+    // 非包月书统计
+    userNum = appudidSet.toList.length
+    chapterNum = chapterSet.toList.length
 
-      gidFlag + "\t" + iteminfoStr + "\t" + userNum.toString + "\t" + chapterNum.toString + "\t" +
-        bysByuUserNum.toString + "\t" + bysByuChapterNum.toString + "\t" +
-        bysFByuUserNum.toString + "\t" + bysFByuChapterNum.toString
-    })
-
-    resultRDD.filter(_ != "").repartition(1).saveAsTextFile(savePath)
+    gidFlag + "\t" + iteminfoStr + "\t" + userNum.toString + "\t" + chapterNum.toString + "\t" +
+      bysByuUserNum.toString + "\t" + bysByuChapterNum.toString + "\t" +
+      bysFByuUserNum.toString + "\t" + bysFByuChapterNum.toString
   }
 
   def strToInt(str: String): Int = {

@@ -11,59 +11,44 @@ year=`date -d "-1 day" +%Y`
 itemInfoPath=`hadoop fs -ls "hdfs://10.26.26.145:8020/rs/iteminfo/${year}-*/item_*" | tail -n 1 | awk -F' ' '{print $8}'`
 sparkRun="spark-submit --total-executor-cores=30 --executor-memory=20g "
 biReadLog="hdfs://10.26.29.210:8020/user/hive/warehouse/event_info.db/b_read_chapter/ds=${today}/*"
-itemChapterPurchase="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/item_purchase_test/${today}/"
-itemChapterRead="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/item_read_test/${today}/"
+itemChapterPurchase="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/item_purchase/${today}/"
+itemChapterRead="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/item_read/${today}/"
 localBuyPath="data/item_buy.txt"
 localReadPath="data/item_read.txt"
-buyResultPath="data/buy_result.txt"
+easouBuyResultPath="data/buy_easou_result.txt"
+weijuanBuyResultPath="data/buy_weijuan_result.txt"
 easouReadResultPath="data/read_easou_result.txt"
 weijuanReadResultPath="data/read_weijuan_result.txt"
 
 ###################     开始执行      ###########################
 for((i=0;i<20;++i))
 do
-    # 解析日志 购买
-    #hdfs_exist "${itemChapterPurchase}"
-    #if [ $? -ne 0 ]
-    #then
-    #    cd ${workDir}/bin/ && rm -fr libs.zip && zip libs.zip ./*
-    #    ${sparkRun} item_buy.py ${itemInfoPath} ${biReadLog} ${itemChapterPurchase}
-    #    sleep 3
-    #    continue
-    #fi
-
     # 解析日志 阅读
     hdfs_exist "${itemChapterRead}"
     if [ $? -ne 0 ]
     then
         cd ${workDir}
-        ${sparkRun} --class ItemRead ./jar/*.jar ${itemInfoPath} ${biReadLog} ${itemChapterRead}
+        ${sparkRun} --class ItemRead ./jar/*.jar "${itemInfoPath}" "${biReadLog}" "${itemChapterRead}" "${itemChapterPurchase}"
         sleep 3
         continue
+    else
+        hadoop fs -rmr "${itemChapterPurchase}"
+        hadoop fs -rmr "${itemChapterRead}"
     fi
-
     break
 done
 
 # 统计邮件
 cd ${workDir}
 rm -fr data && mkdir data
-#hadoop fs -cat "${itemChapterPurchase}/*" > ${localBuyPath}
+hadoop fs -cat "${itemChapterPurchase}/*" > ${localBuyPath}
 hadoop fs -cat "${itemChapterRead}/*" > ${localReadPath}
 
-#python send_email/generate_buy_email.py "${localBuyPath}" "${buyResultPath}"
+python send_email/generate_buy_email.py "${localBuyPath}" "${easouBuyResultPath}" "easou"
+python send_email/generate_buy_email.py "${localBuyPath}" "${weijuanBuyResultPath}" "weijuan"
+
 python send_email/generate_read_email.py "${localReadPath}" "${easouReadResultPath}" "easou"
 python send_email/generate_read_email.py "${localReadPath}" "${weijuanReadResultPath}" "weijuan"
-
-#if true
-#then
-#file_empty "${buyResultPath}"
-#if [ $? -eq 0 ]
-#then
-#    summary='<br><li>本邮件统计的购买实际是指对付费章节的阅读(基于阅读事件而不是购买事件统计)</li><li>不是从书架进入的购买用户不做统计</li><li>书籍量: 付费章节被阅读的书籍总数</li><li>付费章节阅读人数: 每本书籍的付费章节阅读人数之和</li><li>付费章节阅读量数: 每本书的付费章节阅读量之和</li>'
-#    sh send_email/auto_email.sh "天付费章节阅读量统计" "${today}" "${buyResultPath}" "${summary}"
-#fi
-#fi
 
 if true
 then
@@ -80,6 +65,8 @@ then
     '
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouReadResultPath}" "${summary}"
     sh send_email/auto_email.sh "微卷(20001)天阅读量统计" "${today}" "${weijuanReadResultPath}" "${summary}"
+    sh send_email/auto_email.sh "宜搜小说(10001)天付费章节阅读量统计" "${today}" "${easouBuyResultPath}" "${summary}"
+    sh send_email/auto_email.sh "微卷(20001)天付费章节阅读量统计" "${today}" "${weijuanBuyResultPath}" "${summary}"
 fi
 fi
 exit 0
