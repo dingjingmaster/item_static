@@ -30,6 +30,7 @@ if __name__ == '__main__':
     chargeListCIG = []              # 按章付费
     chargeListFCG = []              # 免费阅读
     chargeListIIG = []              # 互联网书
+    chargeListTFG = []              # 限免书阅读情况
 
     cpListG = []                    # 各个cp排行榜
 
@@ -52,15 +53,15 @@ if __name__ == '__main__':
     mask_level_list(logListG, ifmaskListG, app)
     mask_fee_flag(logListG, maskFeeListG, app)
     unmask_fee_flag(logListG, unmaskFeeListG, app)
-    tf_num(logListG, tfListG, app)                                              # 限免
+
+    tf_num(logListG, chargeListTFG, app)                                        # 限免
     charge_ci_num(logListG, chargeListCIG, app)                                 # 按章计费情况
     charge_ii_num(logListG, chargeListIIG, app)                                 # 互联网书情况
     charge_fc_num(logListG, chargeListFCG, app)                                 # 免费CP情况
     month_num(logListG, bysbyuListG, bysfbyuListG, monthListG, app)             # 包月
 
 
-    tfListG, byListG, fcListG, iiListG, ciListG, pubTopG = \
-        top_list(logListG, tfListG, byListG, fcListG, iiListG, ciListG, pubTopG, app)
+    tfListG, byListG, fcListG, iiListG, ciListG, pubTopG = top_list(logListG, app)
     cpListG = cp_top(logListG, cpListG, app)
 
     ### 宜搜
@@ -73,6 +74,7 @@ if __name__ == '__main__':
     outBufG += print_list(chargeListFCG,     "非屏蔽&免费CP阅读情况",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
     outBufG += print_list(bysbyuListG,     "非屏蔽&包月用户看包月书",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
     outBufG += print_list(bysfbyuListG,  "非屏蔽&非包月用户看包月书",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    outBufG += print_list(chargeListTFG,     "非屏蔽&限免书阅读情况",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
     outBufG += print_list(chargeListIIG,       "非屏蔽&互联网书情况",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
     outBufG += '<br/>'
 

@@ -224,7 +224,6 @@ def mask_fee_flag(logList, maskFeeList, app):
                               , maskBookChapterMonth, float(maskBookChapterMonth) / allBookChapter * 100))
     maskFeeList.append(("包月书（包月用户读）", maskBookMonthus, float(maskBookMonthus) / allBook * 100 \
                               , maskBookUserMonthus, float(maskBookUserMonthus) / allBookUser * 100 \
-                              , maskBookChapterMonthus, float(maskBookChapterMonthus) / allBookChapter * 100))
     maskFeeList.append(("免费CP", maskBookFreeCharge, float(maskBookFreeCharge) / allBook * 100 \
                               , maskBookFreeUserCharge, float(maskBookFreeUserCharge) / allBookUser * 100 \
                               , maskBookFreeChapterCharge, float(maskBookFreeChapterCharge) / allBookChapter * 100))
@@ -924,7 +923,13 @@ def cp_top(loglist, cplist, app):
     return cplist
 
 
-def top_list(logListG, tfListG, byListG, fcListG, iiListG, ciListG, pubListG, app):
+def top_list(logListG, app):
+    tfList = []
+    byList = []
+    fcList = []
+    iiList = []
+    ciList = []
+    pubList = []
     for i in logListG:
         gid, name, author, ncp, maskLevel, feeFlag, by, tf, fc, ii, ci \
             , userNum, chapterNum \
@@ -938,31 +943,31 @@ def top_list(logListG, tfListG, byListG, fcListG, iiListG, ciListG, pubListG, ap
         userChargeTemp = int(chapterNum) + int(bysByuChapterNum) + int(bysFbyuChapterNum)
 
         if tf != u'1':                                                                      # 限免
-            tfListG.append((gid, name, author, usernumTemp, userChargeTemp))
+            tfList.append((gid, name, author, usernumTemp, userChargeTemp))
         if by != u'1':                                                                      # 包月
-            byListG.append((gid, name, author, usernumTemp, userChargeTemp))
+            byList.append((gid, name, author, usernumTemp, userChargeTemp))
         if fc == u'1':                                                                      # 免费
-            fcListG.append((gid, name, author, usernumTemp, userChargeTemp))
+            fcList.append((gid, name, author, usernumTemp, userChargeTemp))
         if ii == u'1':                                                                      # 互联网
-            iiListG.append((gid, name, author, usernumTemp, userChargeTemp))
+            iiList.append((gid, name, author, usernumTemp, userChargeTemp))
         if ci == u'1':                                                                      # 按章计费
-            ciListG.append((gid, name, author, usernumTemp, userChargeTemp))
-        if pubListG == u'1':                                                                # 公版书
-            pubListG.append((gid, name, author, usernumTemp, userChargeTemp))
+            ciList.append((gid, name, author, usernumTemp, userChargeTemp))
+        if pubList == u'1':                                                                # 公版书
+            pubList.append((gid, name, author, usernumTemp, userChargeTemp))
 
-    tfListG.sort(key = lambda x: x[3], reverse = True)
-    byListG.sort(key = lambda x: x[3], reverse = True)
-    fcListG.sort(key = lambda x: x[3], reverse = True)
-    iiListG.sort(key = lambda x: x[3], reverse = True)
-    ciListG.sort(key = lambda x: x[3], reverse = True)
-    pubListG.sort(key = lambda x: x[3], reverse = True)
-    tfListG = tfListG[:10]
-    byListG = byListG[:10]
-    fcListG = fcListG[:10]
-    iiListG = iiListG[:10]
-    ciListG = ciListG[:10]
-    pubListG = pubListG[:10]
-    return tfListG, byListG, fcListG, iiListG, ciListG, pubListG
+    tfList.sort(key = lambda x: x[3], reverse = True)
+    byList.sort(key = lambda x: x[3], reverse = True)
+    fcList.sort(key = lambda x: x[3], reverse = True)
+    iiList.sort(key = lambda x: x[3], reverse = True)
+    ciList.sort(key = lambda x: x[3], reverse = True)
+    pubList.sort(key = lambda x: x[3], reverse = True)
+    tfList = tfList[:10]
+    byList = byList[:10]
+    fcList = fcList[:10]
+    iiList = iiList[:10]
+    ciList = ciList[:10]
+    pubList = pubList[:10]
+    return tfList, byList, fcList, iiList, ciList, pubList
 
 def print_cp_top(mlist, title, titleTup):
     outBuf = ""
