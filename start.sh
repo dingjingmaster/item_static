@@ -71,12 +71,13 @@ file_empty "${easouReadResultPath}"
 if [ $? -eq 0 ]
 then
     summary='<br>
-    <li>关于屏蔽与否：app中所有数据流都屏蔽的书籍才作为“屏蔽书籍”，否则算作“非屏蔽书籍”</li>
-    <li>关于占比：假如一本书，同时属于两个统计维度，那么在这两个统计维度中我都会统计这本书</li>
     <li>不是从书架进入的阅读用户不做统计</li>
     <li>书籍量: 天阅读的书籍总数</li>
     <li>阅读量: 每本书籍的天阅读人数之和</li>
-    <li>阅读章节数: 每本书的天阅读章节数之和</li>'
+    <li>阅读章节数: 每本书籍、每人的天阅读章节数之和</li>
+    <li>关于屏蔽与否：app中所有数据流都屏蔽的书籍才作为“屏蔽书籍”，否则算作“非屏蔽书籍”</li>
+    <li>关于占比：假如一本书，同时属于两个统计维度，那么在这两个统计维度中我都会统计这本书</li>
+    '
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouReadResultPath}" "${summary}"
     sh send_email/auto_email.sh "微卷(20001)天阅读量统计" "${today}" "${weijuanReadResultPath}" "${summary}"
 fi
