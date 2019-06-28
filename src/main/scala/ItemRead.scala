@@ -5,19 +5,14 @@ import com.easou.dingjing.library.{ItemInfo, ReadEvent}
 
 object ItemRead {
   def main(args: Array[String]): Unit = {
-    if (args.length < 4) {
-      println("请输入：物品信息、阅读事件日志、天阅读路径、天付费阅读路径")
+    if (args.length < 3) {
+      println("请输入：物品信息、阅读事件日志、天阅读路径")
       sys.exit(-1)
     }
 
     val iteminfoPath = args(0)
     val readeventPath = args(1)
     val readSavePath = args(2)
-    val buySavePath = args(3)
-
-//    val iteminfoPath = "hdfs://10.26.26.145:8020/rs/iteminfo/current/"
-//    val readeventPath = "hdfs://10.26.29.210:8020/user/hive/warehouse/event_info.db/b_read_chapter/ds=2019-06-16/00031*_0"
-//    val savePath = ""
 
     val conf = new SparkConf()
       .setAppName("item_read")
@@ -31,8 +26,7 @@ object ItemRead {
 
     // 获取物品信息并解析
     val iteminfoRDD = sc.textFile(iteminfoPath).flatMap(x => {
-      val buffer = new ArrayBuffer[Tuple2[String,
-        Tuple10[String, String, String, String, String, String, String, String, String, String]]]()
+      val buffer = new ArrayBuffer[Tuple2[String, Tuple3[String, String, String]]]()
       val it = new ItemInfo().parseLine(x)
         .getValues(List("name", "author", "mask_level", "fee_flag", "ncp", "by", "tf", "fc", "ii", "ci"))
       val gid = it.head
@@ -41,96 +35,105 @@ object ItemRead {
       val masklevel = it(3)
       val feeflag = it(4)
       val ncp = it(5)
-      val by = it(6)                                   // 包月
-      val tf = it(7)                                   // 限免
-      val fc = it(8)                                   // 免费 cp
-      val ii = it(9)                                   // 互联网
-      val ci = it(10)                                  // 按章计费
-      // 一条变两条，分别是 宜搜、微卷
-      val maskFlag = this.maskCheck(masklevel)
-      val byFlag = this.datastreamCheck(by)
-      val tfFlag = this.datastreamCheck(tf)
-      val fcFlag = this.datastreamCheck(fc)
-      val iiFlag = this.datastreamCheck(ii)
-      val ciFlag = this.datastreamCheck(ci)
       var cpstr = ""
       if (cpName.contains(ncp)) {
         cpstr = cpName(ncp)
       } else {
         cpstr = ncp
       }
-
-      buffer.append((gid + "_easou", (name, author, cpstr,
-        maskFlag._1, feeflag, byFlag._1, tfFlag._1, fcFlag._1, iiFlag._1, ciFlag._1)))
-      buffer.append((gid + "_weijuan", (name, author, cpstr,
-        maskFlag._2, feeflag, byFlag._2, tfFlag._2, fcFlag._2, iiFlag._2, ciFlag._2)))
-
+      buffer.append((gid + "_10001", (name, author, cpstr)))
+      buffer.append((gid + "_20001", (name, author, cpstr)))
       for (i <- buffer.toList)
         yield i
     })
 
     // 解析阅读日志，获取阅读日志信息
     val readeventRDD = sc.textFile(readeventPath).filter(_ != "").map(x => {
-      var gidFlag = ""
+      /* 输出维度 */
+      var gidO = ""
+      var appidO = ""
+      var userIdO = ""
+      var chapterIdO = ""
+      var chapterTypeO = ""
+
       val rd = new ReadEvent().parseLine(x)
-        .getValues(List("uid", "appudid", "sort", "usertype", "booktype", "gid", "entrance", "appid"))
+        .getValues(List("uid", "appudid", "sort", "usertype", "booktype", "gid", "appid", "ischapterincharged"))
       val uid = rd(0)
       val appudid = rd(1)
       val sort = rd(2)
-      val userType = rd(3)
-      val bookType = rd(4)
+      val userType = rd(3)      /* 包月 */
+      val bookType = rd(4)      /* 包月 */
       val gid = rd(5)
-      val entrance = rd(6)
-      val appid = rd(7)
+      val appid = rd(6)
+      val isChapterCharge = rd(7)
 
-      val appFlag = this.getAppflagByAppid(appid)
+      if("" != uid && "-1" != uid && "0" != uid) {
+        userIdO = uid
+      } else {
+        userIdO = appudid
+      }
       if (gid != "") {
-        gidFlag = "i_" + gid + "_" + appFlag
+        gidO = gid
       }
-      if ("书架" != entrance) {
-        gidFlag = ""
+      if ("" != appid) {
+        appidO = appid
+      } else {
+        appidO = "10001"
       }
-      (gidFlag, List((appudid, strToInt(sort).toString, userType, bookType)))
-    }).filter(x => x._1 != "").reduceByKey(_:::_)
-
-    // 付费书籍阅读事件
-    val readeventChargeRDD = sc.textFile(readeventPath).filter(_!="").map(x => {
-      var gidFlag = ""
-      val rd = new ReadEvent().parseLine(x)
-        .getValues(List("uid", "appudid", "sort", "usertype", "booktype", "gid", "entrance", "appid", "ischapterincharged"))
-      val uid = rd(0)
-      val appudid = rd(1)
-      val sort = rd(2)
-      val userType = rd(3)
-      val bookType = rd(4)
-      val gid = rd(5)
-      val entrance = rd(6)
-      val appid = rd(7)
-      val isChapterCharge = rd(8)
-
-      val appFlag = this.getAppflagByAppid(appid)
-      if (gid != "") {
-        gidFlag = "i_" + gid + "_" + appFlag
+      chapterIdO = sort
+      if ("" != isChapterCharge) {
+        chapterTypeO = isChapterCharge
+      } else {
+        chapterTypeO = "免费"
       }
-      if (("书架" != entrance) || ("付费" != isChapterCharge)) {
-        gidFlag = ""
+      if ("包月" == userType && "包月" == bookType) {
+        chapterTypeO = "包月"
       }
-      (gidFlag, List((appudid, strToInt(sort).toString, userType, bookType)))
-    }).filter(x => x._1 != "").reduceByKey(_:::_)
+      if ("免费互联网书" == bookType) {
+        chapterTypeO = "互联网"
+      }
+      (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO)
+    }).filter(x => x._1 != "" && x._2 != "" && x._3 != "")                /* (gid, appid, 用户id, 章节序号, 章节类型) */
 
-    /**
-     * 合并物品信息 + 日志
-     * 物品：(gid + "_easou", (name, author, cp, maskFlag, fee_flag, by, tf, fc, ii, ci)
-     * 阅读：(gid + "_easou", (appudid, sort, userType, bookType))
-     */
-    val readReadinfoRDD = readeventRDD.join(iteminfoRDD)
-    val readResultRDD = readReadinfoRDD.map(outToHDFS)
+    /* 总 书籍量 */
+    val easouItemAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._1).distinct().count()
+    val weijuanItemAllNum = readeventRDD.filter(x => x._2 == "10002").map(x => x._1).distinct().count()
 
-    val buyReadinfoRDD = readeventChargeRDD.join(iteminfoRDD)
-    val buyResultRDD = buyReadinfoRDD.map(outToHDFS)
+    /* 总 阅读量 */
+    val easouUserAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._3).distinct().count()
+    val weijuanUserAllNum = readeventRDD.filter(x => x._2 == "10002").map(x => x._3).distinct().count()
 
-    readResultRDD.filter(_ != "").repartition(1).saveAsTextFile(readSavePath)
-    buyResultRDD.filter(_ != "").repartition(1).saveAsTextFile(buySavePath)
+    /* 总 阅读章节数 */
+    val easouChapterAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._4).distinct().count()
+    val weijuanChapterAllNum = readeventRDD.filter(x => x._2 == "10002").map(x => x._4).distinct().count()
+
+    /************************************************/
+    /* 各类型书籍量 */
+    val easouItemAll = readeventRDD.filter(x => x._2 == "10001").map(x => (x._5, List(x._1))).reduceByKey(_:::_).map(x => "easou_item\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
+    val weijuanItemAll = readeventRDD.filter(x => x._2 == "10002").map(x => (x._5, List(x._1))).reduceByKey(_:::_).map(x => "weijuan_item\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
+
+    /* 各类型用户量 */
+    val easouUserAll = readeventRDD.filter(x => x._2 == "10001").map(x => (x._5, List(x._3))).reduceByKey(_:::_).map(x => "easou_user\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
+    val weijuanUserAll = readeventRDD.filter(x => x._2 == "10002").map(x => (x._5, List(x._3))).reduceByKey(_:::_).map(x => "weijuan_user\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
+
+    /* 各类型章节量 */
+    val easouChapterAll = readeventRDD.filter(x => x._2 == "10001").map(x => (x._5, List(x._1 + x._4))).reduceByKey(_:::_).map(x => "easou_chapter\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
+    val weijuanChapterAll = readeventRDD.filter(x => x._2 == "10002").map(x => (x._5, List(x._1 + x._4))).reduceByKey(_:::_).map(x => "weijuan_chapter\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
+
+    /* 总的字段 */
+    sc.parallelize(List[String](
+      "easou_item" + "\t" + easouItemAllNum.toString + "\t"
+        + "easou_user" + "\t" + easouUserAllNum.toString + "\t"
+        + "easou_chapter" + "\t" + easouChapterAllNum.toString,
+      "weijuan_item" + "\t" + weijuanItemAllNum.toString + "\t"
+        + "weijuan_user" + "\t" + weijuanUserAllNum.toString + "\t"
+        + "weijuan_chapter" + "\t" + weijuanChapterAllNum.toString,
+      "\n",
+      easouItemAll, weijuanItemAll,
+      easouUserAll, weijuanUserAll,
+      easouChapterAll, weijuanChapterAll
+    )).repartition(1).saveAsTextFile(readSavePath + "/summary")
+
   }
 
   def outToHDFS(x: Tuple2[String, Tuple2[List[Tuple4[String,String,String,String]],
@@ -217,39 +220,7 @@ object ItemRead {
     }
     a
   }
-  // 根据 appid 获取标记
-  def getAppflagByAppid(appid: String): String = {
-    var flag = ""
 
-    if(appidName.contains(appid)) {
-      flag = appidName(appid)
-    }
-    flag
-  }
-
-  // 判断 宜搜是否屏蔽？ 判断微卷是否屏蔽？
-  def maskCheck(str: String): Tuple2[String, String] = {
-    val arr = str.split(",")
-    var easou = "1"
-    var weijuan = "1"
-
-    if (arr.length >= 2) {
-      val estr = arr(0)
-      val wstr = arr(1)
-      for (i <- estr.toList) {
-        if (i.toString == "0") {
-          easou = "0"
-        }
-      }
-      for (j <- wstr.toList) {
-        if (j.toString == "0") {
-          weijuan = "0"
-        }
-      }
-    }
-
-    (easou, weijuan)
-  }
   def datastreamCheck(str: String): Tuple2[String, String] = {
     val arr = str.split(",")
     var easou = "0"
