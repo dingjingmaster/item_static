@@ -30,7 +30,7 @@ do
         hadoop fs -rmr "${itemChapterReadPath}"
         ${sparkRun} --class ItemRead ./jar/*.jar "${itemInfoPath}" "${biReadLog}" "${itemChapterReadPath}"
         sleep 3
-        continue
+#        continue
     fi
 #    # 解析日志 阅读
 #    hdfs_exist "${itemChapterPurchase}"
