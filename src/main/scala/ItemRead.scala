@@ -150,8 +150,8 @@ object ItemRead {
       } else {
         cpstr = ncp
       }
-      buffer.append((gid + "_10001", (name, author, cpstr)))
-      buffer.append((gid + "_20001", (name, author, cpstr)))
+      buffer.append((gid + "{]10001", (name, author, cpstr)))
+      buffer.append((gid + "{]20001", (name, author, cpstr)))
       for (i <- buffer.toList)
         yield i
     })
@@ -192,15 +192,20 @@ object ItemRead {
         appidO = "10001"
       }
       chapterIdO = sort
-      if ("" != isChapterCharge && "yes" == isChapterCharge.toLowerCase) {
+      if ("" != isChapterCharge) {
         chapterTypeO = isChapterCharge
       } else {
+        chapterTypeO = "免费"
+      }
+      if ("yes" == chapterTypeO.toLowerCase) {
+        chapterTypeO = "付费"
+      } else if ("no" == chapterTypeO.toLowerCase) {
         chapterTypeO = "免费"
       }
       if ("包月" == userType && "包月" == bookType) {
         chapterTypeO = "包月"
       }
-      if ("免费互联网书" == bookType || "no" == chapterTypeO.toLowerCase) {
+      if ("免费互联网书" == bookType) {
         chapterTypeO = "互联网"
       }
       (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO)
@@ -247,7 +252,7 @@ object ItemRead {
     /* 基础数据准备 */
     /* gid_appid, name, author, cp, 付费X3, 限免X3, 免费X3, 包月X3, 互联网X3 */
     // (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO)
-    val allDataRDDt = readeventRDD.map(x => (x._1 + "_" + x._2, (x._3, x._4, x._5))).join(iteminfoRDD)
+    val allDataRDDt = readeventRDD.map(x => (x._1 + "{]" + x._2, (x._3, x._4, x._5))).join(iteminfoRDD)
     val allDataRDD = allDataRDDt.map(x => {
       val gid = x._1
       val read = x._2._1
@@ -261,14 +266,11 @@ object ItemRead {
       val chapterType = read._3
 
       (gid, name, author, cp, userId, chapterId, chapterType)
-    }).persist(StorageLevel.MEMORY_AND_DISK)
-
-    // 基础数据
-    allDataRDD.map(x => (x._1 + "_" + x._2 + "_" + x._3 + "_" + x._4 + "_" + x._7, List((x._5, x._6))))
+    }).map(x => (x._1 + "{]" + x._2 + "{]" + x._3 + "{]" + x._4 + "{]" + x._7, List((x._5, x._6))))
       .reduceByKey(_ ::: _).map(x => {
       val filter = new collection.mutable.ArrayBuffer[String]()
       for (i <- x._2) {
-        filter.append(x._1 + "|" + i._2)
+        filter.append(i._1 + "|" + i._2)
       }
       x._1 + "\t" + filter.toSet.toList.mkString("{]")
     }).filter(_ != "").repartition(1).saveAsTextFile(readSavePath + "/base_info/")
