@@ -44,7 +44,7 @@ done
 # 统计邮件
 cd ${workDir}
 rm -fr data && mkdir data
-hadoop fs -cat "${itemChapterReadPath}/*" > ${localReadPath}
+hadoop fs -cat "${itemChapterReadPath}/base_info/*" > ${localReadPath}
 python send_email/generate_read_email.py "${localReadPath}" "${easouResultPath}" "10001"
 
 if true
