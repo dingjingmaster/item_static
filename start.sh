@@ -19,7 +19,7 @@ easouResultPath="data/easou.txt"
 for((i=0;i<20;++i))
 do
     # 解析日志 阅读
-    hdfs_exist "${itemChapterReadPath}"
+    hdfs_exist "${itemChapterReadPath}/summary/"
     if [ $? -ne 0 ]
     then
         cd ${workDir}
