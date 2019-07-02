@@ -56,27 +56,27 @@ if __name__ == '__main__':
 
     # 输出排行榜
     out_str += print_book_top(top_list_sort(charge_top_g),
-                              "付费排行榜",  ("gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+                              "付费排行榜",  ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
     del charge_top_g
     del charge_list_g
 
     out_str += print_book_top(top_list_sort(free_top_g),
-                              "免费排行榜",  ("gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+                              "免费排行榜",  ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
     del free_top_g
     del free_list_g
 
     out_str += print_book_top(top_list_sort(limit_free_top_g),
-                              "限免排行榜",  ("gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+                              "限免排行榜",  ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
     del limit_free_top_g
     del limit_free_list_g
 
     out_str += print_book_top(top_list_sort(baoyue_top_g),
-                              "包月排行榜",  ("gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+                              "包月排行榜",  ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
     del baoyue_top_g
     del baoyue_list_g
 
     out_str += print_book_top(top_list_sort(hulianwang_top_g),
-                              "互联网排行榜", ("gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+                              "互联网排行榜", ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
     del hulianwang_top_g
     del hulianwang_list_g
     out_str += "<br/>"
