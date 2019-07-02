@@ -63,5 +63,5 @@ then
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouResultPath}" "${summary}"
     #sh send_email/auto_email.sh "微卷(20001)天付费章节阅读量统计" "${today}" "${weijuanBuyResultPath}" "${summary}"
 fi
-#fi
+fi
 exit 0
