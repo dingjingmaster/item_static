@@ -523,6 +523,7 @@ def cp_top(log_list):
                 book[gid] = True
                 user[arr1[0]] = True
                 chapter[k] = True
+                cp_dict[cp] = (book, user, chapter)
             else:
                 book, user, chapter = {gid: True}, {arr1[0]: True}, {k: True}
                 cp_dict[cp] = (book, user, chapter)
@@ -540,17 +541,17 @@ def cp_top(log_list):
     for i in cp_list:
         index += 1
         if index < 10:
-            out_list.append((i[0], i[1], float(i[1]) / all_book,
-                             i[2], float(i[2]) / all_user,
-                             i[3], float(i[3]) / all_chapter))
+            out_list.append((i[0], i[1], float(i[1]) / all_book * 100,
+                             i[2], float(i[2]) / all_user * 100,
+                             i[3], float(i[3]) / all_chapter * 100))
         else:
             oth_book += i[1]
             oth_user += i[2]
             oth_chap += i[3]
-    out_list.append(('其它cp', oth_book, float(oth_book) / all_book,
-                     oth_user, float(oth_user) / all_user,
-                     oth_chap, float(oth_chap) / all_chapter))
-    return cp_list
+    out_list.append(('其它cp', oth_book, float(oth_book) / all_book * 100,
+                     oth_user, float(oth_user) / all_user * 100,
+                     oth_chap, float(oth_chap) / all_chapter * 100))
+    return out_list
 
 
 def print_cp_top(mlist, title, titleTup):
