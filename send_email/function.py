@@ -528,7 +528,7 @@ def cp_top(log_list):
                 cp_dict[cp] = (book, user, chapter)
     for cp, iv in cp_dict.items():
         b = len(iv[0])
-        u = len(iv[0])
+        u = len(iv[1])
         c = len(iv[2])
         all_book += b
         all_user += u
@@ -536,16 +536,17 @@ def cp_top(log_list):
         cp_list.append((cp, b, u, c))
     # 按阅读人数排序
     cp_list.sort(key=lambda x: int(x[2]), reverse=True)
-    index = 1
+    index = 0
     for i in cp_list:
+        index += 1
         if index < 10:
             out_list.append((i[0], i[1], float(i[1]) / all_book,
                              i[2], float(i[2]) / all_user,
                              i[3], float(i[3]) / all_chapter))
-            index += 1
-        oth_book += i[1]
-        oth_user += i[2]
-        oth_chap += i[3]
+        else:
+            oth_book += i[1]
+            oth_user += i[2]
+            oth_chap += i[3]
     out_list.append(('其它cp', oth_book, float(oth_book) / all_book,
                      oth_user, float(oth_user) / all_user,
                      oth_chap, float(oth_chap) / all_chapter))
