@@ -7,7 +7,7 @@ import scala.collection.mutable.ArrayBuffer
 object ItemRead {
   // ncp id 和 名字对应
   val cpName = scala.collection.immutable.Map[String, String](
-    "0" -> "免费书",
+    "0" -> "互联网书",
     "1" -> "盛大",
     "6" -> "纵横",
     "8" -> "掌阅",
