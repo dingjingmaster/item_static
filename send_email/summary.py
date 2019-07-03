@@ -10,7 +10,7 @@ sys.setdefaultencoding("utf8")
 def check_dict(mdict, key):
     if not mdict.has_key(key):
         return '0'
-    return mdict[key]
+    return mdict[key].strip()
 
 
 if __name__ == '__main__':
@@ -34,12 +34,12 @@ if __name__ == '__main__':
 
     with open(summary_path, 'r') as fr:
         for line in fr.readlines():
-            line = line.strip('\n')
+            line = line.strip()
             arr = line.split('\t')
             if len(arr) == 6:
-                dict1[arr[0]] = arr[1]
-                dict1[arr[2]] = arr[3]
-                dict1[arr[4]] = arr[5]
+                dict1[arr[0]] = arr[1].strip()
+                dict1[arr[2]] = arr[3].strip()
+                dict1[arr[4]] = arr[5].strip()
             elif len(arr) == 3:
                 arr1 = arr[0].split('_')
                 if arr[0] == 'easou_item':
