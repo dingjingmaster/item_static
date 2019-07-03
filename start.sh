@@ -14,7 +14,7 @@ biReadLog="hdfs://10.26.29.210:8020/user/hive/warehouse/event_info.db/b_read_cha
 itemChapterReadPath="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/${today}/"
 localSummaryPath="data/read_summary.txt"
 localReadPath="data/read_info.txt"
-summaryResuldPath="data/summary.txt"
+summaryResultPath="data/summary.txt"
 easouResultPath="data/easou.txt"
 weijuanResultPath="data/weijuan.txt"
 
@@ -60,7 +60,7 @@ then
     summary='<br>
     <li>说明</li>
     <hr/>'
-    summary=${summary}$(cat ${localSummary})
+    summary=${summary}$(cat ${summaryResultPath})
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouResultPath}" "${summary}"
     sh send_email/auto_email.sh "微卷(20001)天阅读量统计" "${today}" "${weijuanResultPath}" "${summary}"
 fi
