@@ -50,7 +50,7 @@ hadoop fs -cat "${itemChapterReadPath}/summary/*" > ${localSummaryPath}
 hadoop fs -cat "${itemChapterReadPath}/base_info/*" > ${localReadPath}
 python send_email/summary.py "${localSummaryPath}" "${summaryResultPath}"
 python send_email/generate_read_email.py "${localReadPath}" "${easouResultPath}" "10001"
-python send_email/generate_read_email.py "${localReadPath}" "${easouResultPath}" "20001"
+python send_email/generate_read_email.py "${localReadPath}" "${weijuanResultPath}" "20001"
 
 if true
 then
@@ -60,7 +60,7 @@ then
     summary='<br>
     <li>说明</li>
     '
-    summary=${summary}`cate ${localSummary}`
+    summary=${summary}$(cat ${localSummary})
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouResultPath}" "${summary}"
     sh send_email/auto_email.sh "微卷(20001)天阅读量统计" "${today}" "${weijuanResultPath}" "${summary}"
 fi
