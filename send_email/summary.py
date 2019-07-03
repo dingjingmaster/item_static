@@ -18,7 +18,7 @@ if __name__ == '__main__':
         exit(-1)
     summary_path = sys.argv[1]
     easou_result_path = sys.argv[2]
-    weijuan_result_path = sys.argv[2]
+    weijuan_result_path = sys.argv[3]
 
     dict1 = {}
 
