@@ -13,7 +13,7 @@ summary_dict = {
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3:
         exit(-1)
     summary_path = sys.argv[1]
     summary_result_path = sys.argv[2]
