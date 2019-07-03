@@ -220,8 +220,8 @@ object ItemRead {
     val weijuanUserAllNum = readeventRDD.filter(x => x._2 == "20001").map(x => x._3).distinct().count()
 
     /* 总 阅读章节数 */
-    val easouChapterAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._4).distinct().count()
-    val weijuanChapterAllNum = readeventRDD.filter(x => x._2 == "20001").map(x => x._4).distinct().count()
+    val easouChapterAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._3 + "|" + x._4).distinct().count()
+    val weijuanChapterAllNum = readeventRDD.filter(x => x._2 == "20001").map(x => x._3 + "|" + x._4).distinct().count()
 
     /** **********************************************/
     /* 各类型书籍量 */
