@@ -48,11 +48,11 @@ if __name__ == '__main__':
                     dict2_es_user[arr[1]] = arr[2]
                 elif arr[0] == 'easou_chapter':
                     dict2_es_chapter[arr[1]] = arr[2]
-                elif arr1[0] == 'weijuan_item':
+                elif arr[0] == 'weijuan_item':
                     dict2_wj_item[arr[1]] = arr[2]
-                elif arr1[0] == 'weijuan_user':
+                elif arr[0] == 'weijuan_user':
                     dict2_wj_user[arr[1]] = arr[2]
-                elif arr1[0] == 'weijuan_chapter':
+                elif arr[0] == 'weijuan_chapter':
                     dict2_wj_chapter[arr[1]] = arr[2]
 
     out_str += '' \
@@ -76,7 +76,7 @@ if __name__ == '__main__':
             + '<td align="left">' + dict1['weijuan_user'] + '</td>' \
             + '<td align="left">' + dict1['weijuan_chapter'] + '</td>' \
             + '</tr>'
-    out_str += '</table><br/>'
+    out_str += '</table>'
 
     out_str += '' \
             + '<h4>宜搜小说(10001)阅读情况</h4>' \
@@ -116,7 +116,7 @@ if __name__ == '__main__':
             + '<td align="left">' + check_dict(dict2_es_item, '互联网') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_user, '互联网') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_chapter, '互联网') + '</td>' \
-            + '</tr></table><br/>'
+            + '</tr></table>'
 
     out_str += '' \
             + '<h4>微卷(20001)阅读情况</h4>' \
