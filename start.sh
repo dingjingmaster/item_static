@@ -59,7 +59,7 @@ if [ $? -eq 0 ]
 then
     summary='<br>
     <li>说明</li>
-    '
+    <hr/>'
     summary=${summary}$(cat ${localSummary})
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouResultPath}" "${summary}"
     sh send_email/auto_email.sh "微卷(20001)天阅读量统计" "${today}" "${weijuanResultPath}" "${summary}"
