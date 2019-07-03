@@ -58,7 +58,12 @@ file_empty "${easouResultPath}"
 if [ $? -eq 0 ]
 then
     summary='<br>
-    <li>说明</li>
+    <h3>说明</h3>
+    <ul>
+    <ol>本邮件统计源数据来源于BI日志(${today})</ol>
+    <ol>各统计维度的书籍量、用户量、章节量都是在该维度内去过重的</ol>
+    <ol>关于付费、免费、限免、包月、互联网维度的统计粒度为章节</ol>
+    </ul>
     <hr/>'
     summary=${summary}$(cat ${summaryResultPath})
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouResultPath}" "${summary}"
