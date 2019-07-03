@@ -12,8 +12,11 @@ itemInfoPath=`hadoop fs -ls "hdfs://10.26.26.145:8020/rs/iteminfo/${year}-*/item
 sparkRun="spark-submit --total-executor-cores=30 --executor-memory=20g "
 biReadLog="hdfs://10.26.29.210:8020/user/hive/warehouse/event_info.db/b_read_chapter/ds=${today}/*"
 itemChapterReadPath="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/${today}/"
-localReadPath="data/item_info.txt"
+localSummaryPath="data/read_summary.txt"
+localReadPath="data/read_info.txt"
+summaryResuldPath="data/summary.txt"
 easouResultPath="data/easou.txt"
+weijuanResultPath="data/weijuan.txt"
 
 ###################     开始执行      ###########################
 for((i=0;i<20;++i))
@@ -26,26 +29,28 @@ do
         hadoop fs -rmr "${itemChapterReadPath}"
         ${sparkRun} --class ItemRead ./jar/*.jar "${itemInfoPath}" "${biReadLog}" "${itemChapterReadPath}"
         sleep 3
-#        continue
+        continue
     fi
-#    # 解析日志 阅读
-#    hdfs_exist "${itemChapterPurchase}"
-#    if [ $? -ne 0 ]
-#    then
-#        cd ${workDir}
-#        hadoop fs -rmr "${itemChapterPurchase}"
-#        hadoop fs -rmr "${itemChapterRead}"
-#        sleep 3
-#        continue
-#    fi
+    # 解析日志 阅读
+    hdfs_exist "${itemChapterReadPath}/base_info/"
+    if [ $? -ne 0 ]
+    then
+        cd ${workDir}
+        hadoop fs -rmr "${itemChapterReadPath}"
+        sleep 3
+        continue
+    fi
     break
 done
 
 # 统计邮件
 cd ${workDir}
 rm -fr data && mkdir data
+hadoop fs -cat "${itemChapterReadPath}/summary/*" > ${localSummaryPath}
 hadoop fs -cat "${itemChapterReadPath}/base_info/*" > ${localReadPath}
+python send_email/summary.py "${localSummaryPath}" "${summaryResultPath}"
 python send_email/generate_read_email.py "${localReadPath}" "${easouResultPath}" "10001"
+python send_email/generate_read_email.py "${localReadPath}" "${easouResultPath}" "20001"
 
 if true
 then
@@ -53,15 +58,11 @@ file_empty "${easouResultPath}"
 if [ $? -eq 0 ]
 then
     summary='<br>
-    <li>不是从书架进入的阅读用户不做统计</li>
-    <li>书籍量: 天阅读的书籍总数</li>
-    <li>阅读量: 每本书籍的天阅读人数之和</li>
-    <li>阅读章节数: 每本书籍、每人的天阅读章节数之和</li>
-    <li>关于屏蔽与否：app中所有数据流都屏蔽的书籍才作为“屏蔽书籍”，否则算作“非屏蔽书籍”</li>
-    <li>关于占比：假如一本书，同时属于两个统计维度，那么在这两个统计维度中我都会统计这本书</li>
+    <li>说明</li>
     '
+    summary=${summary}`cate ${localSummary}`
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouResultPath}" "${summary}"
-    #sh send_email/auto_email.sh "微卷(20001)天付费章节阅读量统计" "${today}" "${weijuanBuyResultPath}" "${summary}"
+    sh send_email/auto_email.sh "微卷(20001)天阅读量统计" "${today}" "${weijuanResultPath}" "${summary}"
 fi
 fi
 exit 0
