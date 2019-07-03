@@ -63,13 +63,13 @@ if __name__ == '__main__':
             + '<th align="center">书籍量</th>' \
             + '<th align="center">用户量</th>' \
             + '<th align="center">章节量</th>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">'\
             + '<td align="left">宜搜小说</td>' \
             + '<td align="left">' + dict1['easou_item'] + '</td>'\
             + '<td align="left">' + dict1['easou_user'] + '</td>'\
             + '<td align="left">' + dict1['easou_chapter'] + '</td>'\
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">微卷</td>' \
             + '<td align="left">' + dict1['weijuan_item'] + '</td>' \
@@ -85,31 +85,31 @@ if __name__ == '__main__':
             + '<th align="center">书籍量</th>' \
             + '<th align="center">用户量</th>' \
             + '<th align="center">章节量</th>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">付费</td>' \
             + '<td align="left">' + check_dict(dict2_es_item, '付费') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_user, '付费') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_chapter, '付费') + '</td>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">限免</td>' \
             + '<td align="left">' + check_dict(dict2_es_item, '限免') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_user, '限免') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_chapter, '限免') + '</td>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">包月</td>' \
             + '<td align="left">' + check_dict(dict2_es_item, '包月') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_user, '包月') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_chapter, '包月') + '</td>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">免费</td>' \
             + '<td align="left">' + check_dict(dict2_es_item, '免费') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_user, '免费') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_chapter, '免费') + '</td>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">互联网</td>' \
             + '<td align="left">' + check_dict(dict2_es_item, '互联网') + '</td>' \
@@ -125,31 +125,31 @@ if __name__ == '__main__':
             + '<th align="center">书籍量</th>' \
             + '<th align="center">用户量</th>' \
             + '<th align="center">章节量</th>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">付费</td>' \
             + '<td align="left">' + check_dict(dict2_wj_item, '付费') + '</td>' \
             + '<td align="left">' + check_dict(dict2_wj_user, '付费') + '</td>' \
             + '<td align="left">' + check_dict(dict2_wj_chapter, '付费') + '</td>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">限免</td>' \
             + '<td align="left">' + check_dict(dict2_wj_item, '限免') + '</td>' \
             + '<td align="left">' + check_dict(dict2_wj_user, '限免') + '</td>' \
             + '<td align="left">' + check_dict(dict2_wj_chapter, '限免') + '</td>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">包月</td>' \
             + '<td align="left">' + check_dict(dict2_wj_item, '包月') + '</td>' \
             + '<td align="left">' + check_dict(dict2_wj_user, '包月') + '</td>' \
             + '<td align="left">' + check_dict(dict2_wj_chapter, '包月') + '</td>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">免费</td>' \
             + '<td align="left">' + check_dict(dict2_wj_item, '免费') + '</td>' \
             + '<td align="left">' + check_dict(dict2_wj_user, '免费') + '</td>' \
             + '<td align="left">' + check_dict(dict2_wj_chapter, '免费') + '</td>' \
-            + '</tr>'
+            + '</tr>' \
             + '<tr align="center">' \
             + '<td align="left">互联网</td>' \
             + '<td align="left">' + check_dict(dict2_wj_item, '互联网') + '</td>' \
