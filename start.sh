@@ -58,17 +58,15 @@ then
 file_empty "${easouResultPath}"
 if [ $? -eq 0 ]
 then
-    summary1='<br>
-    <h3>说明</h3>
-    <ul>
-    <li>本邮件统计源数据来源于BI日志('${today}')</li>
-    <li>各统计维度的书籍量、用户量、章节量都是在该维度内去过重的</li>
-    <li>关于付费、免费、限免、包月、互联网维度的统计粒度为章节</li>
-    </ul>
-    <hr/>'
-    summary=${summary1}$(cat ${easouSummaryResultPath})
+    summary1="<h3>说明</h3>
+        <ul>
+            <li>本邮件统计源数据来源于BI日志(${today})</li>
+            <li>各统计维度的书籍量、用户量、章节量都是在该维度内去过重的</li>
+            <li>关于付费、免费、限免、包月、互联网维度的统计粒度为章节</li>
+        </ul><hr/>\n"
+    summary="${summary1}\n$(cat ${easouSummaryResultPath})"
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouResultPath}" "${summary}"
-    summary=${summary1}$(cat ${weijuanSummaryResultPath})
+    summary="${summary1}\n$(cat ${weijuanSummaryResultPath})"
     sh send_email/auto_email.sh "微卷(20001)天阅读量统计" "${today}" "${weijuanResultPath}" "${summary}"
 fi
 fi
