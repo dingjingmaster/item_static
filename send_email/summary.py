@@ -14,13 +14,11 @@ def check_dict(mdict, key):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         exit(-1)
     summary_path = sys.argv[1]
-    summary_result_path = sys.argv[2]
-
-    # summary_path = '../summary.txt'
-    # summary_result_path = '../summary_result.txt'
+    easou_result_path = sys.argv[2]
+    weijuan_result_path = sys.argv[2]
 
     dict1 = {}
 
@@ -30,7 +28,6 @@ if __name__ == '__main__':
     dict2_wj_item = {}
     dict2_wj_user = {}
     dict2_wj_chapter = {}
-    out_str = ''
 
     with open(summary_path, 'r') as fr:
         for line in fr.readlines():
@@ -55,7 +52,7 @@ if __name__ == '__main__':
                 elif arr[0] == 'weijuan_chapter':
                     dict2_wj_chapter[arr[1]] = arr[2]
 
-    out_str += '' \
+    easou_str = '' \
             + '<h4>APP阅读情况</h4>' \
             + '<table width="80%">' \
             + '<tr align="center">' \
@@ -69,15 +66,8 @@ if __name__ == '__main__':
             + '<td align="left">' + dict1['easou_item'] + '</td>'\
             + '<td align="left">' + dict1['easou_user'] + '</td>'\
             + '<td align="left">' + dict1['easou_chapter'] + '</td>'\
-            + '</tr>' \
-            + '<tr align="center">' \
-            + '<td align="left">微卷</td>' \
-            + '<td align="left">' + dict1['weijuan_item'] + '</td>' \
-            + '<td align="left">' + dict1['weijuan_user'] + '</td>' \
-            + '<td align="left">' + dict1['weijuan_chapter'] + '</td>' \
-            + '</tr></table>'
-
-    out_str += '' \
+            + '</tr></table>' \
+            + ''\
             + '<h4>宜搜小说(10001)阅读情况</h4>' \
             + '<table width="80%">' \
             + '<tr align="center">' \
@@ -115,9 +105,25 @@ if __name__ == '__main__':
             + '<td align="left">' + check_dict(dict2_es_item, '互联网') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_user, '互联网') + '</td>' \
             + '<td align="left">' + check_dict(dict2_es_chapter, '互联网') + '</td>' \
-            + '</tr></table>'
+            + '</tr></table>' \
+            + ''
 
-    out_str += '' \
+    weijuan_str = '' \
+            + '<h4>APP阅读情况</h4>' \
+            + '<table width="80%">' \
+            + '<tr align="center">' \
+            + '<th align="center">APP</th>' \
+            + '<th align="center">书籍量</th>' \
+            + '<th align="center">用户量</th>' \
+            + '<th align="center">章节量</th>' \
+            + '</tr>' \
+            + '<tr align="center">'\
+            + '<td align="left">宜搜小说</td>' \
+            + '<td align="left">' + dict1['weijuan_item'] + '</td>'\
+            + '<td align="left">' + dict1['weijuan_user'] + '</td>'\
+            + '<td align="left">' + dict1['weijuan_chapter'] + '</td>'\
+            + '</tr></table>'\
+            + ''\
             + '<h4>微卷(20001)阅读情况</h4>' \
             + '<table width="80%">' \
             + '<tr align="center">' \
@@ -155,9 +161,13 @@ if __name__ == '__main__':
             + '<td align="left">' + check_dict(dict2_wj_item, '互联网') + '</td>' \
             + '<td align="left">' + check_dict(dict2_wj_user, '互联网') + '</td>' \
             + '<td align="left">' + check_dict(dict2_wj_chapter, '互联网') + '</td>' \
-            + '</tr></table>'
+            + '</tr></table>' \
+            + ''
 
-    with open(summary_result_path, 'w') as fw:
-        fw.write(out_str + '\n')
+    with open(easou_result_path, 'w') as fw:
+        fw.write(easou_str + '\n')
+
+    with open(weijuan_result_path, 'w') as fw:
+        fw.write(weijuan_str + '\n')
 
     exit(0)

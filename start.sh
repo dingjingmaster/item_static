@@ -14,7 +14,8 @@ biReadLog="hdfs://10.26.29.210:8020/user/hive/warehouse/event_info.db/b_read_cha
 itemChapterReadPath="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/${today}/"
 localSummaryPath="data/read_summary.txt"
 localReadPath="data/read_info.txt"
-summaryResultPath="data/summary.txt"
+easouSummaryResultPath="data/easou_summary.txt"
+weijuanSummaryResultPath="data/weijuan_summary.txt"
 easouResultPath="data/easou.txt"
 weijuanResultPath="data/weijuan.txt"
 
@@ -48,7 +49,7 @@ cd ${workDir}
 rm -fr data && mkdir data
 hadoop fs -cat "${itemChapterReadPath}/summary/*" > ${localSummaryPath}
 hadoop fs -cat "${itemChapterReadPath}/base_info/*" > ${localReadPath}
-python send_email/summary.py "${localSummaryPath}" "${summaryResultPath}"
+python send_email/summary.py "${localSummaryPath}" "${easouSummaryResultPath}" "${weijuanSummaryResultPath}"
 python send_email/generate_read_email.py "${localReadPath}" "${easouResultPath}" "10001"
 python send_email/generate_read_email.py "${localReadPath}" "${weijuanResultPath}" "20001"
 
@@ -57,7 +58,7 @@ then
 file_empty "${easouResultPath}"
 if [ $? -eq 0 ]
 then
-    summary='<br>
+    summary1='<br>
     <h3>说明</h3>
     <ul>
     <li>本邮件统计源数据来源于BI日志('${today}')</li>
@@ -65,8 +66,9 @@ then
     <li>关于付费、免费、限免、包月、互联网维度的统计粒度为章节</li>
     </ul>
     <hr/>'
-    summary=${summary}$(cat ${summaryResultPath})
+    summary=${summary1}$(cat ${easouSummaryResultPath})
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouResultPath}" "${summary}"
+    summary=${summary1}$(cat ${weijuanSummaryResultPath})
     sh send_email/auto_email.sh "微卷(20001)天阅读量统计" "${today}" "${weijuanResultPath}" "${summary}"
 fi
 fi
