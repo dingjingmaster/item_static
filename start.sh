@@ -6,7 +6,7 @@ source ~/.bashrc
 workDir=$(cd $(dirname $0); pwd)
 today=`date -d "-1 day" +%Y-%m-%d`
 year=`date -d "-1 day" +%Y`
-today="2019-06-27"
+#today="2019-06-27"
 
 itemInfoPath=`hadoop fs -ls "hdfs://10.26.26.145:8020/rs/iteminfo/${year}-*/item_*" | tail -n 1 | awk -F' ' '{print $8}'`
 sparkRun="spark-submit --total-executor-cores=30 --executor-memory=20g "
