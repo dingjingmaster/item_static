@@ -63,6 +63,18 @@ then
             <li>本邮件统计源数据来源于BI日志(${today})</li>
             <li>各统计维度的书籍量、用户量、章节量都是在该维度内去过重的</li>
             <li>关于付费、免费、限免、包月、互联网维度的统计粒度为章节</li>
+            <br/>
+            <li>
+                <div>
+                    <h4>阅读类型解释</h4>
+                    <p>&nbsp;&nbsp;付费：阅读按章付费书籍的付费章节</p>
+                    <p>&nbsp;&nbsp;免费：阅读免费CP书籍或阅读按章付费的免费章节部分</p>
+                    <p>&nbsp;&nbsp;包月：包月用户读包月书</p>
+                    <p>&nbsp;&nbsp;限免：阅读限免书籍</p>
+                    <p>&nbsp;&nbsp;互联网：阅读互联网书籍</p>
+                </div>
+            </li>
+            <li>统计方式解释</li>
         </ul><hr/>\n"
     summary="${summary1}\n$(cat ${easouSummaryResultPath})"
     sh send_email/auto_email.sh "宜搜小说(10001)天阅读量统计" "${today}" "${easouResultPath}" "${summary}"
