@@ -194,7 +194,12 @@ object ItemRead {
       chapterIdO = sort
       if ("" != isChapterCharge) {
         chapterTypeO = isChapterCharge
-      } else {
+        if ("no" == chapterTypeO.toLowerCase) {
+          chapterTypeO = "免费"
+        } else if ("yes" == chapterTypeO.toLowerCase) {
+          chapterTypeO = "付费"
+        }
+      }else {
         chapterTypeO = "免费"
       }
       if ("免费CP书" == bookType || "赠书" == bookType || "断更" == bookType) {
@@ -202,11 +207,6 @@ object ItemRead {
       }
       if ("限免" == bookType) {
         chapterTypeO = "限免"
-      }
-      if ("yes" == chapterTypeO.toLowerCase) {
-        chapterTypeO = "付费"
-      } else if ("no" == chapterTypeO.toLowerCase) {
-        chapterTypeO = "免费"
       }
       if ("包月" == userType && "包月" == bookType) {
         chapterTypeO = "包月"
