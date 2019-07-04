@@ -119,7 +119,7 @@ if __name__ == '__main__':
                   '     <th align="center">章节量</th>\n' \
                   ' </tr>\n' \
                   ' <tr align="center">\n'\
-                  '     <td align="left">宜搜小说</td>\n' \
+                  '     <td align="left">微卷</td>\n' \
                   '     <td align="left">' + dict1['weijuan_item'] + '</td>\n' \
                   '     <td align="left">' + dict1['weijuan_user'] + '</td>\n' \
                   '     <td align="left">' + dict1['weijuan_chapter'] + '</td>\n' \
