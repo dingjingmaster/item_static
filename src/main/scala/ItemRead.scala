@@ -197,7 +197,7 @@ object ItemRead {
       } else {
         chapterTypeO = "免费"
       }
-      if ("免费CP书" == bookType) {
+      if ("免费CP书" == bookType || "赠书" == bookType || "断更" == bookType) {
         chapterTypeO = "免费"
       }
       if ("限免" == bookType) {
