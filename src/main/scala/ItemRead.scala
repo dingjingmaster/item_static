@@ -205,9 +205,9 @@ object ItemRead {
       if ("免费CP书" == bookType || "赠书" == bookType || "断更" == bookType) {
         chapterTypeO = "免费"
       }
-      if ("限免" == bookType) {
-        chapterTypeO = "限免"
-      }
+//      if ("限免" == bookType) {
+//        chapterTypeO = "限免"
+//      }
       if ("包月" == userType && "包月" == bookType) {
         chapterTypeO = "包月"
       }
