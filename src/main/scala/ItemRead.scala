@@ -197,6 +197,12 @@ object ItemRead {
       } else {
         chapterTypeO = "免费"
       }
+      if ("免费CP书" == bookType) {
+        chapterTypeO = "免费"
+      }
+      if ("限免" == bookType) {
+        chapterTypeO = "限免"
+      }
       if ("yes" == chapterTypeO.toLowerCase) {
         chapterTypeO = "付费"
       } else if ("no" == chapterTypeO.toLowerCase) {
@@ -223,7 +229,6 @@ object ItemRead {
     val easouChapterAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._3 + "|" + x._4).distinct().count()
     val weijuanChapterAllNum = readeventRDD.filter(x => x._2 == "20001").map(x => x._3 + "|" + x._4).distinct().count()
 
-    /** **********************************************/
     /* 各类型书籍量 */
     val easouItemAll = readeventRDD.filter(x => x._2 == "10001").map(x => (x._5, List(x._1))).reduceByKey(_ ::: _).map(x => "easou_item\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
     val weijuanItemAll = readeventRDD.filter(x => x._2 == "20001").map(x => (x._5, List(x._1))).reduceByKey(_ ::: _).map(x => "weijuan_item\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
