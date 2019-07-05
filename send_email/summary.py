@@ -96,10 +96,16 @@ if __name__ == '__main__':
                 '       <td align="left">' + check_dict(dict2_es_chapter, '包月') + '</td>\n' \
                 '   </tr>\n' \
                 '   <tr align="center">\n' \
-                '       <td align="left">免费</td>\n' \
-                '       <td align="left">' + check_dict(dict2_es_item, '免费') + '</td>\n' \
-                '       <td align="left">' + check_dict(dict2_es_user, '免费') + '</td>\n' \
-                '       <td align="left">' + check_dict(dict2_es_chapter, '免费') + '</td>\n' \
+                '       <td align="left">免费(免费cp)</td>\n' \
+                '       <td align="left">' + check_dict(dict2_es_item, '免费(免费cp)') + '</td>\n' \
+                '       <td align="left">' + check_dict(dict2_es_user, '免费(免费cp)') + '</td>\n' \
+                '       <td align="left">' + check_dict(dict2_es_chapter, '免费(免费cp)') + '</td>\n' \
+                '   </tr>\n' \
+                '   < tr align = "center" >\n' \
+                '       <td align = "left" > 免费(按章付费) < / td >\n' \
+                '       <td align = "left" > ' + check_dict(dict2_es_item, '免费(按章付费)') + '</td >\n' \
+                '       <td align = "left" > ' + check_dict(dict2_es_user, '免费(按章付费)') + ' </td>\n' \
+                '       <td align = "left" > ' + check_dict(dict2_es_chapter, '免费(按章付费)') + ' </td >\n' \
                 '   </tr>\n' \
                 '   <tr align="center">\n' \
                 '       <td align="left">互联网</td>\n' \
@@ -153,10 +159,16 @@ if __name__ == '__main__':
                   '     <td align="left">' + check_dict(dict2_wj_chapter, '包月') + '</td>\n' \
                   ' </tr>\n' \
                   ' <tr align="center">\n' \
-                  '     <td align="left">免费</td>\n' \
-                  '     <td align="left">' + check_dict(dict2_wj_item, '免费') + '</td>\n' \
-                  '     <td align="left">' + check_dict(dict2_wj_user, '免费') + '</td>\n' \
-                  '     <td align="left">' + check_dict(dict2_wj_chapter, '免费') + '</td>\n' \
+                  '     <td align="left">免费(免费cp)</td>\n' \
+                  '     <td align="left">' + check_dict(dict2_es_item, '免费(免费cp)') + '</td>\n' \
+                  '     <td align="left">' + check_dict(dict2_es_user, '免费(免费cp)') + '</td>\n' \
+                  '     <td align="left">' + check_dict(dict2_es_chapter, '免费(免费cp)') + '</td>\n' \
+                  ' </tr>\n' \
+                  ' < tr align = "center" >\n' \
+                  '     <td align = "left" > 免费(按章付费) < / td >\n' \
+                  '     <td align = "left" > ' + check_dict(dict2_es_item, '免费(按章付费)') + '</td >\n' \
+                  '     <td align = "left" > ' + check_dict(dict2_es_user, '免费(按章付费)') + ' </td>\n' \
+                  '     <td align = "left" > ' + check_dict(dict2_es_chapter, '免费(按章付费)') + ' </td >\n' \
                   ' </tr>\n' \
                   ' <tr align="center">\n' \
                   '     <td align="left">互联网</td>\n' \
