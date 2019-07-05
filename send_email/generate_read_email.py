@@ -27,12 +27,14 @@ if __name__ == '__main__':
 
     charge_top_g = []           # 付费排行榜
     free_top_g = []             # 免费排行榜
+    free_charge_top_g = []      # 按章计费免费排行榜
     limit_free_top_g = []       # 限免排行榜
     baoyue_top_g = []           # 包月排行榜
     hulianwang_top_g = []       # 互联网排行榜
 
     charge_list_g = []          # 付费阅读情况
     free_list_g = []            # 免费阅读情况
+    free_charge_list_g = []     # 免费 按章计费阅读情况
     limit_free_list_g = []      # 限免阅读情况
     baoyue_list_g = []          # 包月阅读情况
     hulianwang_list_g = []      # 互联网阅读情况
@@ -41,42 +43,49 @@ if __name__ == '__main__':
     log_list_g = read_data(log_path, app)
 
     charge_top_g, charge_list_g = charge_list(log_list_g)
-    free_top_g, free_list_g = free_list(log_list_g)
+    free_top_g, free_list_g = free_cp_list(log_list_g)
+    free_charge_top_g, free_charge_list_g = free_charge_list(log_list_g)
     limit_free_top_g, limit_free_list_g = limit_free_list(log_list_g)
     baoyue_top_g, baoyue_list_g = baoyue_list(log_list_g)
     hulianwang_top_g, hulianwang_list_g = hulianwang_list(log_list_g)
 
     # 输出分段阅读情况
-    out_str += print_list(charge_list_g,            "付费阅读情况",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
-    out_str += print_list(free_list_g,              "免费阅读情况",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
-    out_str += print_list(limit_free_list_g,        "限免阅读情况",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
-    out_str += print_list(baoyue_list_g,            "包月阅读情况",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
-    out_str += print_list(hulianwang_list_g,        "互联网阅读情况",    ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    out_str += print_list(charge_list_g,            "按章计费付费章节阅读情况",      ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    out_str += print_list(free_list_g,              "免费cp章节阅读情况",           ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    out_str += print_list(free_charge_list_g,       "按章计费免费章节阅读情况",     ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    out_str += print_list(limit_free_list_g,        "限免阅读情况",               ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    out_str += print_list(baoyue_list_g,            "包月阅读情况",               ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
+    out_str += print_list(hulianwang_list_g,        "互联网阅读情况",              ("阅读量分段", "书籍量", "阅读量", "阅读章节数"))
     out_str += "<br/>"
 
     # 输出排行榜
     out_str += print_book_top(top_list_sort(charge_top_g),
-                              "付费排行榜",  ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+                              "付费排行榜",          ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
     del charge_top_g
     del charge_list_g
 
     out_str += print_book_top(top_list_sort(free_top_g),
-                              "免费排行榜",  ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+                              "免费cp排行榜",        ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
     del free_top_g
     del free_list_g
 
+    out_str += print_book_top(top_list_sort(free_charge_top_g),
+                              "按章付费免费阅读排行榜", ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+    del free_charge_top_g
+    del free_charge_list_g
+
     out_str += print_book_top(top_list_sort(limit_free_top_g),
-                              "限免排行榜",  ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+                              "限免排行榜",          ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
     del limit_free_top_g
     del limit_free_list_g
 
     out_str += print_book_top(top_list_sort(baoyue_top_g),
-                              "包月排行榜",  ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+                              "包月排行榜",          ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
     del baoyue_top_g
     del baoyue_list_g
 
     out_str += print_book_top(top_list_sort(hulianwang_top_g),
-                              "互联网排行榜", ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
+                              "互联网排行榜",         ("排名", "gid", "书名", "作者名", "cp", "阅读量", "阅读章节量"))
     del hulianwang_top_g
     del hulianwang_list_g
     out_str += "<br/>"
