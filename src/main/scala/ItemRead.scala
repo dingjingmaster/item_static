@@ -206,18 +206,23 @@ object ItemRead {
       if ("免费" == chapterTypeO) {
         chapterTypeO = "免费(免费cp)"
       }
-      if ("免费CP书" == bookType || "赠书" == bookType || "断更" == bookType) {
+      if (("免费CP书" == bookType) || ("赠书" == bookType) || ("断更" == bookType)) {
         chapterTypeO = "免费(免费cp)"
       }
+      /* 非付费阅读 */
+      // 按章计费 付费节点前 免费读
       if (("按章计费" == bookType) && ("免费(免费cp)" == chapterTypeO)) {
         chapterTypeO = "免费(按章计费)"
       }
-//      if ("限免" == bookType) {
-//        chapterTypeO = "限免"
-//      }
-      if ("包月" == userType && "包月" == bookType) {
+      // 包月书免费读
+      if (("包月" == bookType) && ("免费(免费cp)" == chapterTypeO)) {
+        chapterTypeO = "免费(包月书)"
+      }
+      // 包月用户读包月书
+      if (("包月" == userType) && ("包月" == bookType)) {
         chapterTypeO = "包月"
       }
+      // 互联网书
       if ("免费互联网书" == bookType) {
         chapterTypeO = "互联网"
       }
