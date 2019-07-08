@@ -503,6 +503,101 @@ def baoyue_list(log_list):
     return top, ml
 
 
+# 包月阅读情况
+def bys_free_list(log_list):
+    top = []
+    ml = []
+    md = {}
+    id = {}
+
+    bt_0_10b = 0
+    bt_10_100b = 0
+    bt_100_1kb = 0
+    bt_1k_10kb = 0
+    gt_10kb = 0
+
+    bt_0_10u = 0
+    bt_10_100u = 0
+    bt_100_1ku = 0
+    bt_1k_10ku = 0
+    gt_10ku = 0
+
+    bt_0_10c = 0
+    bt_10_100c = 0
+    bt_100_1kc = 0
+    bt_1k_10kc = 0
+    gt_10kc = 0
+
+    all_b = 0
+    all_u = 0
+    all_c = 0
+
+    for i in log_list:
+        gid, app, name, author, cp, type, user_info = i
+        id[gid] = (name, author, cp)
+        if '免费(包月书)' != type:
+            continue
+        arr = user_info.split('{]')
+        for k in arr:
+            arr1 = k.split('|')
+            if md.has_key(gid):
+                user, chapter = md[gid]
+                user[arr1[0]] = True
+                chapter[k] = True
+            else:
+                user, chapter = {arr1[0]: True}, {k: True}
+                md[gid] = (user, chapter)
+    for gid, iv in md.items():
+        u = len(iv[0])
+        c = len(iv[1])
+        all_b += 1
+        all_u += u
+        all_c += c
+        info = id[gid]
+        top.append((gid, info[0], info[1], info[2], u, c))
+        if (u > 0) and (u <= 10):
+            bt_0_10b += 1
+            bt_0_10u += u
+            bt_0_10c += c
+        elif (u > 10) and (u <= 100):
+            bt_10_100b += 1
+            bt_10_100u += u
+            bt_10_100c += c
+        elif (u > 100) and (u <= 1000):
+            bt_100_1kb += 1
+            bt_100_1ku += u
+            bt_100_1kc += c
+        elif (u > 1000) and (u <= 10000):
+            bt_1k_10kb += 1
+            bt_1k_10ku += u
+            bt_1k_10kc += c
+        else:
+            gt_10kb += 1
+            gt_10ku += u
+            gt_10kc += c
+    ml.append(("(0 ~ 10)",
+               bt_0_10b, float(bt_0_10b) / all_b * 100,
+               bt_0_10u, float(bt_0_10u) / all_u * 100,
+               bt_0_10c, float(bt_0_10c) / all_c * 100))
+    ml.append(("[10 ~ 100)",
+               bt_10_100b, float(bt_10_100b) / all_b * 100,
+               bt_10_100u, float(bt_10_100u) / all_u * 100,
+               bt_10_100c, float(bt_10_100c) / all_c * 100))
+    ml.append(("[100 ~ 1000)",
+               bt_100_1kb, float(bt_100_1kb) / all_b * 100,
+               bt_100_1ku, float(bt_100_1ku) / all_u * 100,
+               bt_100_1kc, float(bt_100_1kc) / all_c * 100))
+    ml.append(("[1000 ~ 10000)",
+               bt_1k_10kb, float(bt_1k_10kb) / all_b * 100,
+               bt_1k_10ku, float(bt_1k_10ku) / all_u * 100,
+               bt_1k_10kc, float(bt_1k_10kc) / all_c * 100))
+    ml.append(("[10000 ~ ∞)",
+               gt_10kb, float(gt_10kb) / all_b * 100,
+               gt_10ku, float(gt_10ku) / all_u * 100,
+               gt_10kc, float(gt_10kc) / all_c * 100))
+    return top, ml
+
+
 # 互联网阅读情况
 def hulianwang_list(log_list):
     top = []
