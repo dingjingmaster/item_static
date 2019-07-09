@@ -287,7 +287,7 @@ object ItemRead {
       val userLevel = read._4
 
       (gid, name, author, cp, userId, chapterId, chapterType, userLevel)
-    }).map(x => (x._1 + "{]" + x._2 + "{]" + x._3 + "{]" + x._4 + "{]" + x._7, List((x._5, x._6, x._7))))
+    }).map(x => (x._1 + "{]" + x._2 + "{]" + x._3 + "{]" + x._4 + "{]" + x._7, List((x._5, x._6, x._8))))
       .reduceByKey(_ ::: _).map(x => {
       val filter = new collection.mutable.ArrayBuffer[String]()
       val bookReadLevel = new mutable.ArrayBuffer[String]()
