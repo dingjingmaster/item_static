@@ -201,7 +201,7 @@ def print_cp_top(mlist, title, titleTup):
 
 
 def top_list_sort(ls):
-    ls.sort(key=lambda x: int(x[4]), reverse=True)
+    ls.sort(key=lambda x: int(x[5]), reverse=True)
     return ls[:10]
 
 
