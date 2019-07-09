@@ -171,7 +171,7 @@ if __name__ == '__main__':
                   '     <td align="left">' + check_dict(dict2_wj_chapter, '免费(免费cp)') + '</td>\n' \
                   ' </tr>\n' \
                   ' <tr align="center">\n' \
-                  '     <td align="left">免费(免费cp)</td>\n' \
+                  '     <td align="left">免费(免费包月书)</td>\n' \
                   '     <td align="left">' + check_dict(dict2_wj_item, '免费(包月书)') + '</td>\n' \
                   '     <td align="left">' + check_dict(dict2_wj_user, '免费(包月书)') + '</td>\n' \
                   '     <td align="left">' + check_dict(dict2_wj_chapter, '免费(包月书)') + '</td>\n' \
