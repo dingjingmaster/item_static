@@ -2,6 +2,7 @@ import com.easou.dingjing.library.{ItemInfo, ReadEvent}
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.{SparkConf, SparkContext}
 
+import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 object ItemRead {
@@ -164,9 +165,8 @@ object ItemRead {
       var userIdO = ""
       var chapterIdO = ""
       var chapterTypeO = ""
-
       val rd = new ReadEvent().parseLine(x)
-        .getValues(List("uid", "appudid", "sort", "usertype", "booktype", "gid", "appid", "ischapterincharged"))
+        .getValues(List("uid", "appudid", "sort", "usertype", "booktype", "gid", "appid", "ischapterincharged", "userlevel"))
       val uid = rd(0)
       val appudid = rd(1)
       val sort = rd(2)
@@ -177,6 +177,7 @@ object ItemRead {
       val gid = "i_" + rd(5)
       val appid = rd(6)
       val isChapterCharge = rd(7)
+      val userLevel = rd(8)
 
       if ("" != uid && "-1" != uid && "0" != uid) {
         userIdO = uid
@@ -226,7 +227,7 @@ object ItemRead {
       if ("免费互联网书" == bookType) {
         chapterTypeO = "互联网"
       }
-      (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO)
+      (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO, userLevel)
     }).filter(x => x._1 != "" && x._2 != "" && x._3 != "").persist(StorageLevel.MEMORY_AND_DISK) /* (gid, appid, 用户id, 章节序号, 章节类型) */
 
     /* 总 书籍量 */
@@ -269,27 +270,32 @@ object ItemRead {
     /* 基础数据准备 */
     /* gid_appid, name, author, cp, 付费X3, 限免X3, 免费X3, 包月X3, 互联网X3 */
     // (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO)
-    val allDataRDDt = readeventRDD.map(x => (x._1 + "{]" + x._2, (x._3, x._4, x._5))).join(iteminfoRDD)
+    // (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO, userLevel)
+    val allDataRDDt = readeventRDD.map(x => (x._1 + "{]" + x._2, (x._3, x._4, x._5, x._6))).join(iteminfoRDD)
     val allDataRDD = allDataRDDt.map(x => {
-      val gid = x._1
+      val gid = x._1          // gid{]appid
       val read = x._2._1
       val item = x._2._2
 
       val name = item._1
       val author = item._2
       val cp = item._3
+
       val userId = read._1
       val chapterId = read._2
       val chapterType = read._3
+      val userLevel = read._4
 
-      (gid, name, author, cp, userId, chapterId, chapterType)
-    }).map(x => (x._1 + "{]" + x._2 + "{]" + x._3 + "{]" + x._4 + "{]" + x._7, List((x._5, x._6))))
+      (gid, name, author, cp, userId, chapterId, chapterType, userLevel)
+    }).map(x => (x._1 + "{]" + x._2 + "{]" + x._3 + "{]" + x._4 + "{]" + x._7, List((x._5, x._6, x._7))))
       .reduceByKey(_ ::: _).map(x => {
       val filter = new collection.mutable.ArrayBuffer[String]()
+      val bookReadLevel = new mutable.ArrayBuffer[String]()
       for (i <- x._2) {
+        bookReadLevel.append(i._3)
         filter.append(i._1 + "|" + i._2)
       }
-      x._1 + "\t" + filter.toSet.toList.mkString("{]")
+      x._1 + "{]" + bookReadLevel.toSet.toList.mkString(",") + "\t" + filter.toSet.toList.mkString("{]")
     }).filter(_ != "").repartition(1).saveAsTextFile(readSavePath + "/base_info/")
   }
 
