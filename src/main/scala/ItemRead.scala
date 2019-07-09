@@ -166,7 +166,7 @@ object ItemRead {
       var chapterIdO = ""
       var chapterTypeO = ""
       val rd = new ReadEvent().parseLine(x)
-        .getValues(List("uid", "appudid", "sort", "usertype", "booktype", "gid", "appid", "ischapterincharged", "userlevel"))
+        .getValues(List("uid", "appudid", "sort", "usertype", "booktype", "gid", "appid", "ischapterincharged", "userarea"))
       val uid = rd(0)
       val appudid = rd(1)
       val sort = rd(2)
@@ -292,7 +292,9 @@ object ItemRead {
       val filter = new collection.mutable.ArrayBuffer[String]()
       val bookReadLevel = new mutable.ArrayBuffer[String]()
       for (i <- x._2) {
-        bookReadLevel.append(i._3)
+        if ("" != i._3) {
+          bookReadLevel.append(i._3)
+        }
         filter.append(i._1 + "|" + i._2)
       }
       x._1 + "{]" + bookReadLevel.toSet.toList.mkString(",") + "\t" + filter.toSet.toList.mkString("{]")
