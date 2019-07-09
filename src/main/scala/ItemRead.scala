@@ -293,11 +293,12 @@ object ItemRead {
       val bookReadLevel = new mutable.ArrayBuffer[String]()
       for (i <- x._2) {
         if ("" != i._3) {
-          bookReadLevel.append(i._3)
+          bookReadLevel.append(strToInt(i._3).toString)
         }
         filter.append(i._1 + "|" + i._2)
       }
-      x._1 + "{]" + bookReadLevel.toSet.toList.mkString(",") + "\t" + filter.toSet.toList.mkString("{]")
+      x._1 + "{]" + bookReadLevel.toSet.toArray.sortBy(x => x.toInt)
+        .mkString(",") + "\t" + filter.toSet.toList.mkString("{]")
     }).filter(_ != "").repartition(1).saveAsTextFile(readSavePath + "/base_info/")
   }
 
