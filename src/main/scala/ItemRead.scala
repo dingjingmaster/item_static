@@ -291,22 +291,22 @@ object ItemRead {
     readeventRDD.unpersist(true)
 
     // 获取书籍用户地区
-    val itemAreaRDD = allDataRDD.map(x => (x._1, List(x._8))).reduceByKey(_:::_).map(x => {
+    val itemAreaRDD = allDataRDD.map(x => (x._1, Seq(x._8))).reduceByKey(_.toList:::_.toList).map(x => {
       val gid = x._1
       val area = x._2.toSet.toArray.filter(x => x != "0").sortBy(x => x.toInt).mkString(",")
       (gid, area)
     })
 
     // 获取阅读情况
-    val allReadRDD = allDataRDD.map(x => (x._1 + "{]" + x._2 + "{]" + x._3 + "{]" + x._4 + "{]" + x._7, List((x._5, x._6))))
-      .reduceByKey(_ ::: _).map(x => {
+    val allReadRDD = allDataRDD.map(x => (x._1 + "{]" + x._2 + "{]" + x._3 + "{]" + x._4 + "{]" + x._7, Seq((x._5, x._6))))
+      .reduceByKey(_.toList:::_.toList).map(x => {
       val info = x._1.split("\\{\\]")
       val filter = new collection.mutable.ArrayBuffer[String]()
       for (i <- x._2) {
         filter.append(i._1 + "|" + i._2)
       }
 
-      (info(0), (x._1, filter.toSet.toList.mkString("{]")))
+      (info(0) + "{]" + info(1), (x._1, filter.toSet.toList.mkString("{]")))
     })
 
     // 整合阅读情况与书籍地区
