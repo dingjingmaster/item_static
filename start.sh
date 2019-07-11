@@ -32,15 +32,6 @@ do
         sleep 3
         continue
     fi
-    # 解析日志 阅读
-    hdfs_exist "${itemChapterReadPath}/base_info/"
-    if [ $? -ne 0 ]
-    then
-        cd ${workDir}
-        hadoop fs -rmr "${itemChapterReadPath}"
-        sleep 3
-        continue
-    fi
     break
 done
 

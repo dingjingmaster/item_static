@@ -287,7 +287,8 @@ object ItemRead {
       val userLevel = read._4
 
       (gid, name, author, cp, userId, chapterId, chapterType, userLevel)
-    })
+    }).persist(StorageLevel.MEMORY_AND_DISK)
+    readeventRDD.unpersist(true)
 
     // 获取书籍用户地区
     val itemAreaRDD = allDataRDD.map(x => (x._1, List(x._8))).reduceByKey(_:::_).map(x => {
@@ -299,7 +300,7 @@ object ItemRead {
     // 获取阅读情况
     val allReadRDD = allDataRDD.map(x => (x._1 + "{]" + x._2 + "{]" + x._3 + "{]" + x._4 + "{]" + x._7, List((x._5, x._6))))
       .reduceByKey(_ ::: _).map(x => {
-      val info = x._1.split("{]")
+      val info = x._1.split("\\{\\]")
       val filter = new collection.mutable.ArrayBuffer[String]()
       for (i <- x._2) {
         filter.append(i._1 + "|" + i._2)
