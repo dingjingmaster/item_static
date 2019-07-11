@@ -227,7 +227,7 @@ object ItemRead {
       if ("免费互联网书" == bookType) {
         chapterTypeO = "互联网"
       }
-      (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO, userLevel)
+      (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO, strToInt(userLevel).toString)
     }).filter(x => x._1 != "" && x._2 != "" && x._3 != "").persist(StorageLevel.MEMORY_AND_DISK) /* (gid, appid, 用户id, 章节序号, 章节类型) */
 
     /* 总 书籍量 */
@@ -287,18 +287,35 @@ object ItemRead {
       val userLevel = read._4
 
       (gid, name, author, cp, userId, chapterId, chapterType, userLevel)
-    }).map(x => (x._1 + "{]" + x._2 + "{]" + x._3 + "{]" + x._4 + "{]" + x._7, List((x._5, x._6, x._8))))
+    })
+
+    // 获取书籍用户地区
+    val itemAreaRDD = allDataRDD.map(x => (x._1, List(x._8))).reduceByKey(_:::_).map(x => {
+      val gid = x._1
+      val area = x._2.toSet.toArray.filter(x => x != "0").sortBy(x => x.toInt).mkString(",")
+      (gid, area)
+    })
+
+    // 获取阅读情况
+    val allReadRDD = allDataRDD.map(x => (x._1 + "{]" + x._2 + "{]" + x._3 + "{]" + x._4 + "{]" + x._7, List((x._5, x._6))))
       .reduceByKey(_ ::: _).map(x => {
+      val info = x._1.split("{]")
       val filter = new collection.mutable.ArrayBuffer[String]()
-      val bookReadLevel = new mutable.ArrayBuffer[String]()
       for (i <- x._2) {
-        if ("" != i._3) {
-          bookReadLevel.append(strToInt(i._3).toString)
-        }
         filter.append(i._1 + "|" + i._2)
       }
-      x._1 + "{]" + bookReadLevel.toSet.toArray.sortBy(x => x.toInt)
-        .mkString(",") + "\t" + filter.toSet.toList.mkString("{]")
+
+      (info(0), (x._1, filter.toSet.toList.mkString("{]")))
+    })
+
+    // 整合阅读情况与书籍地区
+    val readAreaRDD = allReadRDD.join(itemAreaRDD)
+    readAreaRDD.map(x => {
+      val gid = x._1
+      val allRead = x._2._1
+      val area = x._2._2
+
+      allRead._1 + "{]" + area + "\t" + allRead._2
     }).filter(_ != "").repartition(1).saveAsTextFile(readSavePath + "/base_info/")
   }
 
