@@ -184,9 +184,14 @@ object ItemRead {
       } else {
         userIdO = appudid
       }
-      if (gid != "") {
+      if ((gid != "i_") && (gid != "i_0")) {
         gidO = gid
       }
+      // 滤去漫画书的阅读量
+      if (this.strToInt(rd(5))>= 2000000000) {
+        gidO = ""
+      }
+
       if ("" != appid) {
         appidO = appid
       } else {
