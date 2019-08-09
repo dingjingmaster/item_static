@@ -188,8 +188,9 @@ object ItemRead {
         gidO = gid
       }
       // 滤去漫画书的阅读量
-      if (this.strToInt(rd(5))>= 2000000000) {
-        gidO = ""
+      if (this.strToInt(rd(5))>= 2000000000) {      // 漫画
+//        gidO = ""
+        appidO = "20001_1"
       }
 
       if ("" != appid) {
@@ -238,14 +239,17 @@ object ItemRead {
     /* 总 书籍量 */
     val easouItemAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._1).distinct().count()
     val weijuanItemAllNum = readeventRDD.filter(x => x._2 == "20001").map(x => x._1).distinct().count()
+    val manhuaItemAllNum = readeventRDD.filter(x => x._2 == "20001_1").map(x => x._1).distinct().count()
 
     /* 总 阅读量 */
     val easouUserAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._3).distinct().count()
     val weijuanUserAllNum = readeventRDD.filter(x => x._2 == "20001").map(x => x._3).distinct().count()
+    val manhuaUserAllNum = readeventRDD.filter(x => x._2 == "20001_1").map(x => x._3).distinct().count()
 
     /* 总 阅读章节数 */
     val easouChapterAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._3 + "|" + x._4).distinct().count()
     val weijuanChapterAllNum = readeventRDD.filter(x => x._2 == "20001").map(x => x._3 + "|" + x._4).distinct().count()
+    val manhuaChapterAllNum = readeventRDD.filter(x => x._2 == "20001_1").map(x => x._3 + "|" + x._4).distinct().count()
 
     /* 各类型书籍量 */
     val easouItemAll = readeventRDD.filter(x => x._2 == "10001").map(x => (x._5, List(x._1))).reduceByKey(_ ::: _).map(x => "easou_item\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
@@ -266,7 +270,10 @@ object ItemRead {
         + "easou_chapter" + "\t" + easouChapterAllNum.toString + "\n"
         + "weijuan_item" + "\t" + weijuanItemAllNum.toString + "\t"
         + "weijuan_user" + "\t" + weijuanUserAllNum.toString + "\t"
-        + "weijuan_chapter" + "\t" + weijuanChapterAllNum.toString,
+        + "weijuan_chapter" + "\t" + weijuanChapterAllNum.toString + "\n"
+        + "manhua_item" + "\t" + manhuaItemAllNum.toString + "\t"
+        + "manhua_user" + "\t" + manhuaUserAllNum.toString + "\t"
+        + "manhua_chapter" + "\t" + manhuaChapterAllNum.toString,
       easouItemAll, weijuanItemAll,
       easouUserAll, weijuanUserAll,
       easouChapterAll, weijuanChapterAll
@@ -274,7 +281,6 @@ object ItemRead {
 
     /* 基础数据准备 */
     /* gid_appid, name, author, cp, 付费X3, 限免X3, 免费X3, 包月X3, 互联网X3 */
-    // (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO)
     // (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO, userLevel)
     val allDataRDDt = readeventRDD.map(x => (x._1 + "{]" + x._2, (x._3, x._4, x._5, x._6))).join(iteminfoRDD)
     val allDataRDD = allDataRDDt.map(x => {

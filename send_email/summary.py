@@ -136,6 +136,12 @@ if __name__ == '__main__':
                   '     <td align="left">' + dict1['weijuan_user'] + '</td>\n' \
                   '     <td align="left">' + dict1['weijuan_chapter'] + '</td>\n' \
                   ' </tr>\n' \
+                  ' <tr align="center">\n' \
+                  '     <td align="left">漫画</td>\n' \
+                  '     <td align="left">' + dict1['manhua_item'] + '</td>\n' \
+                  '     <td align="left">' + dict1['manhua_user'] + '</td>\n' \
+                  '     <td align="left">' + dict1['manhua_chapter'] + '</td>\n' \
+                  ' </tr>\n' \
                   '</table>\n'\
                   '' \
                   '<h4>微卷(20001)阅读情况</h4>\n' \
