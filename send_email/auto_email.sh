@@ -8,9 +8,9 @@ titles="$1"
 dates="$2"
 content="$3"
 summary="$4"
-email_send_to1="dingjing_ding@easou.cn"     #丁敬
+email_send_to1="dingjing_ding@easou.cn"     # 丁敬
 email_send_to2="ruan_zheng@easou.cn"        # 儒安
-email_send_to3="pm-r@easou.cn"
+email_send_to3="ep-tech2@easou.cn"	    # 相关性租
 email_send_to4="mcgee_zhang@easou.cn"       # 世侠
 
 to="${email_send_to1}, ${email_send_to2},${email_send_to3}, ${email_send_to4}"
