@@ -188,7 +188,7 @@ object ItemRead {
         gidO = gid
       }
       // 滤去漫画书的阅读量
-      if (this.strToInt(rd(5))>= 2000000000) {      // 漫画
+      if (this.strToInt(rd(5))>= 200000000) {      // 漫画
 //        gidO = ""
         appidO = "20001_1"
       }
