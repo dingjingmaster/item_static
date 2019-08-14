@@ -187,17 +187,19 @@ object ItemRead {
       if ((gid != "i_") && (gid != "i_0")) {
         gidO = gid
       }
-      // 滤去漫画书的阅读量
-      if (this.strToInt(rd(5))>= 200000000) {      // 漫画
-//        gidO = ""
-        appidO = "20001_1"
-      }
 
       if ("" != appid) {
         appidO = appid
       } else {
         appidO = "10001"
       }
+
+      // 滤去漫画书的阅读量
+      if (this.strToInt(rd(5)) >= 200000000) {      // 漫画
+        //        gidO = ""
+        appidO = "20001_1"
+      }
+
       chapterIdO = sort
       if ("" != isChapterCharge) {
         chapterTypeO = isChapterCharge
