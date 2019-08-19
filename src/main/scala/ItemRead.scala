@@ -238,6 +238,11 @@ object ItemRead {
       (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO, strToInt(userLevel).toString)
     }).filter(x => x._1 != "" && x._2 != "" && x._3 != "").persist(StorageLevel.MEMORY_AND_DISK) /* (gid, appid, 用户id, 章节序号, 章节类型) */
 
+    /* DAU */
+    val easouDAU = readeventRDD.filter(x => x._2 == "10001").map(_._3).distinct().count()
+    val weijuanDAU = readeventRDD.filter(x => x._2 == "20001").map(_._3).distinct().count()
+    val manhuaDAU = readeventRDD.filter(x => x._2 == "20001_1").map(_._3).distinct().count()
+
     /* 总 书籍量 */
     val easouItemAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._1).distinct().count()
     val weijuanItemAllNum = readeventRDD.filter(x => x._2 == "20001").map(x => x._1).distinct().count()
@@ -278,7 +283,10 @@ object ItemRead {
         + "manhua_chapter" + "\t" + manhuaChapterAllNum.toString,
       easouItemAll, weijuanItemAll,
       easouUserAll, weijuanUserAll,
-      easouChapterAll, weijuanChapterAll
+      easouChapterAll, weijuanChapterAll,
+      "easou_dau" + "\t" + easouDAU.toString + "\n"
+      + "weijuan_dau" + "\t" + weijuanDAU.toString + "\n"
+      + "manhua_dau" + "\t" + manhuaDAU.toString
     )).repartition(1).saveAsTextFile(readSavePath + "/summary")
 
     /* 基础数据准备 */
