@@ -131,7 +131,7 @@ if __name__ == '__main__':
         mq.save('easou', 'earn_sum', easou_day_earn, end_time_int)
         mq.save('easou', 'earn_aver', easou_aver_earn, end_time_int)
         mq.save('weijuan', 'earn_sum', weijuan_day_earn, end_time_int)
-        mq.save('weijuan', 'warn_aver', weijuan_aver_earn, end_time_int)
+        mq.save('weijuan', 'earn_aver', weijuan_aver_earn, end_time_int)
 
         easou_day_arr = mq.get_time_range_value('easou', 'earn_sum', start_time_int, end_time_int)
         easou_aver_arr = mq.get_time_range_value('easou', 'earn_aver', start_time_int, end_time_int)
@@ -143,6 +143,7 @@ if __name__ == '__main__':
     time_arr = mq.get_time_range()
 
     # 绘制 宜搜天价值量 图形
+    plt.figure()
     plot_pic(time_arr, easou_day_arr, "easou's value")
     plt.xlabel('date')
     plt.ylabel('value')
@@ -151,6 +152,7 @@ if __name__ == '__main__':
     easou_pic = read_pic('./.pic.png')
 
     # 绘制微卷天价值图
+    plt.figure()
     plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
     plt.xlabel('date')
     plt.ylabel('value')
@@ -159,6 +161,7 @@ if __name__ == '__main__':
     weijuan_pic = read_pic('./.pic.png')
 
     # 宜搜 绘制平均价值图
+    plt.figure()
     plot_pic(time_arr, easou_aver_arr, "easou's Per capita value")
     plt.xlabel('date')
     plt.ylabel('value')
@@ -166,6 +169,7 @@ if __name__ == '__main__':
     plt.savefig('./.pic.png')
     easou_average_pic = read_pic('./.pic.png')
 
+    plt.figure()
     plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
     plt.xlabel('date')
     plt.ylabel('value')
