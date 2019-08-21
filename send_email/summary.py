@@ -40,10 +40,9 @@ def plot_pic(x, y, labe):
             tmp.append(y[i])
         else:
             tmp.append(0)
-    print x
     plt.plot(x, tmp, label=labe)
     for a, b in zip(x, tmp):
-        plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=12)
     pass
 
 
@@ -144,7 +143,7 @@ if __name__ == '__main__':
     print time_arr
 
     # 绘制 宜搜天价值量 图形
-    plt.figure(figsize=(20, 10))
+    plt.figure(figsize=(10, 5))
     plt.subplot(121)
     plot_pic(time_arr, easou_day_arr, "easou's value")
     plt.xlabel('date')
@@ -233,7 +232,7 @@ if __name__ == '__main__':
                 '</table>\n'
 
     # 绘制微卷天价值图
-    plt.figure(figsize=(20, 10))
+    plt.figure(figsize=(10, 5))
     plt.subplot(121)
     plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
     plt.xlabel('date')
