@@ -13,7 +13,9 @@ sys.setdefaultencoding("utf8")
 def read_pic(pth):
     tmp = ''
     with open(pth, 'rb') as fr:
-        tmp = base64.b64encode(fr.read())
+        if fr.readable():
+            bt = fr.read(64) + '\n'
+            tmp += base64.b64encode(bt)
     return tmp
 
 
