@@ -147,21 +147,18 @@ if __name__ == '__main__':
 
     # 绘制 宜搜天价值量 图形
     plt.figure()
+    plt.subplot(121)
     plot_pic(time_arr, easou_day_arr, "easou's value")
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
-    plt.savefig('./.pic.png')
-    pic = read_pic('./.pic.png')
-
-    # 宜搜 绘制平均价值图
-    plt.figure()
+    plt.subplot(122)
     plot_pic(time_arr, easou_aver_arr, "easou's Per capita value")
     plt.xlabel('date')
-    plt.ylabel('value')
+    plt.ylabel('Per capita value')
     plt.legend()
     plt.savefig('./.pic.png')
-    average_pic = read_pic('./.pic.png')
+    pic = read_pic('./.pic.png')
 
     easou_str = '' \
                 '<img src="data:image/png;base64,' + pic + '"/>' \
@@ -251,7 +248,7 @@ if __name__ == '__main__':
     plt.figure()
     plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
     plt.xlabel('date')
-    plt.ylabel('value')
+    plt.ylabel('Per capita value')
     plt.legend()
     plt.savefig('./.pic.png')
     average_pic = read_pic('./.pic.png')
