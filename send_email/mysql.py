@@ -33,7 +33,6 @@ class Mysql:
                "`id`, `app`, `value_type`, `value`, `time_stamp`)VALUES(" \
                "'%s', '%d', '%d', '%s', '%d');" % (
             id, self.__app[app], self.__value_type[value_type], value, int(time_stamp))
-
         try:
             cursor = self.__conn.cursor()
             cursor.execute(msql)

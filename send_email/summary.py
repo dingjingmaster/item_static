@@ -114,7 +114,7 @@ if __name__ == '__main__':
     mq = Mysql('10.26.24.87', 3306, 'item_earn', 'root', '123456')
     time_arr = []
     easou_day_arr = {}
-    easou_aver_arr ={}
+    easou_aver_arr = {}
     weijuan_day_arr = {}
     weijuan_aver_arr = {}
     if mq.connect():
@@ -127,6 +127,9 @@ if __name__ == '__main__':
         easou_aver_arr = mq.get_time_range_value('easou', 'earn_aver', start_time_int, end_time_int)
         weijuan_day_arr = mq.get_time_range_value('weijuan', 'earn_sum', start_time_int, end_time_int)
         weijuan_aver_arr = mq.get_time_range_value('weijuan', 'earn_aver', start_time_int, end_time_int)
+    else:
+        print '数据库链接错误'
+        exit(1)
     time_arr = mq.get_time_range()
 
     # 绘制 宜搜天价值量 图形
