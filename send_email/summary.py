@@ -61,7 +61,6 @@ if __name__ == '__main__':
     cg_rank = 5
 
     pic = ''
-    average_pic = ''
 
     dict1 = {}
 
@@ -146,12 +145,11 @@ if __name__ == '__main__':
     print time_arr
 
     # 绘制 宜搜天价值量 图形
-    plt.figure()
+    plt.figure(figsize=(300, 150))
     plt.subplot(121)
     plot_pic(time_arr, easou_day_arr, "easou's value")
     plt.xlabel('date')
     plt.ylabel('value')
-    plt.legend()
     plt.subplot(122)
     plot_pic(time_arr, easou_aver_arr, "easou's Per capita value")
     plt.xlabel('date')
@@ -162,7 +160,6 @@ if __name__ == '__main__':
 
     easou_str = '' \
                 '<img src="data:image/png;base64,' + pic + '"/>' \
-                '<img src="data:image/png;base64,' + average_pic + '"/>' \
                 '<br/>'\
                 '<h4>APP阅读情况</h4>\n' \
                 '<table width="80%">\n' \
@@ -237,25 +234,20 @@ if __name__ == '__main__':
                 '</table>\n'
 
     # 绘制微卷天价值图
-    plt.figure()
+    plt.figure(figsize=(300, 150))
+    plt.subplot(121)
     plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
     plt.xlabel('date')
     plt.ylabel('value')
-    plt.legend()
-    plt.savefig('./.pic.png')
-    pic = read_pic('./.pic.png')
-
-    plt.figure()
+    plt.subplot(122)
     plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
     plt.xlabel('date')
     plt.ylabel('Per capita value')
-    plt.legend()
     plt.savefig('./.pic.png')
-    average_pic = read_pic('./.pic.png')
+    pic = read_pic('./.pic.png')
 
     weijuan_str = '' \
                   '<img src="data:image/png;base64,' + pic + '"/>' \
-                  '<img src="data:image/png;base64,' + average_pic + '"/>' \
                   '<br/>' \
                   '<h4>APP阅读情况</h4>\n' \
                   '<table width="80%">\n' \
