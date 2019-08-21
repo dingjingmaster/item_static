@@ -1,10 +1,18 @@
 #!/usr/bin/env python2.7
 # -*- coding=utf-8 -*-
-
 import sys
-
+import base64
+from mysql import Mysql
+import matplotlib.pyplot as plt
 reload(sys)
 sys.setdefaultencoding("utf8")
+
+
+def read_pic(pth):
+    tmp = ''
+    with open(pth, 'rb') as fr:
+        tmp = base64.b64decode(fr.read())
+    return tmp
 
 
 def check_dict(mdict, key):
@@ -13,15 +21,35 @@ def check_dict(mdict, key):
     return mdict[key].strip()
 
 
+def plot_pic(x, y, labe):
+    tmp = []
+    for i in x:
+        if y.has_key(i):
+            tmp.append(y[i])
+        else:
+            tmp.append(0)
+    plt.plot(x, tmp, label=labe)
+    for a, b in zip(x, tmp):
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
+    pass
+
+
 if __name__ == '__main__':
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 6:
         exit(-1)
     summary_path = sys.argv[1]
     easou_result_path = sys.argv[2]
     weijuan_result_path = sys.argv[3]
+    start_time_int = sys.argv[4]
+    end_time_int = sys.argv[5]
 
     ad_rank = 1
     cg_rank = 5
+
+    easou_pic = ''
+    weijuan_pic = ''
+    easou_average_pic = ''
+    weijuan_average_pic = ''
 
     dict1 = {}
 
@@ -80,7 +108,60 @@ if __name__ == '__main__':
     weijuan_aver_earn = "%.3f" % (float(app_earn_value['weijuan_ad']
                                       + app_earn_value['weijuan_cg']) / int(check_dict(dau, 'weijuan_dau')))
 
+    # 保存今天数据 并 返回历史数据
+    mq = Mysql('10.26.24.87', 3306, 'item_earn', 'root', '123456')
+    time_arr = []
+    easou_day_arr = {}
+    easou_aver_arr ={}
+    weijuan_day_arr = {}
+    weijuan_aver_arr = {}
+    if mq.connect():
+        mq.save('easou', 'earn_sum', easou_day_earn, end_time_int)
+        mq.save('easou', 'earn_aver', easou_aver_earn, end_time_int)
+        mq.save('weijuan', 'earn_sum', weijuan_day_earn, end_time_int)
+        mq.save('weijuan', 'warn_aver', weijuan_aver_earn, end_time_int)
+
+        easou_day_arr = mq.get_time_range_value('easou', 'earn_sum', start_time_int, end_time_int)
+        easou_aver_arr = mq.get_time_range_value('easou', 'earn_aver', start_time_int, end_time_int)
+        weijuan_day_arr = mq.get_time_range_value('weijuan', 'earn_sum', start_time_int, end_time_int)
+        weijuan_aver_arr = mq.get_time_range_value('weijuan', 'earn_aver', start_time_int, end_time_int)
+    time_arr = mq.get_time_range()
+
+    # 绘制 宜搜天价值量 图形
+    plot_pic(time_arr, easou_day_arr, "easou's value")
+    plt.xlabel('date')
+    plt.ylabel('value')
+    plt.legend()
+    plt.savefig('./.pic.png')
+    easou_pic = read_pic('./.pic.png')
+
+    # 绘制微卷天价值图
+    plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
+    plt.xlabel('date')
+    plt.ylabel('value')
+    plt.legend()
+    plt.savefig('./.pic.png')
+    weijuan_pic = read_pic('./.pic.png')
+
+    # 宜搜 绘制平均价值图
+    plot_pic(time_arr, easou_aver_arr, "easou's Per capita value")
+    plt.xlabel('date')
+    plt.ylabel('value')
+    plt.legend()
+    plt.savefig('./.pic.png')
+    easou_average_pic = read_pic('./.pic.png')
+
+    plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
+    plt.xlabel('date')
+    plt.ylabel('value')
+    plt.legend()
+    plt.savefig('./.pic.png')
+    weijuan_average_pic = read_pic('./.pic.png')
+
     easou_str = '' \
+                '<img src="data:image/png;base64,' + easou_pic + '">' \
+                '<img src="data:image/png;base64,' + easou_average_pic + '">' \
+                '<br/>'\
                 '<h4>APP阅读情况</h4>\n' \
                 '<table width="80%">\n' \
                 '<tr align="center">\n' \
@@ -154,6 +235,9 @@ if __name__ == '__main__':
                 '</table>\n'
 
     weijuan_str = '' \
+                  '<img src="data:image/png;base64,' + weijuan_pic + '">' \
+                  '<img src="data:image/png;base64,' + weijuan_average_pic + '">' \
+                  '<br/>' \
                   '<h4>APP阅读情况</h4>\n' \
                   '<table width="80%">\n' \
                   ' <tr align="center">\n' \

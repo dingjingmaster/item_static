@@ -6,6 +6,7 @@ source ~/.bashrc
 workDir=$(cd $(dirname $0); pwd)
 today=`date -d "-1 day" +%Y-%m-%d`
 year=`date -d "-1 day" +%Y`
+d7ago=`date -d "-8 day" +%Y-%m-%d`
 #today="2019-06-27"
 
 itemInfoPath=`hadoop fs -ls "hdfs://10.26.26.145:8020/rs/iteminfo/${year}-*/item_*" | tail -n 1 | awk -F' ' '{print $8}'`
@@ -40,7 +41,7 @@ cd ${workDir}
 rm -fr data && mkdir data
 hadoop fs -cat "${itemChapterReadPath}/summary/*" > ${localSummaryPath}
 hadoop fs -cat "${itemChapterReadPath}/base_info/*" > ${localReadPath}
-python send_email/summary.py "${localSummaryPath}" "${easouSummaryResultPath}" "${weijuanSummaryResultPath}"
+python send_email/summary.py "${localSummaryPath}" "${easouSummaryResultPath}" "${weijuanSummaryResultPath}" "${d7ago}" "${today}"
 python send_email/generate_read_email.py "${localReadPath}" "${easouResultPath}" "10001"
 python send_email/generate_read_email.py "${localReadPath}" "${weijuanResultPath}" "20001"
 
