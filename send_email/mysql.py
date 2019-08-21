@@ -53,16 +53,16 @@ class Mysql:
             cursor.execute(msql)
             data = cursor.fetchall()
             for i in data:
-                self.__time.append(i[1])
-                arr_value[i[1]] = i[0]
+                self.__time.append(str(i[1]))
+                arr_value[str(i[1])] = i[0]
         except:
             print 'sql' + msql + '执行错误!'
             return False
         return arr_value
 
     def get_time_range(self):
-        list(set(self.__time)).sort(key=lambda x: int(x))
-        return self.__time
+        self.__time = list(set(self.__time))
+        return self.__time.sort()
 
     def _get_id(self, app, value_type, time_stamp):
         id = ''
