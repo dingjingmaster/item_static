@@ -22,6 +22,7 @@ def read_pic(pth):
             ct += (i + '\n')
         else:
             ct += i
+    del tmp
     return ct
 
 
@@ -140,6 +141,9 @@ if __name__ == '__main__':
         print '数据库链接错误'
         exit(1)
     time_arr = mq.get_time_range()
+
+    print '1'
+    print time_arr
 
     # 绘制 宜搜天价值量 图形
     plt.figure()
