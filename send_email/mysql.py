@@ -21,6 +21,7 @@ class Mysql:
         if None is self.__conn:
             print '连接数据库失败'
             return False
+        return True
 
     def close(self):
         self.__conn.close()
