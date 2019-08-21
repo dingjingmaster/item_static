@@ -145,7 +145,7 @@ if __name__ == '__main__':
     print time_arr
 
     # 绘制 宜搜天价值量 图形
-    plt.figure(figsize=(300, 150))
+    plt.figure(figsize=(20, 10))
     plt.subplot(121)
     plot_pic(time_arr, easou_day_arr, "easou's value")
     plt.xlabel('date')
