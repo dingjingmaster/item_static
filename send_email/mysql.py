@@ -37,6 +37,7 @@ class Mysql:
         try:
             cursor = self.__conn.cursor()
             cursor.execute(msql)
+            self.__conn.commit()
         except:
             print 'sql' + msql + '执行错误!'
             return False

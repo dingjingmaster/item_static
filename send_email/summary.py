@@ -26,7 +26,7 @@ def read_pic(pth):
 
 
 def check_dict(mdict, key):
-    if not mdict.has_key(key):
+    if key not in mdict:
         return '0'
     return mdict[key]
 
