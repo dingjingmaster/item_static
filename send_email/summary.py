@@ -18,7 +18,7 @@ def read_pic(pth):
             bt = fr.read(64)
             if bt is None or '' == bt:
                 break
-            tmp += base64.b64encode(bt) + '\n'
+            tmp += base64.b64encode(bt)
     return tmp
 
 
