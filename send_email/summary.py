@@ -3,6 +3,8 @@
 import sys
 import base64
 from mysql import Mysql
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 reload(sys)
 sys.setdefaultencoding("utf8")
@@ -26,7 +28,7 @@ def plot_pic(x, y, labe):
         return
     tmp = []
     for i in x:
-        if y.has_key(i):
+        if i in y:
             tmp.append(y[i])
         else:
             tmp.append(0)
