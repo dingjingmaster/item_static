@@ -18,7 +18,7 @@ def read_pic(pth):
 def check_dict(mdict, key):
     if not mdict.has_key(key):
         return '0'
-    return mdict[key].strip()
+    return mdict[key]
 
 
 def plot_pic(x, y, labe):
