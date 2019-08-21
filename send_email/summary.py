@@ -42,7 +42,7 @@ def plot_pic(x, y, labe):
             tmp.append(0)
     plt.plot(x, tmp, label=labe)
     for a, b in zip(x, tmp):
-        plt.text(a, b, b, ha='center', va='bottom', fontsize=12)
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     pass
 
 
@@ -148,6 +148,7 @@ if __name__ == '__main__':
     plot_pic(time_arr, easou_day_arr, "easou's value")
     plt.xlabel('date')
     plt.ylabel('value')
+    plt.legend()
     plt.subplot(122)
     plot_pic(time_arr, easou_aver_arr, "easou's Per capita value")
     plt.xlabel('date')
@@ -237,10 +238,12 @@ if __name__ == '__main__':
     plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
     plt.xlabel('date')
     plt.ylabel('value')
+    plt.legend()
     plt.subplot(122)
     plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
     plt.xlabel('date')
     plt.ylabel('Per capita value')
+    plt.legend()
     plt.savefig('./.pic.png')
     pic = read_pic('./.pic.png')
 
