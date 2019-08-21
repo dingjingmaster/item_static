@@ -166,8 +166,8 @@ if __name__ == '__main__':
     weijuan_average_pic = read_pic('./.pic.png')
 
     easou_str = '' \
-                '<img src="data:image/png;base64,' + easou_pic + '">' \
-                '<img src="data:image/png;base64,' + easou_average_pic + '">' \
+                '<img src="data:image/png;base64,' + easou_pic + '"/>' \
+                '<img src="data:image/png;base64,' + easou_average_pic + '"/>' \
                 '<br/>'\
                 '<h4>APP阅读情况</h4>\n' \
                 '<table width="80%">\n' \
@@ -242,8 +242,8 @@ if __name__ == '__main__':
                 '</table>\n'
 
     weijuan_str = '' \
-                  '<img src="data:image/png;base64,' + weijuan_pic + '">' \
-                  '<img src="data:image/png;base64,' + weijuan_average_pic + '">' \
+                  '<img src="data:image/png;base64,' + weijuan_pic + '"/>' \
+                  '<img src="data:image/png;base64,' + weijuan_average_pic + '"/>' \
                   '<br/>' \
                   '<h4>APP阅读情况</h4>\n' \
                   '<table width="80%">\n' \
