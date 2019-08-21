@@ -1,5 +1,6 @@
 #!/usr/bin/env python2.7
 # -*- coding=utf-8 -*-
+import os
 import sys
 import base64
 from mysql import Mysql
@@ -13,8 +14,10 @@ sys.setdefaultencoding("utf8")
 def read_pic(pth):
     tmp = ''
     with open(pth, 'rb') as fr:
-        if fr.readable():
+        while True:
             bt = fr.read(64)
+            if bt is None:
+                break
             tmp += base64.b64encode(bt) + '\n'
     return tmp
 
