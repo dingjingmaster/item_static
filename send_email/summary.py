@@ -17,7 +17,7 @@ def read_pic(pth):
         tmp = base64.b64encode(fr.read())
     for i in tmp:
         j += 1
-        if (j % 1000) == 0:
+        if (j % 1024) == 0:
             ct += (i + '\n')
         else:
             ct += i
