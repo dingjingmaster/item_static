@@ -12,14 +12,17 @@ sys.setdefaultencoding("utf8")
 
 
 def read_pic(pth):
-    tmp = ''
+    j = 0
+    ct = ''
     with open(pth, 'rb') as fr:
-        while True:
-            bt = fr.read(64)
-            if bt is None or '' == bt:
-                break
-            tmp += base64.b64encode(bt)
-    return tmp
+        tmp = base64.b64encode(fr.read())
+    for i in tmp:
+        j += 1
+        if (j % 128) == 0:
+            ct += (i + '\n')
+        else:
+            ct += i
+    return ct
 
 
 def check_dict(mdict, key):
