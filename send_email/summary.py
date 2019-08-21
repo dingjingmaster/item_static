@@ -40,6 +40,7 @@ def plot_pic(x, y, labe):
             tmp.append(y[i])
         else:
             tmp.append(0)
+    print x
     plt.plot(x, tmp, label=labe)
     for a, b in zip(x, tmp):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
