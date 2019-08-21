@@ -22,6 +22,8 @@ def check_dict(mdict, key):
 
 
 def plot_pic(x, y, labe):
+    if None is x:
+        return
     tmp = []
     for i in x:
         if y.has_key(i):

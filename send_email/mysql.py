@@ -60,7 +60,8 @@ class Mysql:
         return arr_value
 
     def get_time_range(self):
-        return list(set(self.__time)).sort(key=lambda x: int(x))
+        list(set(self.__time)).sort(key=lambda x: int(x))
+        return self.__time
 
     def _get_id(self, app, value_type, time_stamp):
         id = ''
