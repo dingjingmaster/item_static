@@ -46,7 +46,7 @@ class Mysql:
         arr_value = {}
         msql = "SELECT `value`, `time_stamp` FROM `item_earn` " \
                "WHERE app = %d AND value_type = %d AND time_stamp >= %d AND time_stamp <= %d" %\
-               (self.__app[app], self.__value_type[value_type], start_time, end_time)
+               (self.__app[app], self.__value_type[value_type], int(start_time), int(end_time))
         try:
             cursor = self.__conn.cursor()
             cursor.execute(msql)
