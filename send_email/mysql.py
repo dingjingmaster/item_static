@@ -52,8 +52,8 @@ class Mysql:
             cursor.execute(msql)
             data = cursor.fetchall()
             for i in data:
-                self.__time.append(i[0])
-                arr_value[i[0]] = i[1]
+                self.__time.append(i[1])
+                arr_value[i[1]] = i[0]
         except:
             print 'sql' + msql + '执行错误!'
             return False
