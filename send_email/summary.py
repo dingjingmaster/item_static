@@ -59,10 +59,8 @@ if __name__ == '__main__':
     ad_rank = 1
     cg_rank = 5
 
-    easou_pic = ''
-    weijuan_pic = ''
-    easou_average_pic = ''
-    weijuan_average_pic = ''
+    pic = ''
+    average_pic = ''
 
     dict1 = {}
 
@@ -150,16 +148,7 @@ if __name__ == '__main__':
     plt.ylabel('value')
     plt.legend()
     plt.savefig('./.pic.png')
-    easou_pic = read_pic('./.pic.png')
-
-    # 绘制微卷天价值图
-    plt.figure()
-    plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
-    plt.xlabel('date')
-    plt.ylabel('value')
-    plt.legend()
-    plt.savefig('./.pic.png')
-    weijuan_pic = read_pic('./.pic.png')
+    pic = read_pic('./.pic.png')
 
     # 宜搜 绘制平均价值图
     plt.figure()
@@ -168,19 +157,11 @@ if __name__ == '__main__':
     plt.ylabel('value')
     plt.legend()
     plt.savefig('./.pic.png')
-    easou_average_pic = read_pic('./.pic.png')
-
-    plt.figure()
-    plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
-    plt.xlabel('date')
-    plt.ylabel('value')
-    plt.legend()
-    plt.savefig('./.pic.png')
-    weijuan_average_pic = read_pic('./.pic.png')
+    average_pic = read_pic('./.pic.png')
 
     easou_str = '' \
-                '<img src="data:image/png;base64,' + easou_pic + '"/>' \
-                '<img src="data:image/png;base64,' + easou_average_pic + '"/>' \
+                '<img src="data:image/png;base64,' + pic + '"/>' \
+                '<img src="data:image/png;base64,' + average_pic + '"/>' \
                 '<br/>'\
                 '<h4>APP阅读情况</h4>\n' \
                 '<table width="80%">\n' \
@@ -254,9 +235,26 @@ if __name__ == '__main__':
                 '   </tr>\n' \
                 '</table>\n'
 
+    # 绘制微卷天价值图
+    plt.figure()
+    plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
+    plt.xlabel('date')
+    plt.ylabel('value')
+    plt.legend()
+    plt.savefig('./.pic.png')
+    pic = read_pic('./.pic.png')
+
+    plt.figure()
+    plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
+    plt.xlabel('date')
+    plt.ylabel('value')
+    plt.legend()
+    plt.savefig('./.pic.png')
+    average_pic = read_pic('./.pic.png')
+
     weijuan_str = '' \
-                  '<img src="data:image/png;base64,' + weijuan_pic + '"/>' \
-                  '<img src="data:image/png;base64,' + weijuan_average_pic + '"/>' \
+                  '<img src="data:image/png;base64,' + pic + '"/>' \
+                  '<img src="data:image/png;base64,' + average_pic + '"/>' \
                   '<br/>' \
                   '<h4>APP阅读情况</h4>\n' \
                   '<table width="80%">\n' \
