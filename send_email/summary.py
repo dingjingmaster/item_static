@@ -17,7 +17,7 @@ def read_pic(pth):
         tmp = base64.b64encode(fr.read())
     for i in tmp:
         j += 1
-        if (j % 1024) == 0:
+        if (j % 4096) == 0:
             ct += (i + '\n')
         else:
             ct += i
@@ -233,7 +233,7 @@ if __name__ == '__main__':
                 '</table>\n'
 
     # 绘制微卷天价值图
-    plt.figure(figsize=(300, 150))
+    plt.figure(figsize=(20, 10))
     plt.subplot(121)
     plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
     plt.xlabel('date')
