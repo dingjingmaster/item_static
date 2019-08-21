@@ -62,7 +62,8 @@ class Mysql:
 
     def get_time_range(self):
         self.__time = list(set(self.__time))
-        return self.__time.sort()
+        self.__time.sort()
+        return self.__time
 
     def _get_id(self, app, value_type, time_stamp):
         id = ''
