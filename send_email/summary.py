@@ -14,8 +14,8 @@ def read_pic(pth):
     tmp = ''
     with open(pth, 'rb') as fr:
         if fr.readable():
-            bt = fr.read(64) + '\n'
-            tmp += base64.b64encode(bt)
+            bt = fr.read(64)
+            tmp += base64.b64encode(bt) + '\n'
     return tmp
 
 
