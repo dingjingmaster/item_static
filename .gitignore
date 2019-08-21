@@ -5,6 +5,7 @@
 *.txt
 *.pyc
 *.out
+.pic.*
 
 [.*]idea/
 project/
