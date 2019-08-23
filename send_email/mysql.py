@@ -56,7 +56,7 @@ class Mysql:
             data = cursor.fetchall()
             for i in data:
                 self.__time.append(int(i[1]))
-                arr_value[int(i[1])] = i[0]
+                arr_value[int(i[1])] = float(i[0])
         except:
             print 'sql' + msql + '执行错误!'
             return False
