@@ -1,6 +1,8 @@
 #!/usr/bin/env python2.7
 # -*- coding=utf-8 -*-
 import sys
+import time
+import datetime
 import MySQLdb
 reload(sys)
 sys.setdefaultencoding("utf8")
@@ -60,9 +62,21 @@ class Mysql:
             return False
         return arr_value
 
-    def get_time_range(self):
+    def get_time_range(self, start, end):
         self.__time = list(set(self.__time))
         self.__time.sort()
+        if len(self.__time) > 0:
+            fstart = time.strptime(start, "%Y%m%d")
+            index = 0
+            while True:
+                ps = (datetime.date.fromtimestamp(time.mktime(fstart))
+                      + datetime.timedelta(days=index)).strftime("%Y%m%d")
+                if int(ps) >= int(end):
+                    self.__time.append(end)
+                    break
+                self.__time.append(ps)
+                index += 1
+
         return self.__time
 
     def _get_id(self, app, value_type, time_stamp):
