@@ -147,7 +147,7 @@ if __name__ == '__main__':
     p = plt.subplot(121)
     y = plot_pic(time_arr, easou_day_arr)
     plt.plot(time_arr, y)
-    plt.axis([int(start_time_int), int(end_time_int), 2000000, 10000000])
+    p.axis([int(start_time_int), int(end_time_int), 1000000, 10000000])
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')
@@ -157,7 +157,7 @@ if __name__ == '__main__':
     p = plt.subplot(122)
     y = plot_pic(time_arr, easou_aver_arr)
     plt.plot(time_arr, y)
-    plt.axis([int(start_time_int), int(end_time_int), 0, 100])
+    p.axis([int(start_time_int), int(end_time_int), 0, 100])
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')
