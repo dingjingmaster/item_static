@@ -32,7 +32,7 @@ def check_dict(mdict, key):
     return mdict[key]
 
 
-def plot_pic(x, y, labe):
+def plot_pic(x, y, axis, labe):
     if None is x:
         return
     tmp = []
@@ -42,6 +42,7 @@ def plot_pic(x, y, labe):
         else:
             tmp.append(0)
     plt.plot(x, tmp, label=labe)
+    plt.axis(axis)
     for a, b in zip(x, tmp):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     pass
@@ -146,15 +147,13 @@ if __name__ == '__main__':
     # 绘制 宜搜天价值量 图形
     plt.figure(figsize=(10, 5))
     p = plt.subplot(121)
-    plot_pic(time_arr, easou_day_arr, "easou's value")
-    plt.axis([int(start_time_int), int(end_time_int), 2000000, 10000000])
+    plot_pic(time_arr, easou_day_arr, [int(start_time_int), int(end_time_int), 2000000, 10000000], "easou's value")
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
     p = plt.subplot(122)
 
-    plot_pic(time_arr, easou_aver_arr, "easou's Per capita value")
-    plt.axis([int(start_time_int), int(end_time_int), 0, 100])
+    plot_pic(time_arr, easou_aver_arr, [int(start_time_int), int(end_time_int), 0, 100], "easou's Per capita value")
     plt.xlabel('date')
     plt.ylabel('Per capita value')
     plt.legend()
