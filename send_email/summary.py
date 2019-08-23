@@ -34,14 +34,12 @@ def check_dict(mdict, key):
 
 
 def plot_pic(x, y):
-    if None is x:
-        return
     tmp = []
     for i in x:
         if i in y:
             tmp.append(y[i])
         else:
-            tmp.append(0)
+            tmp.append(0.0)
     return tmp
 
 
@@ -144,13 +142,13 @@ if __name__ == '__main__':
     print time_arr
 
     # 绘制 宜搜天价值量 图形
-    plt.figure(figsize=(12, 5))
+    plt.figure(figsize=(10, 5))
     p = plt.subplot(121)
+    p.set_ylim(bottom=1000000, top=8000000)
+    plt.xticks(time_arr, time_arr, rotation=45)
     y = plot_pic(time_arr, easou_day_arr)
     print y
     plt.plot(time_arr, y)
-    plt.xticks(time_arr, time_arr, rotation=45)
-    p.set_ylim(bottom=1000000, top=8000000)
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')
@@ -158,11 +156,11 @@ if __name__ == '__main__':
     plt.legend()
 
     p = plt.subplot(122)
+    p.set_ylim(bottom=10, top=60)
+    plt.xticks(time_arr, time_arr, rotation=45)
     y = plot_pic(time_arr, easou_aver_arr)
     print y
     plt.plot(time_arr, y)
-    plt.xticks(time_arr, time_arr, rotation=45)
-    p.set_ylim(bottom=10, top=60)
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')

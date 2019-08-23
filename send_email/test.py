@@ -17,10 +17,9 @@ if __name__ == '__main__':
 
     plt.figure(figsize=(10, 5))
     p = plt.subplot(121)
-    # p.yaxis.set_major_locator(MultipleLocator(100000))
-    plt.plot(x, y)
     plt.xticks(x, x, rotation=45)
     p.set_ylim(bottom=1000000, top=8000000)
+    plt.plot(x, y)
     for a, b in zip(x, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
 
