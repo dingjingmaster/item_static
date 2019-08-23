@@ -136,7 +136,7 @@ if __name__ == '__main__':
     else:
         print '数据库链接错误'
         exit(1)
-    time_arr = mq.get_time_range()
+    time_arr = mq.get_time_range(start_time_int, end_time_int)
 
     print '1'
     print time_arr
