@@ -63,18 +63,18 @@ class Mysql:
         return arr_value
 
     def get_time_range(self, start, end):
-        if len(self.__time) <= 0 or None is not self.__time:
-            self.__time = []
-            fstart = time.strptime(start, "%Y%m%d")
-            index = 0
-            while True:
-                ps = (datetime.date.fromtimestamp(time.mktime(fstart))
-                      + datetime.timedelta(days=index)).strftime("%Y%m%d")
-                if int(ps) >= int(end):
-                    self.__time.append(int(end))
-                    break
-                self.__time.append(int(ps))
-                index += 1
+        # if len(self.__time) <= 0 or None is not self.__time:
+        #     self.__time = []
+        #     fstart = time.strptime(start, "%Y%m%d")
+        #     index = 0
+        #     while True:
+        #         ps = (datetime.date.fromtimestamp(time.mktime(fstart))
+        #               + datetime.timedelta(days=index)).strftime("%Y%m%d")
+        #         if int(ps) >= int(end):
+        #             self.__time.append(int(end))
+        #             break
+        #         self.__time.append(int(ps))
+        #         index += 1
         self.__time = list(set(self.__time))
         self.__time.sort()
         return self.__time
