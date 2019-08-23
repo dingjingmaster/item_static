@@ -3,7 +3,7 @@
 import sys
 import base64
 import matplotlib
-matplotlib.use('Agg')
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from mysql import Mysql
 from matplotlib.ticker import MultipleLocator
