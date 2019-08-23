@@ -149,7 +149,7 @@ if __name__ == '__main__':
     print y
     plt.plot(time_arr, y)
     plt.xticks(time_arr, time_arr, rotation=45)
-    p.set_ylim(bottom=100000, top=8000000)
+    p.set_ylim(bottom=1000000, top=8000000)
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')
@@ -161,7 +161,7 @@ if __name__ == '__main__':
     print y
     plt.plot(time_arr, y)
     plt.xticks(time_arr, time_arr, rotation=45)
-    p.set_ylim(bottom=0, top=200)
+    p.set_ylim(bottom=0, top=90)
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')
