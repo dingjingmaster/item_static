@@ -1,6 +1,7 @@
 #!/usr/bin/env python2.7
 # -*- coding=utf-8 -*-
 import sys
+import math
 import base64
 import matplotlib
 matplotlib.use('Agg')
@@ -161,7 +162,7 @@ if __name__ == '__main__':
     print y
     plt.plot(time_arr, y)
     plt.xticks(time_arr, time_arr, rotation=45)
-    p.set_ylim(bottom=int(min(y))-20, top=int(max(y))+20)
+    p.set_ylim(bottom=math.floor(min(y))-20, top=math.floor(max(y))+20)
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')
@@ -169,9 +170,8 @@ if __name__ == '__main__':
     plt.legend()
     plt.savefig('./.pic.png')
     pic = read_pic('./.pic.png')
-
+    fwe.write('<img src="data:image/png;base64,' + pic + '"/>\n')
     strb = '' \
-                '<img src="data:image/png;base64,' + pic + '"/>' \
                 '<br/>'\
                 '<h4>APP阅读情况</h4>\n' \
                 '<table width="80%">\n' \
@@ -248,24 +248,34 @@ if __name__ == '__main__':
     fwe.close()
 
     # 绘制微卷天价值图
-    # plt.figure(figsize=(10, 5))
-    # p = plt.subplot(121)
-    # p.yaxis.set_major_locator(MultipleLocator(100000))
-    # plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
-    # plt.xlabel('date')
-    # plt.ylabel('value')
-    # plt.legend()
-    # p = plt.subplot(122)
-    # p.yaxis.set_major_locator(MultipleLocator(10))
-    # plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
-    # plt.xlabel('date')
-    # plt.ylabel('Per capita value')
-    # plt.legend()
-    # plt.savefig('./.pic.png')
-    # pic = read_pic('./.pic.png')
+    plt.figure(figsize=(10, 5))
+    p = plt.subplot(121)
+    y = plot_pic(time_arr, weijuan_day_arr)
+    print y
+    plt.plot(time_arr, y)
+    plt.xticks(time_arr, time_arr, rotation=45)
+    p.set_ylim(bottom=int(min(y))-100000, top=int(max(y))+100000)
+    for a, b in zip(time_arr, y):
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+    plt.xlabel('date')
+    plt.ylabel('value')
+    plt.legend()
+    p = plt.subplot(122)
+    y = plot_pic(time_arr, weijuan_aver_arr)
+    print y
+    plt.plot(time_arr, y)
+    plt.xticks(time_arr, time_arr, rotation=45)
+    p.set_ylim(bottom=math.floor(min(y))-20, top=math.floor(max(y))+20)
+    for a, b in zip(time_arr, y):
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+    plt.xlabel('date')
+    plt.ylabel('Per capita value')
+    plt.legend()
+    plt.savefig('./.pic.png')
+    pic = read_pic('./.pic.png')
+    fwe.write('<img src="data:image/png;base64,' + pic + '"/>\n')
 
     strb = '' \
-                  '<img src="data:image/png;base64,' + pic + '"/>' \
                   '<br/>' \
                   '<h4>APP阅读情况</h4>\n' \
                   '<table width="80%">\n' \
@@ -346,6 +356,6 @@ if __name__ == '__main__':
                   '     <td align="left">' + check_dict(dict2_wj_chapter, '互联网') + '</td>\n' \
                   ' </tr>\n' \
                   '</table>\n'
-    # fww.write(strb)
+    fww.write(strb)
     fww.close()
     exit(0)
