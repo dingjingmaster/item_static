@@ -14,7 +14,6 @@ if __name__ == '__main__':
 
     x = [20190817, 20190818, 20190819, 20190820, 20190821]
     y = [4513043, 4546706, 4557366, 4479018, 4465836]
-    y1 = [36.867, 36.955, 37.075, 36.725, 36.826]
 
     plt.figure(figsize=(10, 5))
     p = plt.subplot(121)
@@ -22,6 +21,8 @@ if __name__ == '__main__':
     plt.plot(x, y)
     plt.xticks(x, x, rotation=45)
     p.set_ylim(bottom=1000000, top=8000000)
+    for a, b in zip(x, y):
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
 
     # p.set_xlim(20190817, 20190821)
     # p.axis([20190817, 20190821, 1000000, 10000000])
@@ -29,9 +30,13 @@ if __name__ == '__main__':
     plt.ylabel('value')
     plt.legend()
     p = plt.subplot(122)
-    plt.plot(x, y1)
+    y = [36.867, 36.955, 37.075, 36.725, 36.826]
+    plt.plot(x, y)
     plt.xticks(x, x, rotation=45)
-    # plt.ylim(xmin=0)
+    p.set_ylim(bottom=10, top=60)
+    for a, b in zip(x, y):
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+
     plt.legend()
 
     plt.show()
