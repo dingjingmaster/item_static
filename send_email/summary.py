@@ -146,15 +146,15 @@ if __name__ == '__main__':
     # 绘制 宜搜天价值量 图形
     plt.figure(figsize=(10, 5))
     p = plt.subplot(121)
-    plt.axis([int(start_time_int), int(end_time_int), 1000000, 10000000])
     plot_pic(time_arr, easou_day_arr, "easou's value")
+    plt.axis([int(start_time_int), int(end_time_int), 1000000, 10000000])
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
     p = plt.subplot(122)
 
-    plt.axis([int(start_time_int), int(end_time_int), 1, 200])
     plot_pic(time_arr, easou_aver_arr, "easou's Per capita value")
+    plt.axis([int(start_time_int), int(end_time_int), 1, 200])
     plt.xlabel('date')
     plt.ylabel('Per capita value')
     plt.legend()
