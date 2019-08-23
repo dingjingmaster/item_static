@@ -77,7 +77,6 @@ class Mysql:
                     break
                 self.__time.append(ps)
                 index += 1
-
         return self.__time
 
     def _get_id(self, app, value_type, time_stamp):
