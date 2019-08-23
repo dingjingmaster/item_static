@@ -73,6 +73,8 @@ if __name__ == '__main__':
 
     dau = {}
     app_earn_value = {}
+    fwe = open(easou_result_path, 'w')
+    fww = open(weijuan_result_path, 'w')
 
     with open(summary_path, 'r') as fr:
         for line in fr.readlines():
@@ -151,8 +153,8 @@ if __name__ == '__main__':
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
-    p = plt.subplot(122)
 
+    p = plt.subplot(122)
     plot_pic(time_arr, easou_aver_arr, [int(start_time_int), int(end_time_int), 0, 100], "easou's Per capita value")
     plt.xlabel('date')
     plt.ylabel('Per capita value')
@@ -160,7 +162,7 @@ if __name__ == '__main__':
     plt.savefig('./.pic.png')
     pic = read_pic('./.pic.png')
 
-    easou_str = '' \
+    str = '' \
                 '<img src="data:image/png;base64,' + pic + '"/>' \
                 '<br/>'\
                 '<h4>APP阅读情况</h4>\n' \
@@ -234,25 +236,27 @@ if __name__ == '__main__':
                 '       <td align="left">' + check_dict(dict2_es_chapter, '互联网') + '</td>\n' \
                 '   </tr>\n' \
                 '</table>\n'
+    fwe.write(str)
+    fwe.close()
 
     # 绘制微卷天价值图
-    plt.figure(figsize=(10, 5))
-    p = plt.subplot(121)
-    p.yaxis.set_major_locator(MultipleLocator(100000))
-    plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
-    plt.xlabel('date')
-    plt.ylabel('value')
-    plt.legend()
-    p = plt.subplot(122)
-    p.yaxis.set_major_locator(MultipleLocator(10))
-    plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
-    plt.xlabel('date')
-    plt.ylabel('Per capita value')
-    plt.legend()
-    plt.savefig('./.pic.png')
-    pic = read_pic('./.pic.png')
+    # plt.figure(figsize=(10, 5))
+    # p = plt.subplot(121)
+    # p.yaxis.set_major_locator(MultipleLocator(100000))
+    # plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
+    # plt.xlabel('date')
+    # plt.ylabel('value')
+    # plt.legend()
+    # p = plt.subplot(122)
+    # p.yaxis.set_major_locator(MultipleLocator(10))
+    # plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
+    # plt.xlabel('date')
+    # plt.ylabel('Per capita value')
+    # plt.legend()
+    # plt.savefig('./.pic.png')
+    # pic = read_pic('./.pic.png')
 
-    weijuan_str = '' \
+    str = '' \
                   '<img src="data:image/png;base64,' + pic + '"/>' \
                   '<br/>' \
                   '<h4>APP阅读情况</h4>\n' \
@@ -334,11 +338,6 @@ if __name__ == '__main__':
                   '     <td align="left">' + check_dict(dict2_wj_chapter, '互联网') + '</td>\n' \
                   ' </tr>\n' \
                   '</table>\n'
-
-    with open(easou_result_path, 'w') as fw:
-        fw.write(easou_str + '\n')
-
-    with open(weijuan_result_path, 'w') as fw:
-        fw.write(weijuan_str + '\n')
-
+    fww.write(str)
+    fww.close()
     exit(0)
