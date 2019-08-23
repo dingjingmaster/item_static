@@ -148,7 +148,7 @@ if __name__ == '__main__':
     y = plot_pic(time_arr, easou_day_arr)
     print y
     plt.plot(time_arr, y)
-    p.axis([int(start_time_int), int(end_time_int), 1000000, 10000000])
+    plt.xticks(time_arr, time_arr, rotation=45)
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')
@@ -159,7 +159,7 @@ if __name__ == '__main__':
     y = plot_pic(time_arr, easou_aver_arr)
     print y
     plt.plot(time_arr, y)
-    p.axis([int(start_time_int), int(end_time_int), 0, 100])
+    plt.xticks(time_arr, time_arr, rotation=45)
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')

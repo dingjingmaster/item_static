@@ -12,20 +12,26 @@ sys.setdefaultencoding("utf8")
 
 if __name__ == '__main__':
 
-    x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    y = [100, 110, 120, 130, 140, 120, 110, 110, 220, 100, 120]
-    y1 = [0.1, 0.11, 0.12, 0.13, 0.14, 0.12, 0.11, 0.11, 0.22, 0.1, 0.12]
+    x = [20190817, 20190818, 20190819, 20190820, 20190821]
+    y = [4513043, 4546706, 4557366, 4479018, 4465836]
+    y1 = [36.867, 36.955, 37.075, 36.725, 36.826]
 
     plt.figure(figsize=(10, 5))
     p = plt.subplot(121)
     # p.yaxis.set_major_locator(MultipleLocator(100000))
     plt.plot(x, y)
-    plt.axis([0, 1000, 100, 1000])
+    plt.xticks(x, x, rotation=45)
+
+    # p.set_xlim(20190817, 20190821)
+    # p.axis([20190817, 20190821, 1000000, 10000000])
     plt.xlabel('date')
     plt.ylabel('value')
+    plt.grid()
     plt.legend()
     p = plt.subplot(122)
     plt.plot(x, y1)
+    plt.xticks(x, x, rotation=45)
+    plt.grid()
     plt.legend()
 
     plt.show()
