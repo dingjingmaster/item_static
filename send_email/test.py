@@ -20,6 +20,7 @@ if __name__ == '__main__':
     p = plt.subplot(121)
     # p.yaxis.set_major_locator(MultipleLocator(100000))
     plt.plot(x, y)
+    plt.axis([0, 1000, 100, 1000])
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
@@ -27,5 +28,5 @@ if __name__ == '__main__':
     plt.plot(x, y1)
     plt.legend()
 
-    # plt.show()
-    plt.savefig('./a.png')
+    plt.show()
+    # plt.savefig('./a.png')
