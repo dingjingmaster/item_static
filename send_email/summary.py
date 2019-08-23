@@ -147,16 +147,7 @@ if __name__ == '__main__':
     plt.figure(figsize=(10, 5))
     p = plt.subplot(121)
     plt.axis([int(start_time_int), int(end_time_int), 1000000, 10000000])
-    # plot_pic(time_arr, easou_day_arr, "easou's value")
-    tmp = []
-    for i in time_arr:
-        if i in easou_day_arr:
-            tmp.append(easou_day_arr[i])
-        else:
-            tmp.append(0)
-    plt.plot(time_arr, tmp, label="easou's value")
-    for a, b in zip(time_arr, tmp):
-        plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+    plot_pic(time_arr, easou_day_arr, "easou's value")
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
