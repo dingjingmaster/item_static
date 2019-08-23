@@ -147,7 +147,7 @@ if __name__ == '__main__':
     plt.figure(figsize=(10, 5))
     p = plt.subplot(121)
     p.yaxis.set_major_locator(MultipleLocator(1))
-    p.set_ylim(0, 10000000)
+    p.set_ylim(5000000, 10000000)
     # plot_pic(time_arr, easou_day_arr, "easou's value")
     tmp = []
     for i in time_arr:
