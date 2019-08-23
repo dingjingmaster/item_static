@@ -208,7 +208,7 @@ object ItemRead {
         } else if ("yes" == chapterTypeO.toLowerCase) {
           chapterTypeO = "付费"
         }
-      }else {
+      }else { // 赠书、断更 合并到免费cp
         chapterTypeO = "免费(免费cp)"
       }
       // 修改免费名字
@@ -254,9 +254,9 @@ object ItemRead {
     val manhuaUserAllNum = readeventRDD.filter(x => x._2 == "20001_1").map(x => x._3).distinct().count()
 
     /* 总 阅读章节数 */
-    val easouChapterAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._3 + "|" + x._4).distinct().count()
-    val weijuanChapterAllNum = readeventRDD.filter(x => x._2 == "20001").map(x => x._3 + "|" + x._4).distinct().count()
-    val manhuaChapterAllNum = readeventRDD.filter(x => x._2 == "20001_1").map(x => x._3 + "|" + x._4).distinct().count()
+    val easouChapterAllNum = readeventRDD.filter(x => x._2 == "10001").map(x =>x._1 + "|" + x._3 + "|" + x._4).distinct().count()
+    val weijuanChapterAllNum = readeventRDD.filter(x => x._2 == "20001").map(x => x._1 + "|" + x._3 + "|" + x._4).distinct().count()
+    val manhuaChapterAllNum = readeventRDD.filter(x => x._2 == "20001_1").map(x => x._1 + "|" + x._3 + "|" + x._4).distinct().count()
 
     /* 各类型书籍量 */
     val easouItemAll = readeventRDD.filter(x => x._2 == "10001").map(x => (x._5, List(x._1))).reduceByKey(_ ::: _).map(x => "easou_item\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
