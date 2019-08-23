@@ -273,7 +273,7 @@ if __name__ == '__main__':
     plt.legend()
     plt.savefig('./.pic.png')
     pic = read_pic('./.pic.png')
-    fwe.write('<img src="data:image/png;base64,' + pic + '"/>\n')
+    fww.write('<img src="data:image/png;base64,' + pic + '"/>\n')
 
     strb = '' \
                   '<br/>' \
