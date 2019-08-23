@@ -162,7 +162,7 @@ if __name__ == '__main__':
     plt.savefig('./.pic.png')
     pic = read_pic('./.pic.png')
 
-    str = '' \
+    strb = '' \
                 '<img src="data:image/png;base64,' + pic + '"/>' \
                 '<br/>'\
                 '<h4>APP阅读情况</h4>\n' \
@@ -236,7 +236,7 @@ if __name__ == '__main__':
                 '       <td align="left">' + check_dict(dict2_es_chapter, '互联网') + '</td>\n' \
                 '   </tr>\n' \
                 '</table>\n'
-    fwe.write(str)
+    fwe.write(strb)
     fwe.close()
 
     # 绘制微卷天价值图
@@ -256,7 +256,7 @@ if __name__ == '__main__':
     # plt.savefig('./.pic.png')
     # pic = read_pic('./.pic.png')
 
-    str = '' \
+    strb = '' \
                   '<img src="data:image/png;base64,' + pic + '"/>' \
                   '<br/>' \
                   '<h4>APP阅读情况</h4>\n' \
@@ -338,6 +338,6 @@ if __name__ == '__main__':
                   '     <td align="left">' + check_dict(dict2_wj_chapter, '互联网') + '</td>\n' \
                   ' </tr>\n' \
                   '</table>\n'
-    fww.write(str)
+    # fww.write(strb)
     fww.close()
     exit(0)
