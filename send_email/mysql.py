@@ -55,7 +55,7 @@ class Mysql:
             cursor.execute(msql)
             data = cursor.fetchall()
             for i in data:
-                self.__time.append(str(i[1]))
+                self.__time.append(int(i[1]))
                 arr_value[str(i[1])] = i[0]
         except:
             print 'sql' + msql + '执行错误!'
@@ -63,8 +63,6 @@ class Mysql:
         return arr_value
 
     def get_time_range(self, start, end):
-        self.__time = list(set(self.__time))
-        self.__time.sort()
         if len(self.__time) <= 0 or None is not self.__time:
             self.__time = []
             fstart = time.strptime(start, "%Y%m%d")
@@ -73,10 +71,12 @@ class Mysql:
                 ps = (datetime.date.fromtimestamp(time.mktime(fstart))
                       + datetime.timedelta(days=index)).strftime("%Y%m%d")
                 if int(ps) >= int(end):
-                    self.__time.append(end)
+                    self.__time.append(int(end))
                     break
-                self.__time.append(ps)
+                self.__time.append(int(ps))
                 index += 1
+        self.__time = list(set(self.__time))
+        self.__time.sort()
         return self.__time
 
     def _get_id(self, app, value_type, time_stamp):
