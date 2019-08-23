@@ -3,7 +3,7 @@
 import sys
 import base64
 import matplotlib
-# matplotlib.use('Agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from mysql import Mysql
 from matplotlib.ticker import MultipleLocator
@@ -144,7 +144,7 @@ if __name__ == '__main__':
     print time_arr
 
     # 绘制 宜搜天价值量 图形
-    plt.figure(figsize=(10, 5))
+    plt.figure()
     p = plt.subplot(121)
     p.yaxis.set_major_locator(MultipleLocator(100000))
     plot_pic(time_arr, easou_day_arr, "easou's value")
