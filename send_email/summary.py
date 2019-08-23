@@ -146,7 +146,7 @@ if __name__ == '__main__':
     # 绘制 宜搜天价值量 图形
     plt.figure(figsize=(10, 5))
     p = plt.subplot(121)
-    # p.yaxis.set_major_locator(MultipleLocator(100000))
+    p.yaxis.set_major_locator(MultipleLocator(1))
     # plot_pic(time_arr, easou_day_arr, "easou's value")
     tmp = []
     for i in time_arr:
