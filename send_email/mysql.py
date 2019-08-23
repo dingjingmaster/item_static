@@ -65,7 +65,8 @@ class Mysql:
     def get_time_range(self, start, end):
         self.__time = list(set(self.__time))
         self.__time.sort()
-        if len(self.__time) > 0:
+        if len(self.__time) <= 0 or None is not self.__time:
+            self.__time = []
             fstart = time.strptime(start, "%Y%m%d")
             index = 0
             while True:
