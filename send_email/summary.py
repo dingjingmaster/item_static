@@ -145,8 +145,8 @@ if __name__ == '__main__':
     plt.figure(figsize=(10, 5))
     p = plt.subplot(121)
     y = plot_pic(time_arr, easou_day_arr)
-    p.set_ylim(bottom=1000000, top=8000000)
     plt.xticks(time_arr, time_arr, rotation=45)
+    p.set_ylim(bottom=1000000, top=6000000)
     plt.plot(time_arr, y)
     print y
     for a, b in zip(time_arr, y):
@@ -157,9 +157,9 @@ if __name__ == '__main__':
 
     p = plt.subplot(122)
     y = plot_pic(time_arr, easou_aver_arr)
-    p.set_ylim(bottom=10, top=60)
-    plt.xticks(time_arr, time_arr, rotation=45)
     plt.plot(time_arr, y)
+    plt.xticks(time_arr, time_arr, rotation=45)
+    p.set_ylim(bottom=10, top=60)
     print y
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
@@ -251,7 +251,7 @@ if __name__ == '__main__':
     y = plot_pic(time_arr, weijuan_day_arr)
     print y
     plt.xticks(time_arr, time_arr, rotation=45)
-    p.set_ylim(bottom=1000000, top=8000000)
+    p.set_ylim(bottom=1000000, top=6000000)
     plt.plot(time_arr, y)
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
