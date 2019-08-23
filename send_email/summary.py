@@ -2,10 +2,11 @@
 # -*- coding=utf-8 -*-
 import sys
 import base64
-from mysql import Mysql
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from mysql import Mysql
+from matplotlib.ticker import MultipleLocator
 reload(sys)
 sys.setdefaultencoding("utf8")
 
@@ -144,12 +145,14 @@ if __name__ == '__main__':
 
     # 绘制 宜搜天价值量 图形
     plt.figure(figsize=(10, 5))
-    plt.subplot(121)
+    p = plt.subplot(121)
+    p.yaxis.set_major_locator(MultipleLocator(100000))
     plot_pic(time_arr, easou_day_arr, "easou's value")
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
-    plt.subplot(122)
+    p = plt.subplot(122)
+    p.yaxis.set_major_locator(MultipleLocator(10))
     plot_pic(time_arr, easou_aver_arr, "easou's Per capita value")
     plt.xlabel('date')
     plt.ylabel('Per capita value')
@@ -234,12 +237,14 @@ if __name__ == '__main__':
 
     # 绘制微卷天价值图
     plt.figure(figsize=(10, 5))
-    plt.subplot(121)
+    p = plt.subplot(121)
+    p.yaxis.set_major_locator(MultipleLocator(100000))
     plot_pic(time_arr, weijuan_day_arr, "weijuan's value")
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
-    plt.subplot(122)
+    p = plt.subplot(122)
+    p.yaxis.set_major_locator(MultipleLocator(10))
     plot_pic(time_arr, weijuan_aver_arr, "weijuan's Per capita value")
     plt.xlabel('date')
     plt.ylabel('Per capita value')
