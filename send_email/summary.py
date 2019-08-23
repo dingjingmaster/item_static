@@ -143,12 +143,13 @@ if __name__ == '__main__':
     print time_arr
 
     # 绘制 宜搜天价值量 图形
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(12, 5))
     p = plt.subplot(121)
     y = plot_pic(time_arr, easou_day_arr)
     print y
     plt.plot(time_arr, y)
     plt.xticks(time_arr, time_arr, rotation=45)
+    plt.yticks(y, y, rotation=45)
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')
@@ -160,6 +161,7 @@ if __name__ == '__main__':
     print y
     plt.plot(time_arr, y)
     plt.xticks(time_arr, time_arr, rotation=45)
+    plt.xticks(y, y, rotation=45)
     for a, b in zip(time_arr, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
     plt.xlabel('date')
