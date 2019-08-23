@@ -14,6 +14,7 @@ itemInfoPath=`hadoop fs -ls "hdfs://10.26.26.145:8020/rs/iteminfo/${year}-*/item
 sparkRun="spark-submit --total-executor-cores=30 --executor-memory=20g "
 biReadLog="hdfs://10.26.29.210:8020/user/hive/warehouse/event_info.db/b_read_chapter/ds=${today}/*"
 itemChapterReadPath="hdfs://10.26.26.145:8020/rs/dingjing/day_detail/${today}/"
+biVisitedPath="hdfs://10.26.29.210:8020/user/hive/warehouse/applog.db/distinct_activity_user/*"
 localSummaryPath="data/read_summary.txt"
 localReadPath="data/read_info.txt"
 easouSummaryResultPath="data/easou_summary.txt"
@@ -30,7 +31,7 @@ do
     then
         cd ${workDir}
         hadoop fs -rmr "${itemChapterReadPath}"
-        ${sparkRun} --class ItemRead ./jar/*.jar "${itemInfoPath}" "${biReadLog}" "${itemChapterReadPath}"
+        ${sparkRun} --class ItemRead ./jar/*.jar "${itemInfoPath}" "${biReadLog}" "${biVisitedPath}" "${itemChapterReadPath}"
         sleep 3
         continue
     fi

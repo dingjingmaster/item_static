@@ -115,14 +115,15 @@ object ItemRead {
   )
 
   def main(args: Array[String]): Unit = {
-    if (args.length < 3) {
+    if (args.length < 4) {
       println("请输入：物品信息、阅读事件日志、天阅读路径")
       sys.exit(-1)
     }
 
     val iteminfoPath = args(0)
     val readeventPath = args(1)
-    val readSavePath = args(2)
+    val visitPath = args(2)
+    val readSavePath = args(3)
 
     val conf = new SparkConf()
       .setAppName("item_read")
@@ -238,10 +239,26 @@ object ItemRead {
       (gidO, appidO, userIdO, strToInt(chapterIdO).toString, chapterTypeO, strToInt(userLevel).toString)
     }).filter(x => x._1 != "" && x._2 != "" && x._3 != "").persist(StorageLevel.MEMORY_AND_DISK) /* (gid, appid, 用户id, 章节序号, 章节类型) */
 
+    val visitRDD = sc.textFile(visitPath).filter(_ != "").map(x => {
+      var appkey = ""
+      var phone_udid = ""
+      val arr = x.split("\\x01", -1)
+      if (arr.length >= 4) {
+        appkey = arr(0)
+        phone_udid = arr(3)
+      }
+
+      if("" == phone_udid) {
+        phone_udid = "10001"
+      }
+
+      (appkey, phone_udid)
+    }).filter(_._1!="").persist(StorageLevel.MEMORY_AND_DISK)
+
     /* DAU */
-    val easouDAU = readeventRDD.filter(x => x._2 == "10001").map(_._3).distinct().count()
-    val weijuanDAU = readeventRDD.filter(x => x._2 == "20001").map(_._3).distinct().count()
-    val manhuaDAU = readeventRDD.filter(x => x._2 == "20001_1").map(_._3).distinct().count()
+    val easouDAU = visitRDD.filter(x => x._1 == "10001").map(_._2).distinct().count()
+    val weijuanDAU = visitRDD.filter(x => x._1 == "20001").map(_._2).distinct().count()
+    val manhuaDAU = 1
 
     /* 总 书籍量 */
     val easouItemAllNum = readeventRDD.filter(x => x._2 == "10001").map(x => x._1).distinct().count()
