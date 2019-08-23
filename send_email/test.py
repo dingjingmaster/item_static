@@ -21,7 +21,7 @@ if __name__ == '__main__':
     # p.yaxis.set_major_locator(MultipleLocator(100000))
     plt.plot(x, y)
     plt.xticks(x, x, rotation=45)
-    plt.yticks(y, y, rotation=45)
+    p.set_ylim(bottom=100000, top=8000000)
 
     # p.set_xlim(20190817, 20190821)
     # p.axis([20190817, 20190821, 1000000, 10000000])
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     p = plt.subplot(122)
     plt.plot(x, y1)
     plt.xticks(x, x, rotation=45)
-    plt.yticks(y1, y1, rotation=45)
+    # plt.ylim(xmin=0)
     plt.legend()
 
     plt.show()
