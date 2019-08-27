@@ -114,6 +114,30 @@ object ItemRead {
     "1000005" -> "起点男生"
   )
 
+  val appKeyMap = scala.collection.immutable.Map[String, String](
+    "307A5C626E6C2F6472636E6E6A2F736460656473"-> "10001",    // Android 宜搜小说
+    "307A5C626E6C2F69766472636E6E6A2F736460656473" -> "10001",        // Android 宜搜小说海外版
+    "337A5C626E6C2F6472636E6E6A2F736460656473" -> "10001",            // ios 宜搜小说
+    "337A5C626E6C2F6460726E742F7160656472636E6E6A" -> "10001",        // i-pad 宜搜小说
+    "307A5C626F2F76646B74606F2F736460656473" -> "20001",              // Android 微卷（改为宜搜小说快读版）
+    "307A5C626F2F76646B74606F2F6668736D" -> "20001",                  // Android 微卷女生（爱看小说）
+    "307A5C626E6C2F6460726E742F736460656473" -> "10001",              // Android 宜搜电子书
+    "307A5C626E6C2F6460726E742F6C606F697460" -> "",                   // Android 宜搜漫画
+    "337A5C626E6C2F6569752F766B636E6E6A" -> "20001",                  // ios 微卷小说（快读小说阅读器）
+    "337A5C626E6C2F6460726E742F6265636E6E6A" -> "",                   // ios 宜搜小说畅读版
+    "307A5C626E6C2F7B6F6E77646D2F7978736460656473" -> "",             // Android 免费小说 txt
+    "307A5C626E6C2F70636C676A6579722F736460656473" -> "",             // Android 全本免费小说
+    "307A5C626E6C2F6C6770637B722F736460656473" -> "",                 // Android txt 免费全本追书
+    "337A5C626E6C2F60686A606F2F60636E6E6A" -> "",                     // ios 爱看小说阅读器
+    "337A5C626E6C2F76646B74606F2F6A6A606F" -> "",                     // ios 快看小说
+    "307A5C76796C686F682F6460726E742F626E6C" -> "",                   // Android 微信小程序
+    "337A5C6876796C686F682F6460726E742F626E6C" -> "",                 // ios 微信小程序
+    "07A5C626F2F76646B74606F2F707468626A607171" -> "",                // Android 宜搜小说快读
+    "307A5C626E6C2F7B6F6E77646D2F7978736460656473" -> "",             // 掌读txt免费小说
+    "307A5C626E6C2F70636C676A6579722F736460656473" -> "",             // 全本免费快读小说
+    "307A5C626E6C2F6C6770637B722F736460656473" -> ""                  // Android 全本快阅
+  )
+
   def main(args: Array[String]): Unit = {
     if (args.length < 4) {
       println("请输入：物品信息、阅读事件日志、天阅读路径")
@@ -248,12 +272,12 @@ object ItemRead {
         phone_udid = arr(3)
       }
 
-      if("" == phone_udid) {
-        phone_udid = "10001"
+      if (this.appKeyMap.contains(appkey)) {
+        appkey = appKeyMap(appkey)
       }
 
       (appkey, phone_udid)
-    }).filter(_._1!="").persist(StorageLevel.MEMORY_AND_DISK)
+    }).filter(x => x._1 != "" || x._2 != "").persist(StorageLevel.MEMORY_AND_DISK)
 
     /* DAU */
     val easouDAU = visitRDD.filter(x => x._1 == "10001").map(_._2).distinct().count()
