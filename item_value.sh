@@ -4,6 +4,7 @@ source ~/.bashrc
 source shell_function
 
 workDir=$(cd $(dirname $0); pwd)
+year=`date -d "-1 day" +%Y`
 today=`date -d "-1 day" +%Y-%m-%d`
 days=30
 
