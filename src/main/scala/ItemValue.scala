@@ -1,6 +1,7 @@
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
+import ItemRead.cpName
 import com.easou.dingjing.library.{ItemInfo, ReadEvent}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.storage.StorageLevel
@@ -13,15 +14,16 @@ object ItemValue {
   val chargeValue = 0.0225
 
   def main(args: Array[String]): Unit = {
-    if (args.length < 4) {
-      println("请输入：bi阅读日志、今天时间戳、天数、保存路径")
+    if (args.length < 5) {
+      println("请输入：物品信息、bi阅读日志、今天时间戳、天数、保存路径")
       sys.exit(-1)
     }
 
-    val readEventPath = args(0)
-    val today = args(1)
-    val days = args(2)
-    val savePath = args(3)
+    val iteminfoPath = args(0)
+    val readEventPath = args(1)
+    val today = args(2)
+    val days = args(3)
+    val savePath = args(4)
 
     val conf = new SparkConf()
       .setAppName("item_value")
@@ -33,6 +35,25 @@ object ItemValue {
       .setMaster("spark://qd01-tech2-spark001:7077,qd01-tech2-spark002:7077")
     val sc = new SparkContext(conf)
     var readEventRDD = sc.parallelize(Seq[Tuple2[String, List[String]]]())
+
+    // 获取物品信息并解析
+    val iteminfoRDD = sc.textFile(iteminfoPath).map(x => {
+      val it = new ItemInfo().parseLine(x)
+        .getValues(List("name", "author", "mask_level", "fee_flag", "ncp", "by", "tf", "fc", "ii", "ci"))
+      val gid = it.head
+      val name = it(1)
+      val author = it(2)
+//      val masklevel = it(3)
+//      val feeflag = it(4)
+      val ncp = it(5)
+      var cpStr = ""
+      if (cpName.contains(ncp)) {
+        cpStr = cpName(ncp)
+      } else {
+        cpStr = ncp
+      }
+      (gid, name + "\t" + author + "\t" + cpStr)
+    })
 
     // 解析阅读日志，获取阅读日志信息
     for (p <- get_path(readEventPath, today, days.toInt)) {
@@ -120,7 +141,7 @@ object ItemValue {
         }
 
         (gidO + "\t" + appidO + "\t" + chapterTypeO, Array[String](userIdO + "\t" + strToInt(chapterIdO).toString).toList)
-      }).filter(x => x._1 != "" && x._2 != "")
+      }).filter(x => x._1 != "" && x._2.nonEmpty)
       readEventRDD = readEventRDD.union(readeventRDDt)
     }
 
@@ -139,7 +160,11 @@ object ItemValue {
     }).reduceByKey(_+_)
 
     // 保存结果
-    itemValueRDD.map(x=>x._1 + "\t" + x._2.formatted("%.3f")).repartition(1).saveAsTextFile(savePath)
+    itemValueRDD.map(x=>{
+      val arr = x._1.split("\t")
+      (arr.head, arr(1) + "\t" + arr(2))
+    }).join(iteminfoRDD).map(x=>x._1 + "\t" + x._2._1 + "\t" + x._2._2)
+      .repartition(1).saveAsTextFile(savePath)
   }
 
   def strToInt(str: String): Int = {

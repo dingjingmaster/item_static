@@ -1,5 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Scala template
+venv/
+target/
+project/
+[.*]idea/
+
 *.class
 *.log
 *.txt
@@ -7,7 +12,3 @@
 *.out
 .pic.*
 
-[.*]idea/
-project/
-target/
-venv/
