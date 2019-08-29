@@ -4,7 +4,6 @@ import java.util.Calendar
 import ItemRead.cpName
 import com.easou.dingjing.library.{ItemInfo, ReadEvent}
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.storage.StorageLevel
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -12,6 +11,9 @@ object ItemValue {
 
   val freeValue = 0.0025
   val chargeValue = 0.0225
+
+  val appids = scala.collection.immutable.Vector[String] (
+  "10001", "10003", "20001", "20001_1")
 
   def main(args: Array[String]): Unit = {
     if (args.length < 5) {
@@ -37,7 +39,8 @@ object ItemValue {
     var readEventRDD = sc.parallelize(Seq[Tuple2[String, List[String]]]())
 
     // 获取物品信息并解析
-    val iteminfoRDD = sc.textFile(iteminfoPath).map(x => {
+    val iteminfoRDD = sc.textFile(iteminfoPath).flatMap(x => {
+      val arr = ArrayBuffer[Tuple2[String, String]]()
       val it = new ItemInfo().parseLine(x)
         .getValues(List("name", "author", "mask_level", "fee_flag", "ncp", "by", "tf", "fc", "ii", "ci"))
       val gid = it.head
@@ -52,7 +55,12 @@ object ItemValue {
       } else {
         cpStr = ncp
       }
-      (gid, name + "\t" + author + "\t" + cpStr)
+      for (i <- appids) {
+        arr.append((gid + "\t" + i, name + "\t" + author + "\t" + cpStr))
+      }
+
+      for (i <- arr)
+        yield i
     })
 
     // 解析阅读日志，获取阅读日志信息
@@ -160,10 +168,7 @@ object ItemValue {
     }).reduceByKey(_+_)
 
     // 保存结果
-    itemValueRDD.map(x=>{
-      val arr = x._1.split("\t")
-      (arr.head, arr(1) + "\t" + arr(2))
-    }).join(iteminfoRDD).map(x=>x._1 + "\t" + x._2._1 + "\t" + x._2._2)
+    itemValueRDD.join(iteminfoRDD).map(x=>x._1 + "\t" + x._2._1 + "\t" + x._2._2)
       .repartition(1).saveAsTextFile(savePath)
   }
 
