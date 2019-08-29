@@ -8,6 +8,7 @@ today=`date -d "-1 day" +%Y-%m-%d`
 days=30
 
 sparkRun="spark-submit --total-executor-cores=30 --executor-memory=20g "
+itemInfoPath=`hadoop fs -ls "hdfs://10.26.26.145:8020/rs/iteminfo/${year}-*/item_*" | tail -n 1 | awk -F' ' '{print $8}'`
 biReadLog="hdfs://10.26.29.210:8020/user/hive/warehouse/event_info.db/b_read_chapter/ds="
 itemValuePath="hdfs://10.26.26.145:8020/rs/dingjing/item_value/${today}/"
 
@@ -19,7 +20,7 @@ do
     then
         cd ${workDir}
         hadoop fs -rmr "${itemValuePath}"
-        ${sparkRun} --class ItemValue ./jar/*.jar "${biReadLog}" "${today}" "${days}" "${itemValuePath}"
+        ${sparkRun} --class ItemValue ./jar/*.jar "${itemInfoPath}" "${biReadLog}" "${today}" "${days}" "${itemValuePath}"
         sleep 3
         continue
     fi
