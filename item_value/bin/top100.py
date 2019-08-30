@@ -25,13 +25,13 @@ if __name__ == '__main__':
         for line in fr.readlines():
             line = line.strip()
             arr = line.split('\t')
-            if len(arr) != 3:
+            if len(arr) != 6:
                 continue
             if arr[1] in top100:
-                top100[arr[1]].append((arr[0], float(arr[2])))
+                top100[arr[1]].append((arr[0] + '\t' + arr[3] + '\t' + arr[4] + '\t' + arr[5], float(arr[2])))
             else:
                 top100[arr[1]] = []
-                top100[arr[1]].append((arr[0], float(arr[2])))
+                top100[arr[1]].append((arr[0] + '\t' + arr[3] + '\t' + arr[4] + '\t' + arr[5], float(arr[2])))
 
     # 排序
     for ik, iv in top100.items():

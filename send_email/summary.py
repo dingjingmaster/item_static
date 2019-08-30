@@ -12,19 +12,10 @@ reload(sys)
 sys.setdefaultencoding("utf8")
 
 
-def read_pic(pth):
-    j = 0
-    ct = ''
+def read_pic(pth, fw):
     with open(pth, 'rb') as fr:
-        tmp = base64.b64encode(fr.read())
-    for i in tmp:
-        j += 1
-        if (j % 1024) == 0:
-            ct += (i + '\n')
-        else:
-            ct += i
-    del tmp
-    return ct
+        base64.encode(fr, fw)
+    return
 
 
 def check_dict(mdict, key):
@@ -146,7 +137,7 @@ if __name__ == '__main__':
     p = plt.subplot(121)
     y = plot_pic(time_arr, easou_day_arr)
     plt.xticks(time_arr, time_arr, rotation=45)
-    p.set_ylim(bottom=1000000, top=6000000)
+    p.set_ylim(bottom=1000000, top=9000000)
     plt.plot(time_arr, y)
     print y
     for a, b in zip(time_arr, y):
@@ -167,8 +158,9 @@ if __name__ == '__main__':
     plt.ylabel('Per capita value')
     plt.legend()
     plt.savefig('./.pic.png')
-    pic = read_pic('./.pic.png')
-    fwe.write('<img src="data:image/png;base64,' + pic + '"/>\n')
+    fwe.write('<img src="data:image/png;base64,')
+    read_pic('./.pic.png', fwe)
+    fwe.write('"/>\n')
     strb = '' \
                 '<br/>'\
                 '<h4>APP阅读情况</h4>\n' \
@@ -270,8 +262,12 @@ if __name__ == '__main__':
     plt.ylabel('Per capita value')
     plt.legend()
     plt.savefig('./.pic.png')
-    pic = read_pic('./.pic.png')
-    fww.write('<img src="data:image/png;base64,' + pic + '"/>\n')
+    # pic = read_pic('./.pic.png')
+    # fww.write('<img src="data:image/png;base64,' + pic + '"/>\n')
+
+    fww.write('<img src="data:image/png;base64,')
+    read_pic('./.pic.png', fww)
+    fww.write('"/>\n')
 
     strb = '' \
                   '<br/>' \
