@@ -133,15 +133,15 @@ if __name__ == '__main__':
     print time_arr
 
     # 绘制 宜搜天价值量 图形
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(12, 6))
     p = plt.subplot(121)
     y = plot_pic(time_arr, easou_day_arr)
-    plt.xticks(time_arr, time_arr, rotation=45)
+    plt.xticks(time_arr, time_arr, rotation=30)
     p.set_ylim(bottom=1000000, top=12000000)
     plt.plot(time_arr, y)
     print y
     for a, b in zip(time_arr, y):
-        plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
@@ -149,11 +149,11 @@ if __name__ == '__main__':
     p = plt.subplot(122)
     y = plot_pic(time_arr, easou_aver_arr)
     plt.plot(time_arr, y)
-    plt.xticks(time_arr, time_arr, rotation=45)
+    plt.xticks(time_arr, time_arr, rotation=30)
     p.set_ylim(bottom=10, top=60)
     print y
     for a, b in zip(time_arr, y):
-        plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
     plt.xlabel('date')
     plt.ylabel('Per capita value')
     plt.legend()
@@ -238,26 +238,26 @@ if __name__ == '__main__':
     fwe.close()
 
     # 绘制微卷天价值图
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(12, 6))
     p = plt.subplot(121)
     y = plot_pic(time_arr, weijuan_day_arr)
     print y
-    plt.xticks(time_arr, time_arr, rotation=45)
+    plt.xticks(time_arr, time_arr, rotation=30)
     p.set_ylim(bottom=1000000, top=6000000)
     plt.plot(time_arr, y)
     for a, b in zip(time_arr, y):
-        plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
     p = plt.subplot(122)
     y = plot_pic(time_arr, weijuan_aver_arr)
-    plt.xticks(time_arr, time_arr, rotation=45)
+    plt.xticks(time_arr, time_arr, rotation=30)
     p.set_ylim(bottom=10, top=60)
     plt.plot(time_arr, y)
     print y
     for a, b in zip(time_arr, y):
-        plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+        plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
     plt.xlabel('date')
     plt.ylabel('Per capita value')
     plt.legend()
