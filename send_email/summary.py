@@ -131,8 +131,8 @@ if __name__ == '__main__':
     tt = [i + 1 for i in range(len(time_arr))]
 
     print '1'
-    print time_arr
     print tt
+    print time_arr
 
     # 绘制 宜搜天价值量 图形
     plt.figure(figsize=(12, 6))
