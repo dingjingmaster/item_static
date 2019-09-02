@@ -128,19 +128,21 @@ if __name__ == '__main__':
         print '数据库链接错误'
         exit(1)
     time_arr = mq.get_time_range(start_time_int, end_time_int)
+    tt = [i + 1 for i in range(len(time_arr))]
 
     print '1'
     print time_arr
+    print tt
 
     # 绘制 宜搜天价值量 图形
     plt.figure(figsize=(12, 6))
     p = plt.subplot(121)
     y = plot_pic(time_arr, easou_day_arr)
-    plt.xticks(time_arr, time_arr, rotation=30)
+    plt.xticks(tt, time_arr, rotation=30)
     p.set_ylim(bottom=1000000, top=12000000)
-    plt.plot(time_arr, y)
+    plt.plot(tt, y)
     print y
-    for a, b in zip(time_arr, y):
+    for a, b in zip(tt, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
     plt.xlabel('date')
     plt.ylabel('value')
@@ -148,11 +150,11 @@ if __name__ == '__main__':
 
     p = plt.subplot(122)
     y = plot_pic(time_arr, easou_aver_arr)
-    plt.plot(time_arr, y)
-    plt.xticks(time_arr, time_arr, rotation=30)
+    plt.plot(tt, y)
+    plt.xticks(tt, time_arr, rotation=30)
     p.set_ylim(bottom=10, top=60)
     print y
-    for a, b in zip(time_arr, y):
+    for a, b in zip(tt, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
     plt.xlabel('date')
     plt.ylabel('Per capita value')
@@ -216,22 +218,22 @@ if __name__ == '__main__':
     plt.figure(figsize=(12, 6))
     p = plt.subplot(121)
     y = plot_pic(time_arr, weijuan_day_arr)
+    plt.plot(tt, y)
     print y
-    plt.xticks(time_arr, time_arr, rotation=30)
+    plt.xticks(tt, time_arr, rotation=30)
     p.set_ylim(bottom=1000000, top=6000000)
-    plt.plot(time_arr, y)
-    for a, b in zip(time_arr, y):
+    for a, b in zip(tt, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
     plt.xlabel('date')
     plt.ylabel('value')
     plt.legend()
     p = plt.subplot(122)
     y = plot_pic(time_arr, weijuan_aver_arr)
-    plt.xticks(time_arr, time_arr, rotation=30)
+    plt.plot(tt, y)
+    plt.xticks(tt, time_arr, rotation=30)
     p.set_ylim(bottom=10, top=60)
-    plt.plot(time_arr, y)
     print y
-    for a, b in zip(time_arr, y):
+    for a, b in zip(tt, y):
         plt.text(a, b, b, ha='center', va='bottom', fontsize=9)
     plt.xlabel('date')
     plt.ylabel('Per capita value')
