@@ -308,8 +308,8 @@ object ItemRead {
     val weijuanUserAll = readeventRDD.filter(x => x._2 == "20001").map(x => (x._5, List(x._3))).reduceByKey(_ ::: _).map(x => "weijuan_user\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
 
     /* 各类型章节量 */
-    val easouChapterAll = readeventRDD.filter(x => x._2 == "10001").map(x => (x._5, List(x._1 + x._4))).reduceByKey(_ ::: _).map(x => "easou_chapter\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
-    val weijuanChapterAll = readeventRDD.filter(x => x._2 == "20001").map(x => (x._5, List(x._1 + x._4))).reduceByKey(_ ::: _).map(x => "weijuan_chapter\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
+    val easouChapterAll = readeventRDD.filter(x => x._2 == "10001").map(x => (x._5, List(x._1 + x._3 + x._4))).reduceByKey(_ ::: _).map(x => "easou_chapter\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
+    val weijuanChapterAll = readeventRDD.filter(x => x._2 == "20001").map(x => (x._5, List(x._1 + x._3 + x._4))).reduceByKey(_ ::: _).map(x => "weijuan_chapter\t" + x._1 + "\t" + x._2.toSet.toSeq.length.toString).collect().mkString("\n")
 
     /* 总的字段 */
     sc.parallelize(List[String](

@@ -87,18 +87,18 @@ if __name__ == '__main__':
             elif len(arr) == 2:
                 dau[arr[0]] = int(arr[1])
     # 计算广告收益价值
-    app_earn_value['easou_ad'] = int(check_dict(dict2_es_chapter, '免费(免费cp)')) +\
+    app_earn_value['easou_ad'] = (int(check_dict(dict2_es_chapter, '免费(免费cp)')) +\
                                  int(check_dict(dict2_es_chapter, '限免'))+\
-                                 int(check_dict(dict2_es_chapter, '互联网')) * ad_rank
-    app_earn_value['weijuan_ad'] = int(check_dict(dict2_wj_chapter, '免费(免费cp)')) + \
+                                 int(check_dict(dict2_es_chapter, '互联网'))) * ad_rank
+    app_earn_value['weijuan_ad'] = (int(check_dict(dict2_wj_chapter, '免费(免费cp)')) + \
                                  int(check_dict(dict2_wj_chapter, '限免')) + \
-                                 int(check_dict(dict2_wj_chapter, '互联网')) * ad_rank
+                                 int(check_dict(dict2_wj_chapter, '互联网'))) * ad_rank
 
     # 计算付费收益价值
-    app_earn_value['easou_cg'] = int(check_dict(dict2_es_chapter, '付费')) + \
-                                 int(check_dict(dict2_es_chapter, '包月')) * cg_rank
-    app_earn_value['weijuan_cg'] = int(check_dict(dict2_wj_chapter, '付费')) + \
-                                   int(check_dict(dict2_wj_chapter, '包月')) * cg_rank
+    app_earn_value['easou_cg'] = (int(check_dict(dict2_es_chapter, '付费')) + \
+                                 int(check_dict(dict2_es_chapter, '包月'))) * cg_rank
+    app_earn_value['weijuan_cg'] = (int(check_dict(dict2_wj_chapter, '付费')) + \
+                                   int(check_dict(dict2_wj_chapter, '包月'))) * cg_rank
 
     easou_day_earn = app_earn_value['easou_ad'] + app_earn_value['easou_cg']
     easou_aver_earn = "%.3f" % (float(app_earn_value['easou_ad']
